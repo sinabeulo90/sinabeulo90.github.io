@@ -20,13 +20,15 @@ A 기둥에 있는 원판들을 모두 C 기둥으로 옮긴다고 생각해봅�
 
 일단 우리는 원반을 옮긴다는 것만을 생각하고, 어떻게 옮겼을 것인지를 생각하는 대신 어떤 상태를 거쳐야만 하는지만 생각합니다.
 
-![hanoi 0](/assets/k-digital-training/hanoi_1.png)
+![hanoi 1](/assets/k-digital-training/hanoi_1.png)
 
 A 기둥에서 C 기둥으로 모든 원판을 옮기기 위해서는 [규칙 2]에 의해서 반드시 A기둥의 5번 원반이 C 기둥의 처음으로 옮겨져야하므로, 아래와 같이 될 것입니다.
 
-![hanoi 0](/assets/k-digital-training/hanoi_2.png)
+![hanoi 2](/assets/k-digital-training/hanoi_2.png)
 
 그리고 다시 1~4번 원반이 처음에 A 기둥에서 B 기둥으로 어떻게 옮겨진 것인는 모르겠지만, B에서 C로 옮겨지기만 하면 될 것입니다.
+
+![hanoi 3](/assets/k-digital-training/hanoi_3.png)
 
 이 과정을 그대로 코드로 옮기면 아래와 같습니다.
 
@@ -63,3 +65,11 @@ if __name__ == "__main__":
 {% endhighlight %}
 
 코드의 8번째, 15번째 라인에서 `source`, `auxiliary`, `destination`가 들어가는 위치에 대해서 햇갈릴 수 있는데, 몇 개의 원반을 어디에서 어디로 옮겨야 하는가에 초점을 맞추면서, `source`, `destination` 2개 인자만 출력에 사용된다는 것을 이해하면 혼란을 줄일 수 있을 것 같습니다.
+
+
+-----
+
+
+참고 사이트:
+- [Khan Academy - 하노이의 탑에서 세 개의 원반 옮기기](https://ko.khanacademy.org/computing/computer-science/algorithms/towers-of-hanoi/e/move-three-disks-in-towers-of-hanoi)
+- [Seo Younggi - 하노이탑 알고리즘](https://brunch.co.kr/@younggiseo/139)
