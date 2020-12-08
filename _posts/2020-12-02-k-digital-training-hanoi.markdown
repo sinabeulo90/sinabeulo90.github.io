@@ -65,3 +65,11 @@ if __name__ == "__main__":
 {% endhighlight %}
 
 코드의 8번째, 15번째 라인에서 `source`, `auxiliary`, `destination`가 들어가는 위치에 대해서 햇갈릴 수 있는데, 몇 개의 원반을 어디에서 어디로 옮겨야 하는가에 초점을 맞추면서, `source`, `destination` 2개 인자만 출력에 사용된다는 것을 이해하면 혼란을 줄일 수 있을 것 같습니다.
+
+
+-----
+
+
+참고 사이트:
+- [Khan Academy - 하노이의 탑에서 세 개의 원반 옮기기](https://ko.khanacademy.org/computing/computer-science/algorithms/towers-of-hanoi/e/move-three-disks-in-towers-of-hanoi)
+- [Seo Younggi - 하노이탑 알고리즘](https://brunch.co.kr/@younggiseo/139)
