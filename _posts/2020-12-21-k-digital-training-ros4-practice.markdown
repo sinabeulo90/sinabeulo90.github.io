@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "ROS 프로그래밍 기초"
+title:  "[Day 1.4] ROS 프로그래밍 기초"
 date:   2020-12-21 04:00:00 +0900
 categories:
     - "K-Digital Training"
@@ -98,7 +98,7 @@ $ roscd my_pkg1
 
 
 ### 3.1 Publisher 구현
-~/xycar_ws/src/my_pkg1/src 위치에 pub.py 파일 작성
+~/xycar_ws/src/my_pkg1/src 위치에 `pub.py` 파일 작성
 
 {% highlight Python %}
 #!/usr/bin/env python
@@ -229,7 +229,7 @@ angular_velocity: 1.79999995232
 
 ### 4.2 구독자(Subscriber) 구현
 
-- ~/xycar_ws/src/my_pkg1/src 위치에, sub.py 파일 작성
+- ~/xycar_ws/src/my_pkg1/src 위치에, `sub.py` 파일 작성
 
 {% highlight Python %}
 #!/usr/bin/env python
