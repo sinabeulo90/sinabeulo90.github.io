@@ -1,17 +1,17 @@
 ---
 layout: post
-title:  "ROS 명령어"
+title:  "[Day 1.2] ROS 명령어"
 date:   2020-12-21 02:00:00 +0900
 categories:
     - "K-Digital Training"
     - "자율주행 데브코스"
 ---
 
-## 2. ROS 명령어
+## ROS 명령어
 
-### 2.1 ROS 기본 용어
+### 1 ROS 기본 용어
 
-### 2.2 ROS 기본 명령어
+### 2 ROS 기본 명령어
 - ROS 셸 명령어
 
 | 명령어 | 설명 |
@@ -64,7 +64,7 @@ categories:
 | rosmake | 패키지 빌드(구 시스템에서 사용) |
 | roscreate-pkg | 패키지 자동 생성(구 시스템에서 사용) |
 
-### 2.3 ROS 주요 명령어
+### 3 ROS 주요 명령어
 **roscore**: ROS 기본 시스템이 구동되기 위해 필요한 프로그램들을 실행(마스터 실행)
 {% highlight bash %}
 $ roscore
@@ -91,7 +91,7 @@ $ roslaunch usb_cam sub_cam-test.launch
 {% endhighlight %}
 
 
-### 2.4 ROS에서 제공하는 쓸만한 도구
+### 4 ROS에서 제공하는 쓸만한 도구
 **rqt_graph**:  노드와 토픽의 관계 정보를 그래프로 출력
 {% highlight bash %}
 $ rqt_graph
