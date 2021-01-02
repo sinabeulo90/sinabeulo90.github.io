@@ -7,7 +7,7 @@ categories:
     - "Algorithms"
 ---
 
-- 강의 중에 LinkedList를 직접 구현할 때, 노드의 추가 또는 삭제가 있을 때 간혹 전체 노드의 갯수를 추가하거나 뺴는 작업을 잊지 말자.
+- 강의 중에 LinkedList를 직접 구현할 때, 노드의 추가 또는 삭제가 있을 때 간혹 전체 노드의 갯수를 추가하거나 빼는 작업을 잊지 말자.
 
 ![트리의 용어](/assets/k-digital-training/tree.jpeg)
 
