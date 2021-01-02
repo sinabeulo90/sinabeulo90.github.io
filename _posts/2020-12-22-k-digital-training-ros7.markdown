@@ -95,13 +95,13 @@ import rospy
 from std_msgs.msg import String
 
 def callback(msg):
-    print(msg.data)
+    print msg.data
 
 # 'student' 노드를 새로 만든다.
 rospy.init_node('student')
 
 # String 메시지를 담고 있는 'my_topic' 이라는 토픽을 구독하고,
-# 해당 토픽을 도착할 떄마다 callback 함수를 호출하는 Subscriber 생성
+# 해당 토픽을 도착할 때마다 callback 함수를 호출하는 Subscriber 생성
 sub = rospy.Subscriber('my_topic', String, callback)
 
 rospy.spin()    # 무한루프
