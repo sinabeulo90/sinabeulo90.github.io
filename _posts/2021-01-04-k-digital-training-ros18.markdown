@@ -1,0 +1,125 @@
+---
+layout: post
+title:  "자율주행 통합 플랫폼"
+date:   2021-01-04 03:00:00 +0900
+categories:
+    - "K-Digital Training"
+    - "자율주행 데브 코스"
+---
+
+## [Autoware](https://www.autoware.org)
+
+- 자율주행 통합플랫폼
+- 오픈소스 자율주행 통합플랫폼
+- SAE - Level 2
+- 실차에 적용 가능한 솔류션
+- 30개 이상의 국가에서 사용
+- 100개 이상의 회사들에 의해 사용
+- 20개 이상의 차량 모델에 탑재
+
+
+
+## Autoware 시스템 아키텍쳐
+
+![Autoware System Architecture](/assets/k-digital-training/autoware_architecture.png)
+
+
+
+## Autoware SW
+
+![Autoware Software Stack](/assets/k-digital-training/autoware_stack.png)
+
+
+
+## 자율주행 필수 요소 기술
+
+1. Localizing
+    - Vector Map, Point Map
+    - GPS/IMU
+    - Lidar
+
+2. Object Detection
+    - Lidar
+    - Camera
+
+3. Object Tracking
+    - Object Detection
+
+4. Path Planning
+    - Vector Map, Point Map
+    - Localizing
+
+5. Trajectory Planning
+    - Localizing
+    - Path Planning
+
+6. Behavior Selector
+    - Object Tracking
+    - Trajectory Planning
+
+7. Trajectory following w/ Pure Pursuit
+- Behavior Selector
+
+8. Vehicle Control
+- Trajectory following
+
+
+
+## 자율주행 자동차의 구현에 필요한 기술들
+
+1. 자율주행 알고리즘
+- 센싱(Sensing): 주변 상황 정보 획득
+    - ex. GPS, IMU, Lidar, 초음파, 카메라
+- 인지(Perception)
+    - Localization: 자기 위치 파악
+        - GPS와 IMU를 조합해서 위치 측정(위치 예측과 업데이트 반복)
+        - 스테레오 카메라 영상으로 위치 측정
+        - Lidar, 포인트 클라우드, 파티클 필터로 위치 측정
+        - 여러 개의 센서를 융합하여 정확도 개선
+    - Object Detection: 오브젝트 인식
+        - CNN 딥러닝 기반의 인식 모델 사용
+    - Object Tracking: 오브젝트 추적
+        - 개체의 이동궤적(trajectory)을 자동으로 추정
+        - 차량, 보행자와의 충돌 회피에 활용
+- 의사결정(Decision, Action Plan)
+    - 동작 예측
+        - 다른 차량의 동작을 예측
+        - 확률 모델을 만들고 확률분포 구하기
+    - 경로 계획
+        - Cost function으로 최적 경로 탐색
+        - 계산량을 줄이기 위해 확률 기법 적용
+    - 장애물 회피
+        - 충돌 방지를 위해 최소 2단계로 구성
+        - 1단계: 능동형, 충돌까지의 시간과 최소 거리 추정치를 뽑아서 경로를 다시 계획
+        - 2단계: 반응형, 이동경로 상에 장애물이 감지되면, 주행제어 시스템에 개입하여 충돌 회피
+
+2. 자율주행 클라이언트 시스템
+- 소프트웨어
+    - 실시간 성과 신뢰성 확보 필요
+    - ROS 문제점 해결 필요
+        - Master가 죽으면 전체 시스템이 다운되며, 복구용도의 모니터가 없으므로 대책 필요
+        - 메시지를 브로드캐스팅 하면서 성능 저하되므로, 멀티캐스팅 매커니즘을 적용하면 좋음
+        - 노드가 해킹되기 쉬움. Linux 컨테이너, 샌드박스로 보안 기능 강화 가능
+        - Local에서는 TCP/IP 통신 대신에 공유 메모리 통신 방식을 적용하면 좋음
+        - ROS 2.0 적용 여부 판단
+- 하드웨어: 성능 향상 필요
+    - 파이프라인 병렬 프로세싱 기능 필요
+    - HW 가성비를 좋게 만들어야 함
+    - 차량의 베터리 문제가 있으므로 전력 소모량 최소화 노력 필요
+    - 차량이라는 환경에서는 발열 문제가 심각하므로, 발열을 최소화하거나 열을 쉬베 배출시킬 수 있는 방법을 찾아야 함
+
+3. 자율주행 클라우드 플랫폼
+- 분산 컴퓨팅
+    - 시물레이션
+        - ROS Bag/Replay
+        - 분산 환경으로 처리
+    - HD 맵 생성
+        - 원본 데이터 처리
+        - 포인트 클라우드 생성 및 정렬
+        - 2D 반사맵 생성
+        - HD 맵 레이블링
+- 분산 스토리지
+    - 딥러닝 모델 학습
+        - 학습 데이터 준비
+        - 학습 진행
+        - 모델의 유효성과 효율성을 지속적으로 업데이트
