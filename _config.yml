@@ -32,6 +32,7 @@ js_delivr: http://cdn.jsdelivr.net/gh/sinabeulo90
 theme: minima
 plugins:
   - jekyll-feed
+  - jekyll-sitemap
 google_analytics: G-01JC6TXRP6
 
 # Exclude from processing.
