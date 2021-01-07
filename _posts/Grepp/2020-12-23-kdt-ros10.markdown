@@ -9,9 +9,9 @@ tags: ROS
 ## 실행 결과
 
 
-![turtlesim 8](/assets/k-digital-training/ros_turtlesim_1.png)
+![turtlesim 8](/assets/grepp/ros_turtlesim_1.png)
 
-![turtlesim 8](/assets/k-digital-training/ros_turtlesim_2.png)
+![turtlesim 8](/assets/grepp/ros_turtlesim_2.png)
 
 
 

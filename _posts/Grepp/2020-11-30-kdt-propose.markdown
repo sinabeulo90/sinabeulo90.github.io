@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "K-Digital Training 신청"
-date:   2020-11-30
+date:   2020-11-30 00:00:00 +0900
 categories: "Grepp/KDT"
 ---
 

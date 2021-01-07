@@ -7,7 +7,7 @@ categories: "Grepp/KDT"
 
 ## 자율주행 자동차와 4차 산업혁명
 
-![Fourth Industrial Revolution](/assets/k-digital-training/4IR.png)
+![Fourth Industrial Revolution](/assets/grepp/4IR.png)
 
 - 1차 산업혁명: 증기기관, 18세기
 - 2차 산업혁명: 전기에너지, 19-20세기 초
@@ -26,15 +26,15 @@ categories: "Grepp/KDT"
 
 미국 자동차기술학회(SAE)에서 구분한 자율주행자동차 기술 6단계
 
-![SAE](/assets/k-digital-training/SAE.png)
+![SAE](/assets/grepp/SAE.png)
 
-![J3016](/assets/k-digital-training/J3016.jpg)
+![J3016](/assets/grepp/J3016.jpg)
 
 
 
 ## 자율주행 자동차 분류
 
-![단계별 자율주행 자동차 분류](/assets/k-digital-training/selfdriving_level.jpg)
+![단계별 자율주행 자동차 분류](/assets/grepp/selfdriving_level.jpg)
 
 
 

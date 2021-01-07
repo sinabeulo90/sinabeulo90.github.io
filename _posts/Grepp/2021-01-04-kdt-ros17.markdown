@@ -7,7 +7,7 @@ categories: "Grepp/KDT"
 
 ## 자율주행 3단계 프로세스
 
-![자율주행 프로세스](/assets/k-digital-training/selfdriving_process1.jpg)
+![자율주행 프로세스](/assets/grepp/selfdriving_process1.jpg)
 
 
 
@@ -131,4 +131,4 @@ ex. Pure pursuit 알고리즘
 
 ## 자율주행 프로세스
 
-![자율주행 프로세스](/assets/k-digital-training/selfdriving_process2.png)
+![자율주행 프로세스](/assets/grepp/selfdriving_process2.png)

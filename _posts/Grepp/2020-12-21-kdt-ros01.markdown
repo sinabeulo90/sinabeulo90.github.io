@@ -19,7 +19,7 @@ tags: ROS
 - ex. 리눅스 ⇋ ROS(미들웨어) ⇋ 자율주행 소프트웨어
 
 ### 3 ROS 구성도
-![COROS Software Architecture](/assets/k-digital-training/coros_software_architecture.png)
+![COROS Software Architecture](/assets/grepp/coros_software_architecture.png)
 
 ### 4 ROS의 특징
 - 로봇 소프트웨어를 만들기 위한 코드의 재사용이 용이한 환경제공이 목표
@@ -56,7 +56,7 @@ tags: ROS
 - 노드(Node) ≈ 프로세스
 - 토픽(Topic) ≈ 메시지
 - 서로 다른 기종간의 메시지 교환의 예
-![ROS Standard](/assets/k-digital-training/ros_standard.png)
+![ROS Standard](/assets/grepp/ros_standard.png)
 
 ### 8 ROS 핵심 기능
 - 노드간 통신을 기반으로 전체 시스템을 구동시킴

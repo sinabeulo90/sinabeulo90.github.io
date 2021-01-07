@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Python 참고 사항들"
-date:   2020-12-04
+date:   2020-12-04 00:00:00 +0900
 categories: "Grepp/KDT"
 tags: Python
 plugins: mathjax

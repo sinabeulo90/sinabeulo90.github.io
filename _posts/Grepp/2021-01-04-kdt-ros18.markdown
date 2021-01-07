@@ -19,13 +19,13 @@ categories: "Grepp/KDT"
 
 ## Autoware 시스템 아키텍쳐
 
-![Autoware System Architecture](/assets/k-digital-training/autoware_architecture.png)
+![Autoware System Architecture](/assets/grepp/autoware_architecture.png)
 
 
 
 ## Autoware SW
 
-![Autoware Software Stack](/assets/k-digital-training/autoware_stack.png)
+![Autoware Software Stack](/assets/grepp/autoware_stack.png)
 
 
 

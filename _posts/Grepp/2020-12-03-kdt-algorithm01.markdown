@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "알고리즘 참고 사항"
-date:   2020-12-03
+date:   2020-12-03 00:00:00 +0900
 categories: "Grepp/KDT"
 tags: Algorithms
 plugins: mathjax
@@ -9,7 +9,7 @@ plugins: mathjax
 
 - 강의 중에 LinkedList를 직접 구현할 때, 노드의 추가 또는 삭제가 있을 때 간혹 전체 노드의 갯수를 추가하거나 빼는 작업을 잊지 말자.
 
-![트리의 용어](/assets/k-digital-training/tree.jpeg)
+![트리의 용어](/assets/grepp/tree.jpeg)
 
 
 ## 완전 이진 트리(Complete Binary Tree)

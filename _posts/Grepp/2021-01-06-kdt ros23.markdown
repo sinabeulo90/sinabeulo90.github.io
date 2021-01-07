@@ -211,7 +211,7 @@ $ roslaunch ex_urdf view_pan_tilt_urdf.launch
 1. Add 버튼을 클릭하여, `By display type`탭에서 `RobotModel`과 `TF`를 추가한다.
 2. 메인 창에서, `Display` 항목 아래에 `Global Options`의 `Fixed Frame` 값을 map 대신 `base_link`를 넣는다.
 
-![URDF RVIZ](/assets/k-digital-training/urdf_rviz.png)
+![URDF RVIZ](/assets/grepp/urdf_rviz.png)
 
 
 

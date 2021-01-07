@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "K-Digital Training 오리엔테이션"
-date:   2020-12-01
+date:   2020-12-01 00:00:00 +0900
 categories: "Grepp/KDT"
 ---
 
@@ -25,6 +25,6 @@ OT에서는 앞으로 진행될 내용에 대해 매니저분들과 강사님들
 
 이런 상황들은 이번 주만 그럴 것 같지는 않다는 느낌이 들었고, 낙오되지 않게 각오해야겠다고 생각하게 되었습니다.
 
-> ![warning](/assets/k-digital-training/warning.png)
+> ![warning](/assets/grepp/warning.png)
 >
 > 이건 경고였던 걸까요..
