@@ -1,10 +1,11 @@
 ---
 layout: post
-title:  "[Day 1.3] ROS 기초 실습"
+title:  "ROS 기초 실습"
 date:   2020-12-21 03:00:00 +0900
 categories:
-    - "K-Digital Training"
-    - "자율주행 데브코스"
+    - "Grepp/KDT"
+tags:
+    - ROS
 ---
 
 ## 1. ROS 설치

@@ -1,10 +1,11 @@
 ---
 layout: post
-title:  "[Day 4.1] ROS 노드간 원격 통신"
+title:  "ROS 노드간 원격 통신"
 date:   2020-12-24 01:00:00 +0900
 categories:
-    - "K-Digital Training"
-    - "ROS 노드 통신 프로그래밍"
+    - "Grepp/KDT"
+tags:
+    - ROS
 ---
 
 ## 1. ROS 노드간 통신

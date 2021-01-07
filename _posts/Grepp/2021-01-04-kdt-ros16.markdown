@@ -3,8 +3,7 @@ layout: post
 title:  "자율주행 자동차 기술 개요와 현황"
 date:   2021-01-04 01:00:00 +0900
 categories:
-    - "K-Digital Training"
-    - "자율주행 데브 코스"
+    - "Grepp/KDT"
 ---
 
 ## 자율주행 자동차와 4차 산업혁명

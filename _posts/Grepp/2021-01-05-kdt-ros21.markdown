@@ -3,8 +3,9 @@ layout: post
 title:  "Xycar 자율주행 미션 소개"
 date:   2021-01-05 02:00:00 +0900
 categories:
-    - "K-Digital Training"
-    - "자율주행 데브 코스"
+    - "Grepp/KDT"
+tags:
+    - Xycar
 ---
 
 ## 카메라 영상을 기반으로 차선 따라 주행

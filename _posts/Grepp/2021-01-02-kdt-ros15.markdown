@@ -3,11 +3,12 @@ layout: post
 title:  "ROS 파이썬 예제 코드 분석"
 date:   2021-01-02 01:00:00 +0900
 categories:
-    - "K-Digital Training"
-    - "ROS 노드 통신 프로그래밍"
+    - "Grepp/KDT"
+tags:
+    - ROS
 ---
 
-[[Day 2.3] 노드 통신을 위한 패키지 만들기]({% post_url 2020-12-22-k-digital-training-ros7 %})의 `teacher.py`, `student.py` 예제 코드 분석
+[노드 통신을 위한 패키지 만들기]({% post_url Grepp/2020-12-22-kdt-ros07 %})의 `teacher.py`, `student.py` 예제 코드 분석
 
 
 ## teacher.py

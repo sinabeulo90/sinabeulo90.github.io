@@ -3,8 +3,9 @@ layout: post
 title:  "URDF 예제 패키지 제작 따라하기"
 date:   2021-01-06 02:00:00 +0900
 categories:
-    - "K-Digital Training"
-    - "자율주행 데브 코스"
+    - "Grepp/KDT"
+tags:
+    - ROS
 ---
 
 ## RVIZ에서 회전 막대 모델 시각화 하기

@@ -1,10 +1,11 @@
 ---
 layout: post
-title:  "[Day 1.4] ROS 프로그래밍 기초"
+title:  "ROS 프로그래밍 기초"
 date:   2020-12-21 04:00:00 +0900
 categories:
-    - "K-Digital Training"
-    - "자율주행 데브코스"
+    - "Grepp/KDT"
+tags:
+    - ROS
 ---
 
 ## 1. ROS Package 기초

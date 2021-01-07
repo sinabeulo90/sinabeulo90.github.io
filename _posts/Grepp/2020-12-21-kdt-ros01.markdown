@@ -1,10 +1,11 @@
 ---
 layout: post
-title:  "[Day 1.1] ROS의 구조와 기능 소개"
+title:  "ROS의 구조와 기능 소개"
 date:   2020-12-21 01:00:00 +0900
 categories:
-    - "K-Digital Training"
-    - "자율주행 데브코스"
+    - "Grepp/KDT"
+tags:
+    - ROS
 ---
 
 ## ROS의 구조와 기능 소개

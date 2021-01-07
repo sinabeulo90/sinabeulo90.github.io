@@ -1,10 +1,11 @@
 ---
 layout: post
-title:  "[Day 2.2] Launch에서 Tag 활용"
+title:  "Launch에서 Tag 활용"
 date:   2020-12-22 02:00:00 +0900
 categories:
-    - "K-Digital Training"
-    - "자율주행 데브코스"
+    - "Grepp/KDT"
+tags:
+    - ROS
 ---
 
 # Launch에서 Tag 활용

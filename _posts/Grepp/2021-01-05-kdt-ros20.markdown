@@ -3,8 +3,9 @@ layout: post
 title:  "Xycar 자율주행 프로젝트 예시"
 date:   2021-01-05 01:00:00 +0900
 categories:
-    - "K-Digital Training"
-    - "자율주행 데브 코스"
+    - "Grepp/KDT"
+tags:
+    - Xycar
 ---
 
 ## 자율주행 소프트웨어

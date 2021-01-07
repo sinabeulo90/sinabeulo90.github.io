@@ -2,7 +2,8 @@
 layout: post
 title:  "K-Digital Training 신청"
 date:   2020-11-30
-categories: "K-Digital Training"
+categories:
+    - "Grepp/KDT"
 ---
 
 [프로그래머스](https://programmers.co.kr)에서 발송된 메일을 통해 [K-Digital Training: 프로그래머스 자율주행 스쿨](https://programmers.co.kr/learn/courses/10822)을 알게 되었습니다.

@@ -3,8 +3,9 @@ layout: post
 title:  "알고리즘 참고 사항"
 date:   2020-12-03
 categories:
-    - "K-Digital Training"
-    - "Algorithms"
+    - "Grepp/KDT"
+tags:
+    - Algorithms
 ---
 
 - 강의 중에 LinkedList를 직접 구현할 때, 노드의 추가 또는 삭제가 있을 때 간혹 전체 노드의 갯수를 추가하거나 빼는 작업을 잊지 말자.

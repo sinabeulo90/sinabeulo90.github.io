@@ -1,10 +1,11 @@
 ---
 layout: post
-title:  "[Day 2.1] Launch 파일 사용하기"
+title:  "Launch 파일 사용하기"
 date:   2020-12-22 01:00:00 +0900
 categories:
-    - "K-Digital Training"
-    - "자율주행 데브코스"
+    - "Grepp/KDT"
+tags:
+    - ROS
 ---
 
 # Launch 파일 사용하기
