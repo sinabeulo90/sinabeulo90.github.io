@@ -2,10 +2,8 @@
 layout: post
 title:  "받은 토픽을 가공해서 보내기 실습"
 date:   2020-12-24 04:00:00 +0900
-categories:
-    - "Grepp/KDT"
-tags:
-    - ROS
+categories: "Grepp/KDT"
+tags: ROS
 ---
 
 ## 노드간 통신 개요

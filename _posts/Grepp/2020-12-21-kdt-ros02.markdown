@@ -2,10 +2,8 @@
 layout: post
 title:  "ROS 명령어"
 date:   2020-12-21 02:00:00 +0900
-categories:
-    - "Grepp/KDT"
-tags:
-    - ROS
+categories: "Grepp/KDT"
+tags: ROS
 ---
 
 ## ROS 명령어

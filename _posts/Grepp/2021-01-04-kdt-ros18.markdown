@@ -2,8 +2,7 @@
 layout: post
 title:  "자율주행 통합 플랫폼"
 date:   2021-01-04 03:00:00 +0900
-categories:
-    - "Grepp/KDT"
+categories: "Grepp/KDT"
 ---
 
 ## [Autoware](https://www.autoware.org)

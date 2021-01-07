@@ -2,10 +2,9 @@
 layout: post
 title:  "Python 참고 사항들"
 date:   2020-12-04
-categories:
-    - "Grepp/KDT"
-tags:
-    - Python
+categories: "Grepp/KDT"
+tags: Python
+plugins: mathjax
 ---
 
 ## C++ swap 함수 대신 쓸수 있는 방법

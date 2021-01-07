@@ -2,10 +2,8 @@
 layout: post
 title:  "자율주행 모형차 Xycar 자이카 소개"
 date:   2021-01-04 04:00:00 +0900
-categories:
-    - "Grepp/KDT"
-tags:
-    - Xycar
+categories: "Grepp/KDT"
+tags: Xycar
 ---
 
 ## Xycar™ 자이카 소개

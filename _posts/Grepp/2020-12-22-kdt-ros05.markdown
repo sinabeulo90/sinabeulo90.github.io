@@ -2,10 +2,8 @@
 layout: post
 title:  "Launch 파일 사용하기"
 date:   2020-12-22 01:00:00 +0900
-categories:
-    - "Grepp/KDT"
-tags:
-    - ROS
+categories: "Grepp/KDT"
+tags: ROS
 ---
 
 # Launch 파일 사용하기

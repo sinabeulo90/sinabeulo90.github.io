@@ -2,8 +2,7 @@
 layout: post
 title:  "K-Digital Training 오리엔테이션"
 date:   2020-12-01
-categories:
-    - "Grepp/KDT"
+categories: "Grepp/KDT"
 ---
 
 오리엔테이션은 11월 30일(월)에 Zoom을 활용하여 온라인으로 진행되었습니다.

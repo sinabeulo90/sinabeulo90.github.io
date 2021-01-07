@@ -2,10 +2,8 @@
 layout: post
 title:  "ROS 프로그래밍 기초"
 date:   2020-12-21 04:00:00 +0900
-categories:
-    - "Grepp/KDT"
-tags:
-    - ROS
+categories: "Grepp/KDT"
+tags: ROS
 ---
 
 ## 1. ROS Package 기초

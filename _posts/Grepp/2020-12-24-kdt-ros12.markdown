@@ -2,10 +2,8 @@
 layout: post
 title:  "원격 통신 환경 구축"
 date:   2020-12-24 02:00:00 +0900
-categories:
-    - "Grepp/KDT"
-tags:
-    - ROS
+categories: "Grepp/KDT"
+tags: ROS
 ---
 
 원격지의 2대 PC를 통신하려다 보면, Firewall, 라우터, 공유기 설정 문제 때문에 안되는 경우가 있다.

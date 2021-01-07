@@ -2,10 +2,8 @@
 layout: post
 title:  "하노이 탑"
 date:   2020-12-02
-categories:
-    - "Grepp/KDT"
-tags:
-    - Python
+categories: "Grepp/KDT"
+tags: Python
 ---
 
 재귀 호출을 배우는 사람들이라면 한번 씩 "하노이의 탑(Tower of Hanoi)"에 대해 접했을 것입니다. 하노이 탑은 아래 2가지 조건을 만족시키면서 세 개의 기둥 중 한 기둥에 꽂힌 원판들을 다른 한 기둥으로 옮기는 퍼즐을 말합니다.
