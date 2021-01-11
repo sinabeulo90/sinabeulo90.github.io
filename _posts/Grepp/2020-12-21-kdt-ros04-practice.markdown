@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "ROS 프로그래밍 기초"
+title:  "[실습] ROS 프로그래밍 기초"
 date:   2020-12-21 04:00:00 +0900
 categories: "Grepp/KDT"
 tags: ROS

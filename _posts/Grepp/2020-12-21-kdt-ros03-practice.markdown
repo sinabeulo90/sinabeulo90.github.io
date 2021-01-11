@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "ROS 기초 실습"
+title:  "[실습] ROS 기초 실습"
 date:   2020-12-21 03:00:00 +0900
 categories: "Grepp/KDT"
 tags: ROS
@@ -45,7 +45,8 @@ $ rosdep update
 
 5. 쉘 환경 설정
 {% highlight bash %}
-$ echo "source /opt/ros/kinetic/setup.bash" >> ~/.bashrc$ source ~/.bashrc
+$ echo "source /opt/ros/kinetic/setup.bash" >> ~/.bashrc
+$ source ~/.bashrc
 {% endhighlight %}
 
 6. 추가로 필요한 도구 등 설치

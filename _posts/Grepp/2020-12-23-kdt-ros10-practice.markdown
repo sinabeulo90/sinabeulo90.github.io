@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "터틀심 8자 주행하기"
+title:  "[실습] 터틀심 8자 주행하기"
 date:   2020-12-23 01:00:00 +0900
 categories: "Grepp/KDT"
 tags: ROS

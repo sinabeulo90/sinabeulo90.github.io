@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "노드 통신을 위한 패키지 만들기"
+title:  "[실습] 노드 통신을 위한 패키지 만들기"
 date:   2020-12-22 03:00:00 +0900
 categories: "Grepp/KDT"
 tags: ROS

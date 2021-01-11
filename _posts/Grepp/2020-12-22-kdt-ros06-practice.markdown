@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Launch에서 Tag 활용"
+title:  "[실습] Launch에서 Tag 활용"
 date:   2020-12-22 02:00:00 +0900
 categories: "Grepp/KDT"
 tags: ROS

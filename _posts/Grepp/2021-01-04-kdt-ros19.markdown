@@ -53,5 +53,3 @@ tags: Xycar
 
 4. 자율주행 SW 프로그래밍: 오픈소스 라이브러리 활용
 - ex. Python, TensorFlow/PyTorch, NVIDIA CUDA, OpenCV
-
-

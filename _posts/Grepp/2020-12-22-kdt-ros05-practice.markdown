@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Launch 파일 사용하기"
+title:  "[실습] Launch 파일 사용하기"
 date:   2020-12-22 01:00:00 +0900
 categories: "Grepp/KDT"
 tags: ROS

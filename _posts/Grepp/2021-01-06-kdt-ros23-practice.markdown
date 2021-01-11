@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "URDF 예제 패키지 제작 따라하기"
+title:  "[실습] URDF 예제 패키지 제작 따라하기"
 date:   2021-01-06 02:00:00 +0900
 categories: "Grepp/KDT"
 tags: ROS
