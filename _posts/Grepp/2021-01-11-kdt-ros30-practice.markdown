@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "[실습] IMU 센싱 데이터 시각화"
+title:  "[실습] IMU 센서 활용: RVIZ 시각화"
 date:   2021-01-11 06:00:00 +0900
 categories: "Grepp/KDT"
 tags: ROS

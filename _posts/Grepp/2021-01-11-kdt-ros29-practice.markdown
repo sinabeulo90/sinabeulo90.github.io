@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "[실습] Xycar IMU 센서 활용"
+title:  "[실습] IMU 센서 활용: 센서 정보 출력"
 date:   2021-01-11 05:00:00 +0900
 categories: "Grepp/KDT"
 tags: ROS
