@@ -1,0 +1,35 @@
+---
+layout: post
+title:  "rosbag 사용법"
+date:   2021-01-12 04:00:00 +0900
+categories: "Grepp/KDT"
+tags: ROS
+---
+
+## ROSBAG
+
+- 토픽을 구독하여 파일로 저장하거나, 파일에서 토픽을 꺼내 발행하는 기능
+- ex. `/scan` 토픽을 구독하여 파일로 저장
+    - Lidar ---> /xycar_lidar --- `/scan` ---> rosbag 파일
+- ex. 파일에서 정보를 읽어 `/scan` 토픽을 발행
+    - rosbag ---> `/scan` ---> 라이다 데이터를 사용할 노드
+
+
+
+## rosbag 사용법
+
+{% highlight bash %}
+# 원하는 토픽들을 NAME 파일로 저장
+$ rosbag record -O NAME TOPIC1 [TOPIC2 TOPIC3 ...]
+# 저장된 BAGFILE 파일들에 있는 토픽 발행
+$ rosbag play BAGFILE1 [BAGFILE2 BAGFILE3 ...]
+{% endhighlight %}
+
+Launch 파일에서 아래와 같이 node를 선언하면 된다.
+
+{% highlight XML %}
+<launch>
+    <node name="rosbag_play" pkg="rosbag" type="play" output="screen" 
+          required="true" args="$(find rviz_lidar)/src/lidar_topic.bag" />
+</launch>
+{% endhighlight %}
