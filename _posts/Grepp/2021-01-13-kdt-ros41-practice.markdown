@@ -1,0 +1,78 @@
+---
+layout: post
+title:  "초음파 센서 필터"
+date:   2021-01-13 05:00:00 +0900
+categories: "Grepp/KDT"
+tags: ROS
+---
+
+## 장애물까지의 거리가 정확하지 않은 이유
+
+1. 정해진 방향으로만 초음파가 전달되는 것이 아님
+2. 다른 센서에서 발사한 초음파가 물체에 반사되어 수신될 수도 있음
+3. 이전 측정에서 발사한 초음파가 먼 물체에 반사되어 지금 수신 될 수도 있음
+4. 그 외에도 센서 흡수, 반사 등 여러 가지 이유로 센서는 오작동 할 수도 있음
+
+따라서 이러한 현실적인 제약을 극복할 수 있는 방안을 마련하고, 대안들 중 최적의 것을 찾아내어 적용하는 활동이 엔지니어가 반드시 수행해야 하는 일이다.
+
+
+
+## 필터를 통해 튀는 값을 걸러내 보자.
+
+Low Pass Filter:
+
+- 특정한 주파수 이하의 신호는 통과시키고, 그 이상 주파수 신호는 걸러내는 필터
+- 응용 1. 오디오 신호에서 고주파의 잡음을 걸러내는 데 이용, hiss filter
+- 응용 2. 주식 가격의 변동에서 순간적으로 튀는 값들을 무시하기 위하여 이용
+- 간단한 구현
+    - 이동 평균의 이용
+    - 최근 관측 값에 가중치 부여
+
+{% highlight Python %}
+# 최근 n개 까지의 데이터 샘플을 수집하여 이동 평균을 구하되,
+# 단순 이동 평균과, 가중치 적용 이동 평균을 각각 얻을 수 있다.
+class MovingAverage:
+    def __init__(self, n):
+        self.samples = n
+        self.data = []
+        self.weights = list(range(1, n + 1))
+    
+    def add_sample(self, new_sample):
+        if len(self.data) < self.samples:
+            self.data.append(new_sample)
+        else:
+            self.data = self.data[1:] + [new_sample]
+        print("samples: %s" % self.data)
+    
+    def get_mm(self):
+        return float(sum(self.data)) / len(self.data)
+    
+    def get_wmm(self):
+        s = 0
+        for i, x in enumerate(self.data):
+            s += x * weights[i]
+        return float(s) / sum(self.weights[:len(self.data)])
+
+
+if __name__ == "__main__":
+    L = [18, 19, 17, 19, 50, 20, 19, 18]
+    mm = MovingAverage(5)
+    for x in L:
+        print("Adding a sample: %d" % x)
+        mm.add_sample(x)
+        print("Moving Average: %.2f" % mm.getmm())
+        print("Weighted Moving Average: %.2f" % mm.get_wmm())
+        print("")
+{% endhighlight %}
+
+
+## 여러가지 종류의 필터
+
+1. 필터의 종류
+    - 이동 평균(moving average) 필터
+    - 중간값(median) 필터
+    - 1차원 Kalman 필터
+
+2. 필터의 적용 인자들
+    - 샘플의 갯수, 윈도우 크기
+    - 가중치 배분, ex. exponential
