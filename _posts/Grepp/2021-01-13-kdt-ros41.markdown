@@ -3,7 +3,6 @@ layout: post
 title:  "초음파 센서 필터"
 date:   2021-01-13 05:00:00 +0900
 categories: "Grepp/KDT"
-tags: ROS
 ---
 
 ## 장애물까지의 거리가 정확하지 않은 이유
