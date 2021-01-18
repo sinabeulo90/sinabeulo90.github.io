@@ -1,0 +1,143 @@
+---
+layout: post
+title:  "에지 검출, 직선 검출"
+date:   2021-01-18 05:00:00 +0900
+categories: "Grepp/KDT"
+tags: OpenCV
+plugins: mathjax
+---
+
+# 강의 자료: OpenCV 특강, 한동대학교 전산전자공학부 이강 교수
+
+
+## 에지
+
+- 정의
+    - 에지 화소: 영상 함수의 밝기가 급격하게 변하는 화소
+    - 에지: 연결된 에지 화소의 집합, 물체의 경계선이 되는 경우가 많음
+- 에지 타입
+    - 계단 에지: 1화소 거리에서 이상적으로 일어나는 에지
+    - 비탈 에지: 일반적인 디지털 영상은 무뎌지고 노이즈가 낀 에지를 가짐
+    - 지붕 에지: 영역을 지나는 선에 대한 모델
+
+
+### 에지를 찾는 방법
+
+- Derivatives in Continuous Domain
+    - $\frac{dy}{dx} f(x) = \lim_{h \rightarrow 0} \frac{f(x + h) - f(x)}{h}$
+    - Derivatives in 1-D in Discrete Domain
+        - Forward difference:  $f'(x') = f(x') - f(x' + 1)$
+        - Backward difference: $f'(x') = f(x') - f(x' - 1)$
+        - Centeral differences: $f'(x') = \frac{1}{2}[f(x' + 1) - f(x' - 1)]$
+        - **영상처리의 미분은 자기의 옆 픽셀을 빼는 것과 같은 의미**
+    
+
+### Sobel Filter
+- Double the weight of nearer pixels to central pixel
+- 멀리 있는 픽셀 값보다 가까이 있는 픽셀 값이 더 중요하다는 논리
+- `Sobel(input, output, ddepth, dx, dy, ksize, scale, delta, border)`
+    - ddepth: output Mat의 type
+    - dx: order of derivatives in x direction, 0, 1, 2
+    - dy: order of derivatives in y direction, 0, 1, 2
+    - ksize: Sobel kernel size, default = 3
+    - scale: default = 1.0
+    - delta: default = 0
+    - border: default = BORDER_DEFAULT
+
+
+{% highlight C++ %}
+Sobel(img, deriv_X, CV_16S, 1, 0);
+Sobel(img, deriv_Y, CV_16S, 0, 1);
+
+convertScaleAbs(deriv_X, deriv_X);
+convertScaleAbs(deriv_Y, deriv_Y);
+
+imshow("derivatives X", deriv_X);
+imshow("derivatives Y", deriv_Y);
+{% endhighlight %}
+
+
+
+### Canny Edge Detector
+
+- Invented by John E. Canny in 1986
+- Canny is superior to Sobel
+- Key Idea
+    1. Non-Maximum suppression: thining the edges
+        - 각 픽실의 gradient가 얻어지면, 그 방향과 같은 gradient를 가진 인접 픽셀들의 gradient magnitude들과 비교하여 크기가 가장 큰 픽셀만 에지로 남긴다.
+        - blur한 영역의 에지들을 제거하는 효과를 가진다.
+    2. Double threshold
+        - 이미지의 노이즈로 인해 나타난 false positive들(에지로 인식되었으나 사실은 에지가 아닌 픽셀들)을 제거함
+        - 각 픽셀의 gradient magnitude가 high threshold보다 크면 strong edge로 분류
+        - 각 픽셀의 gradient magnitude가 low threshold보다 작으면 제거
+        - 각 픽셀의 gradient magnitude가 high와 low threshold 사이에 있으면, weak edge로 분류한다. weak edge는 인접한 8개의 pixel이 string edge일 떄만 최종적으로 strong edge로 분류된다.
+- `Canny(input, output, threshold1, threshold2, ksize, [L2flag])`
+    - threshold1: low threshold
+    - threshold2: high threshold(recommended as 2 * threshold1 ~ 3 * threshold1)
+    - ksize: size of edge detection kernel
+    - L2flag: L2 norm must be used to compute the gradient magnitude, instead of the sum of absolutes
+
+
+{% highlight C++ %}
+static Mat input_img, edge_img;
+static char* win_name = "Canny";
+static int lowTh, highTh;
+
+void CannyThr(int, void*) { // callback function
+    Canny(input_img, edge_img, lowTh, highTh, 3);
+    imshow(win_name, edge_img);
+}
+
+void Canny_test_thresholds(char* name) {
+    input_img = imread(name, IMREAD_GRAYSCALE);
+    edge_img.create(input_img.size(), input_img.type());
+    namedWindow(win_name, WINDOW_AUTOSIZE);
+    createTrackbar("Threshold1", win_name, &lowTh, 200, CannyThr);
+    createTrackbar("Threshold2", win_name,&highTh, 255, CannyThr);
+    waitKey(0);
+}
+{% endhighlight %}
+
+
+
+## 직선 검출
+
+- Hough Line 변환의 필요성
+    - 영상에서 에지 추출 후 에지 정보를 연결하여 관심 정보(직선) 추출
+    - 관심 객체에 대한 정보 없이 추출이 어려움
+- Hough Line 변환의 개념
+    - $x$, $y$ 평면 상의 한 점($x_1$, $y_1$)을 지나는 모든 직선($y_1 = ax_1 + b$)을 $a$, $b$ 평면에서 점으로 매핑
+- $\rho$, $\theta$ 평면 활용
+    - 선이 수직선에 접근함에 따라 기울기 $a$가 무한대로 접근하므로, $a$, $b$ 평면에서 표현이 불가능
+    - 직선의 정보를 $\rho$, $\theta$ 평면으로 표현
+    - 어느 정도의 $\rho$, $\theta$ 범위안에 몇 개의 점이 모여 있어야 직선으로 간주할 것인지, 직선의 기준이 있어야 함
+- 직선의 검출 방식, Hough transform
+    1. 선 Grayscale 영상 변환
+    2. 에지 영상 획득
+    3. $\rho$, $\theta$ 평면에서 구획 지정
+    4. 에지를 이루는 점들에 대해서 각각 $\rho$, $\theta$를 계산하여 각 구획에 vote
+    5. 문턱값 이상의 vote를 받은 구간에서의 $\rho$, $\theta$ 값을 직선으로 간주
+- `HoughLinesP(input, output, rho, theta, threshold, minLineLength = 0, maxLineGap = 0)`
+    - rho: Distance resolution of the accumulator in pixels
+    - theta: Angle resolution of the accumulator in radians
+    - threshold: Accumulator threshold parameter
+    - minLinelength: Minimum line length
+    - maxLineGap: Maximum allowed gap between points
+
+
+{% highlight C++ %}
+// edge extraction
+Mat edge;
+Canny(src, edge, 80, 200, 3);
+
+// Hough Transform
+vector<Vec4i> lines;    // Vec4i = vector<Point>(4)
+HoughLinesP(edge, lines, 1, CV_PI / 180, 30, 50, 10);
+
+// draw lines
+for (size_t i = 0; i < lines.size(); ++i) {
+    line(src, Point(lines[i][0], lines[i][1]), Point(lines[i][2], lines[i][3]), Scalar(0, 0, 255), 1);
+}
+
+imshow("Lines", src);
+{% endhighlight %}
