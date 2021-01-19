@@ -1,0 +1,115 @@
+---
+layout: post
+title:  "다각형 검출, 차선 검출 알고리즘"
+date:   2021-01-18 07:00:00 +0900
+categories: "Grepp/KDT"
+tags: OpenCV
+---
+
+# 강의 자료: OpenCV 특강, 한동대학교 전산전자공학부 이강 교수
+
+## 윤곽선(Contour) 검출
+
+- `findContours(image, contours, hierarchy, mode, method, offset)`
+    - 점을 모아서 다각형 윤곽선 정보로 변환
+    - image: 8-bit single-channel
+    - contours: detected contours, vector of points(`vector<vector<Point>>`)
+    - hierarchy: optional output vector, containing information about the image topology
+        - hierarchy[i] is 0-based index in countours: [i][0] = next, [i][1] = prev, [i][2] = first child, [i][3] = parent
+    - mode: countour retrieval mode
+        - RETR_EXTERNAL: retrieves only the extreme outer contours
+        - RETR_LIST: retrieves all of the contours without establishing any hierarchical relationship
+        - RETR_CCOMP: retrieves all of the contours and organizes them into a two-level hierarchy
+        - RETR_TREE: retrieves all of the contours and reconstructs a full hierarchy of nested contours
+    - method: contour approximation method
+        - CHAIN_APPROX_SIMPLE: compresses horizontal, vertical, and diagonal segments and leaves only their end points, 4각형의 경우 4개의 Point만을 포함
+        - CHAIN_APPROX_NONE: stores absolutely all the contour points
+- **`findContours`수행 후 입력 img는 병형이 일어나므로 복사본 사용**
+
+
+
+## 찾은 윤곽선(Contour) 그리기
+
+- `drawContours(image, contours, contourIdx, color, thickness, hierarchy, maxLevel, offset)`
+    - contours: All the input contours
+    - contourIdx: Parmeter indication a contour to draw
+    - color: color of contours
+    - thickness: thickness of lines the contours are drawn with
+- `contours[contourIdx]`를 image에 color로 그려줌
+
+
+{% highlight C++ %}
+Mat src = imread("Lenna.jpg", IMREAD_COLOR);
+
+// edge extraction
+Mat canny;
+Canny(src, canny, 30, 60);
+dilate(canny, canny, Mat(), Point(-1, -1), 1);
+
+// find contours
+vector<vector<Point> > contours;
+vector<Vec4i> hierarchy;
+findContours(canny, contours, hierarchy, RETR_TREE, CHAIN_APPROX_NONE);
+
+Mat result = src.clone();
+for (size_t i = 0; i < contours.size(); ++i) {
+    Scalar color(rand() % 256, rand() % 256, rand() % 256);
+    drawContours(result, contours, i, color, FILLED);
+}
+
+imshow("src", src);
+imshow("Canny", canny);
+imshow("result", result);
+waitKey(0);
+{% endhighlight %}
+
+
+
+## 다각형으로 근사화
+
+- `approxPolyDP(curve, approxCurve, epsilon, closed)`
+    - 윤곽선을 다각형으로 근사화
+    - findContours의 결과를 입력으로 사용
+    - curve: input vector of a 2D point, `vector<Point>`
+    - approxCurve: Result of the approximation, `vector<Point>`
+    - epsilon: specifying the approximaion accuracy
+    - closed: if true, the approximated curve is closed
+
+
+{% highlight C++ %}
+Mat src = imread("Lenna.jpg", IMREAD_COLOR);
+
+// edge extraction
+Mat canny;
+Canny(src, canny, 30, 60);
+dilate(canny, canny, Mat(), Point(-1, -1), 1);
+
+// find contours
+vector<vector<Point> > contours;
+findContours(canny, contours, RETR_TREE, CHAIN_APPROX_NONE);
+
+vector<Point> poly;
+approxPolyDP(contours[0], poly, 15, true);
+{% endhighlight %}
+
+
+
+## 기본적 차선 검출 알고리즘
+
+1. ROI 설정하여 영상 자르기
+2. 노이즈 제거
+    - gaussian
+    - median
+    - bilateral
+3. 컬러공간 변환
+    - 노란선: HSV 값, `inRange`
+    - 흰선: Grayscale 밝기 값
+4. 이진화(색상 정보 또는 밝기 정보)
+5. 에지 검출, Canny
+6. 직선 검출, Hough 변환
+7. 차선 판정
+    - 잛은 선 제외
+    - 직선의 각도 고려
+    - 인접 직선의 통합
+    - ROI 설정하여 연산 속도 증가 및 노이즈 배제
+8. 차선 그리기

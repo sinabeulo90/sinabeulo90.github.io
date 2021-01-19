@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "이진화, 모폴로지"
+title:  "Mat 채널 분리/병합, ROI, 노이즈 제거"
 date:   2021-01-18 04:00:00 +0900
 categories: "Grepp/KDT"
 tags: OpenCV
@@ -9,142 +9,85 @@ tags: OpenCV
 # 강의 자료: OpenCV 특강, 한동대학교 전산전자공학부 이강 교수
 
 
-## 이진화
+## 채널 분리 및 병합
 
-
-### 문턱치 처리
-
-- 이진화: 영상의 픽셀 값들을 기준값 이상과 미만의 두가지로 나누고, 픽셀 값을 분류 결과에 따라 재설정
-- 단일 문턱치 처리
-    - 어두운 배경으로 밝은 객체로 구성된 영상이 있는 경우
-    - 객체를 추출하는 방법은 문턱치를 활용하는 것임
-- 전역적 문턱치: 영상 전체에서 하나의 문턱치 값을 적용
-- 가변적 문턱치: 영상 내 각 영역에 따라 문턱치 값을 다르게 적용
-- `threshold(input_image, output_image, threshold_value, max_val, threshold_type)`
-    - threshold_type
-        - THRESH_BINARY: 대표적인 방법
-        - THRESH_BINARY_INV: THRESHOLD_BINARY 결과를 반전
-        - THRESH_TRUNC: 입력 값이 threshold_value를 초과하면 threshold_value로 만들고, 그 이하는 원래 값을 그대로 유지
-        - THRESH_TOZERO: 입력 값이 threshold_value 이하이면 0으로 만들고, 초과이면 그대로 원래 값을 유지
-        - THRESH_TOZERO_INV: THRESHOLD_TOZERO를 반전
-        - THRESH_OTSU:  영상 전체 히스토그램에서 두 개의 peak를 구분하는 threshold 값을 찾음
-- OTSU Threshold
-    - 이미지 전체가 두 개의 밝기 성분으로 구성되었을 때 매우 효과적임
-    - 히스토그램을 분석하여, 두 개의 peak 값을 잘 나눌 수 있는 문턱치 자동 계산
-    - `threshold(img, dst, 0(어떤 값이든 상관 없음), 255, THRESHOLD_OTSU);`
-
-
-
-### Adaptive Threshold
-
-- threshold를 pixel마다 자동으로 따로 구함
-- threshold의 기준은 이웃한 픽셀들의 (가중)평균 값에 -C 더한 값을 이용
-- `adaptiveThreshold(input, output, max_value, adaptive_threshold_type, threshold_type, ksize, C_)`
-    - adaptive_threshold_type
-        - ADAPTIVE_THRESH_MEAN_C
-        - ADAPTIVE_THRESH_GAUSSIAN_C
-    - ksize: 이웃한 픽셀의 범위 결정 Size(ksize, ksize) 영역, 홀수 값
-    - threshold_type
-        - THRESH_BINARY: (픽셀 값의 평균치 - C) 보다 크면 max_val, 아니면 0
-        - THRESH_BINARY_INV: (픽셀 값의 평균치 - C)보다 작으면 max_val, 아니면 0
-        - 
-- `adactiveThreshold(img, dst, 255, ADAPTIVE_THRESH_MEAN_C, THRESH_BINARY, 19, 0);`
-
-
-
-### Color 범위에 의한 이진화
-
-- HSV 컬러 영역에서 H값으로 이진화
-- `inRange(Mat &src, inputArray lowerb, inputArray upperb, Mat &dst)`
+- `split(Mat, vector<Mat>);`
+- `merge(vector<Mat>, Mat);`
 
 
 {% highlight C++ %}
-Mat img_hsv, green;
-cvtColor(img_bgr, img_hsv, COLOR_BGR2HSV);
+#include <vector>
+#include <opencv2/opencv.hpp>
 
-# 녹색만 검출
-inRange(img_hsv, Scalar(50, 100, 50), Scalar(80, 255, 255), green);
+using namespace std;
+using namespace cv;
+
+int main(int argc, char* argv[]) {
+    Mat img = imread("Lenna.jpg", IMREAD_COLOR);
+    resize(img, img, Size(200, 200 * img.rows / img.cols));
+    imshow("org", img);
+
+    vector<Mat> channel;
+    split(img, channel);
+
+    char wname[10];
+    for (int i = 0; i < img.channels(); ++i) {
+        sprintf(wname, "ch%d", i);
+        imshow(wname, channel[i]);
+    }
+
+    Mat merged;
+    channel[0] = channel[0] / 2;
+    channel[1] = channel[1] / 2;
+
+    merge(channel, merged);
+    imshow("mrg", merged);
+    waitKey(0);
+    return 0;
+}
 {% endhighlight %}
 
 
 
-## 모폴로지 연산
+## 기존 Matrix의 일부를 Sub Matrix로 나타내기(ROI, Region of Interest)
 
-
-
-### 침식
-
-- 커널 B에 의한 A에 대한 침식
-- 커널에 존재하는 픽셀 중 하나라도 값이 0이면 커널 전체를 0으로 채운다.
-- 이진 영상의 객체를 축소 또는 가늘게 만들 수 있음
-- `erode(src, dst, kernel, anchor, iterations, borderType, borderValue)`
-    - kernel: structuring element
-    - anchor: position of the anchor within the element
-    - iteration: number of times dilation/erosion is applied
-
-
-
-### 팽창
-
-- 커널 B에 의한 A에 대한 팽창
-- 커널에 존재하는 픽셀 중 하나라도 값이 1이면 커널 전체를 1로 채운다.
-- 이진 영상에서 객체들을 커지게 혹은 두꺼워지게 만듬
-- `dilate(src, dst, kernel, anchor, iterations, borderType, borderValue)`
-    - kernel: structuring element
-    - anchor: position of the anchor within the element
-    - iteration: number of times dilation/erosion is applied
-
+- 이미지 화면 내에서 관심 영역을 설정
+- C++: `Mat M(Mat, Rect)`
+- Python:
+    - `image[y1:y2, x1:x2]`
+    - numpy.ndarray의 다차원 배열에서 특정 영역을 잘라냄(slicing)
 
 {% highlight C++ %}
-Mat src = imread("Lenna.jpg", IMREAD_COLOR);
-Mat dst;
+Mat img = imread("Lenna.jpg", IMREAD_COLOR);
 
-int n = 3;
-int element_shape = MORPH_RECT;     // MORPH_ELLIPSE, MORPH_CROSS
-Mat element = getStructuringElement(element_shape, Size(n, n));
+# sub1, sub2는 img와 데이터를 공유하므로,
+# img, sub1, sub2 중 하나의 값을 바꾸면 모두 변경
+Mat sub1(img, Rect(30, 60, 200, 400));
+Mat sub2(img, Rect(Point(230, 60), Point(430, 460)));
 
-double thresh = 100, maxval = 255;
-int threshType = THRESH_BINARY;
-threshold(src, dst, thresh, maxval, threshType);
+sub1 = Scalar(0, 255, 0);
+sub2 = Scalar(255, 255, 255);
 
-Mat resDilate, resErode;
-dilate(dst, resDilate, element, Point(-1, -1), 3);
-erode(dst, resErode, element, Point(-1, -1), 3);
+imshow("sub1", sub1);
+imshow("sub2", sub2);
+imshow("org+sub", img);
 {% endhighlight %}
 
 
 
-### Opening
+## 노이즈 제거(Filtering, Smoothing)
 
-- B에 의한 A의 Opening은 B에 의한 A의 침식 후, 그 결과를 B에 의해 팽창
-- 일반적으로 객체의 윤곽을 부드럽게 만들고, 좁은 지협을 끊고, 가느다란 돌출부를 제거
-- useful for removing noise of white dots
-- `morphologyEx(src, dst, op, kernel, anchor, iterations, borderType, borderValue)`
-    - op: type of a morphological operation, MORPH_OPEN
-
-
-### Closing
-
-- B에 의한 A의 Closing은 B에 의해 A를 팽창시킨 후, 그 결과를 B로 침식
-- Closing도 윤곽을 부드럽게 만드는 경향이 있으나, Opening과는 반대로 일반적으로 윤곽의 좁은 끊김과 길고 가는 깊은 픔을 붙이고, 작은 홀을 제거하고, 간극을 채운다.
-- useful for removing noise of black dots
-- `morphologyEx(src, dst, op, kernel, anchor, iterations, borderType, borderValue)`
-    - op: type of a morphological operation, MORPH_CLOSE
+- 자연적인 이미지라면 픽셀이 급격히 튀는 부분은 없을 것이므로, 그 부분들을 노이즈라고 생각하고 주변의 픽섹들을 이용해서 해당 픽셀을 부드럽게 만들어 준다.
+- Neighborhood of a pixel in (x, y)
+- Image Averaging
+- image Filtering
+    - Convolution
 
 
 {% highlight C++ %}
-Mat src = imread("Lenna.jpg", IMREAD_COLOR);
-Mat dst;
-
-int n = 3;
-int element_shape = MORPH_RECT;     // MORPH_ELLIPSE, MORPH_CROSS
-Mat element = getStructuringElement(element_shape, Size(n, n));
-
-double thresh = 100, maxval = 255;
-int threshType = THRESH_BINARY;
-threshold(src, dst, thresh, maxval, threshType);
-
-Mat resOpen, resClose;
-morphologyEx(dst, resOpen, MORPH_OPEN, element);
-morphologyEx(dst, resClose, MORPH_CLOSE, element);
+for (int i = 5; i < 20; i += 6) {
+    blur(img, blurred, Size(i, i));
+    medianBlur(img, blurred, i);
+    bilateralFilter(img, blurred, i, i * 2, i / 2);
+}
 {% endhighlight %}

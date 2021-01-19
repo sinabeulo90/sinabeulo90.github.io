@@ -1,27 +1,31 @@
 ---
 layout: post
-title:  "영상 입출력, 도형 그리기, 채널 변환"
+title:  "Mat 기본 자료구조"
 date:   2021-01-18 02:00:00 +0900
 categories: "Grepp/KDT"
 tags: OpenCV
 ---
 
-# 강의 자료: OpenCV 특강, 한동대학교 전산전자공학부 이강 교수
+## 기본 자료구조 및 픽셀 접근
 
-
-## 입/출력 및 그리기
-
-- 이미지 읽기
-    - `Mat img1 = imread("foo.png", IMREAD_COLOR);`
-    - `Mat img2 = imread("foo.png", IMREAD_GRAYSCALE);`
-- 이미지 쓰기
-    - `imwrite("bar.png", img1);`
-- 이미지 창 생성 및 띄우기
-    - `namedWindow("display", WINDOW_AUTOSIZE);`
-    - `imshow("display", img1);` 각 채널당 BGR로 대응되어 이미지를 띄운다.
-- 이미지 창 닫고 소멸시키기
-    - `distroyWindow("display");`
-    - distoryAllWindows();`
+- Mat: 하나의 이미지를 표현하는 기본되는 자료구조로, 이미지가 Mat Object에 저장된다.
+    - Header: 이미지의 핵심 정보
+        - 해상도
+        - 채널의 갯수
+        - 픽셀의 데이터 타입: ex. 8bit int, 16bit int, 32bit float 등
+        - **Body를 가리키는 포인터**
+    - Body: 이미지의 실제 픽셀 값
+    - `Mat m = n`: `n`의 헤더의 값이 `m`의 헤더로 복사된다. 이 과정에서 `n`의 Body를 가리키는 포인터도 함께 복사되므로, `m`은 `n`의 Body를 가리키게 되어, 같은 이미지를 공유하게 된다.
+    - Mat 만드는 방법
+        - Mat M;
+        - Mat M(row, columns, pixel_type);
+        - Mat M(row, columns, pixel_type, initial_value);
+        - Mat M(Size(width, height), pixel_type, initial_value);
+- Body의 픽셀은 `BGR` 순서로 저장된다.
+- 픽셀 타입
+    - CV_8UC3: 8bit Unsigned, Channel 3개, 일반적인 24bit 컬러 이미지
+    - CV_8UC1: 8bit Unsigned, Channel 1개, Grayscale 흑백 이미지
+    - CV_16UC3, CV_32FC3, ...
 
 
 {% highlight C++ %}
@@ -29,129 +33,77 @@ tags: OpenCV
 
 using namespace cv;
 
-int main(int argc, char* argv[]) {
-    Mat image = imread(argv[1]);
+int main() {
+    Mat M0(100, 200, CV_8UC1, Scalar(50));  // Gray scale = 50
+    Mat M1(100, 200, CV_8UC1, Scalar(100));  // Gray scale = 50
+    Mat M2(100, 200, CV_8UC1, Scalar(150));  // Gray scale = 50
+    Mat M3(100, 200, CV_8UC3, Scalar(0, 0, 255));  // color = red
+    Mat M4(100, 200, CV_8UC3, Scalar(255, 0, 0));  // color = blue
+    Mat M5(100, 200, CV_8UC3, Scalar(255, 0, 255));  // color = red + blue
 
-    namedWindow("example", WINDOW_AUTOSIZE);
-    imshow("example", image);
+    imshow("M0", M0);
+    imshow("M1", M1);
+    imshow("M2", M2);
+    imshow("M3", M3);
+    imshow("M4", M4);
+    imshow("M5", M5);
+
     waitKey(0);
-    destroyWindow("example");
     return 0;
 }
 {% endhighlight %}
 
+ 
+
+## Mat 정보 접근
+
+`Mat.type()`: 데이터 타입 반환(상수 값)
+`Mat.depth()`: 한 픽셀의 byte 크기 반환
+`Mat.at<datatype> (row, column)[channel]`: 해당 위치의 픽셀 값 접근, 컬러 이미지 경우, `datatype`은 `Vec3b`
 
 {% highlight C++ %}
-#include <opencv2/opencv.hpp>
+int dark_cntB = 0, dar_cntG = 0, dark_cntR = 0;
 
-using namespace cv;
-
-int main(int argc, char* argv[]) {
-    VideoCapture capture("finlename.avi");
-    if (capture.isOpened()) {
-        return 1;
+for (int i = 0; i < M.rows; ++i) {
+    for (int j = =0; j < M.cols; ++j) {
+        zero_cntB += M.at<Vec3b>(i, j)[0] < 50 ? 1 : 0;
+        zero_cntG += M.at<Vec3b>(i, j)[1] < 50 ? 1 : 0;
+        zero_cntR += M.at<Vec3b>(i, j)[1] < 50 ? 1 : 0;
     }
-
-    namedWindow("example", WINDOW_AUTOSIZE);
-    
-    Mat frame;
-
-    while (true) {
-        capture >> frame;
-        if (!frame.data) {
-            break;
-        }
-
-        imshow("display", frame);
-        waitKey(30);
-    }
-
-    capture.release();
-    destroyWindow("example");
-    return 0;
 }
+
+cout << "Blue=" zero_cntB << " Green=" << zero_cntG << " Red=" << zero_cntR << endl;
 {% endhighlight %}
 
-
-
-## 도형 그리기
-
-- Line
-    - `line(Mat &img, Point pt1, Point pt2, Scalar &color, int thickness)`
-    - `line(Mat &img, Point pt1, Point pt2, Scalar &color, int thickness=1, int line_type = 8, int shift = 0, double topLength = 0.1)`
-- Box
-    - `rectangle(Mat &img, Point &pt1, Point &pt2, Scalar &color, int thickness = 1)`
-    - `rectangle(Mat &img, Rect rect, Scalar &color, int thickness = 1)`
-- Circle
-    - `circle(Mat &img, Point &center, int radius, Scalar &color, int thickness = 1)`
-- Text
-    - `putText(Mat &img, String &text, Point org, int fontFace, double scale, Scalar color, int thickness = 1)`
-
-
-
-
-## 이미지 색상 바꾸기
-
-- `cvtColor(input_img, output_img, flags)`
-- flags
-    - COLOR_BGR2GRAYSCALE
-    - COLOR_BGR2YUV
-    - COLOR_BGR2HSV
-    - COLOR_GRAY2BGR
-    - COLOR_BGR2RGB
+- 이미지 크기 계산: #columns x #rows x #channels x channel_depth
+    - `Mat m(10, 15, CV_8UC3)`의 이미지 크기: 10 rows x 15 columns x 3 channels/pixel x 1Byte/channel = 450Bytes
+    - `Mat.elemSize1()`: 한 픽셀의 1개 채널의 byte 수 반환
+    - `Mat.elemSize()`: 한 채널의 byte 수 반환(`Mat.elemSize1()` x `Mat.channels`)
 
 
 {% highlight C++ %}
-Mat img = imread("Lenna.jpg", IMREAD_COLOR);
-Mat dst1, dst2, dst3;
-
-cvtColor(img, dst1, COLOR_BGR2GRAY);
-cvtColor(img, dst2, COLOR_BGR2HSV);
-cvtColor(img, dst3, COLOR_BGR2YUV);
-
-imshow("img", img);
-imshow("GRAY", dst1);
-imshow("HSV", dst2);
-imshow("YUV", dst3);
-{% endhighlight %}
-
-
-
-## 채널 분리 및 병합
-
-- `split(Mat, vector<Mat>);`
-- `merge(vector<Mat>, Mat);`
-
-
-{% highlight C++ %}
-#include <vector>
+#include <iostream>
 #include <opencv2/opencv.hpp>
 
 using namespace std;
 using namespace cv;
 
-int main(int argc, char* argv[]) {
-    Mat img = imread("Lenna.jpg", IMREAD_COLOR);
-    resize(img, img, Size(200, 200 * img.rows / img.cols));
-    imshow("org", img);
-
-    vector<Mat> channel;
-    split(img, channel);
-
-    char wname[10];
-    for (int i = 0; i < img.channels(); ++i) {
-        sprintf(wname, "ch%d", i);
-        imshow(wname, channel[i]);
-    }
-
-    Mat merged;
-    channel[0] = channel[0] / 2;
-    channel[1] = channel[1] / 2;
-
-    merge(channel, merged);
-    imshow("mrg", merged);
-    waitKey(0);
+int main() {
+    Mat M(10, 15, CV_8UC3);
+    int imageSize = M.cols * M.rows * M.channels() * M.elemSize1();
+    cout << "total size=" << imageSize << "Bytes" << endl;
     return 0;
 }
 {% endhighlight %}
 
+
+
+## Mat Data 메모리 공유 vs 복사
+
+- `dst`와 `src`의 Data 공유(shallow copy)
+    - `Mat dst = src;`
+    - `Mat dst(src);`
+- 원 영상 데이터를 공유하지 않은 독립적으로 할당(deep copy)
+    - 기억장소 추가 할당 + 이미지 데이터 복사
+    - `dst = src.clone()`
+    - `src.copyTo(dst)`
