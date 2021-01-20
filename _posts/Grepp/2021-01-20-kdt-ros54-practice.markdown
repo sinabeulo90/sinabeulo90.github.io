@@ -93,7 +93,7 @@ while True:
 
     roi = frame[vertical:vertical + scan_height, :]     # ROI 설정
     frame = cv2.rectangle(frame, (0, vertical), (width - 1, vertical + scan_height), (255, 0, 0), 3)    # 설정한 ROI의 둘레에 파란색 사각형을 그림
-    hsv = cv2.cvtColor(roi, cv2.COLOR_BGR_HSV)
+    hsv = cv2.cvtColor(roi, cv2.COLOR_BGR2HSV)
 
     lbound = np.array([0, 0, threshold], dtype=np.uint8)
     ubound = np.array([131, 255, 255], dtype=np.uint8)
@@ -130,7 +130,7 @@ while True:
         print("Lost right line")
     
     # "origin" 타이틀의 윈도우에는 카메라를 이용하여 취득한 영상 표시 + ROI
-    cv2.imshow("origin", fram)
+    cv2.imshow("origin", frame)
     # "view" 타이틀의 윈도우에는 ROI를 잘라내어 이진화한 영상 표시
     cv2.imshow("view", view)
 
