@@ -4,6 +4,7 @@ title:  "Mat 채널 분리/병합, ROI, 노이즈 제거"
 date:   2021-01-18 04:00:00 +0900
 categories: "Grepp/KDT"
 tags: OpenCV
+plugins: mathjax
 ---
 
 # 강의 자료: OpenCV 특강, 한동대학교 전산전자공학부 이강 교수
@@ -91,3 +92,20 @@ for (int i = 5; i < 20; i += 6) {
     bilateralFilter(img, blurred, i, i * 2, i / 2);
 }
 {% endhighlight %}
+
+
+### Gaussian Blur
+
+- 각 픽셀에 5x5 윈도우를 올려 놓고, 그 영역 안에 포함되는 값을 모두 더한 뒤, 25로 나누어 인접한 점들의 밝기를 산술 평균을 구하는 방식으로 노이즈 제거
+- 윈도우의 크기가 클수록 더 부드러운 blur를 얻게 됨
+
+$$
+K = \frac{1}{25}
+\begin{bmatrix}
+1 & 1 & 1 & 1 & 1 \newline
+1 & 1 & 1 & 1 & 1 \newline
+1 & 1 & 1 & 1 & 1 \newline
+1 & 1 & 1 & 1 & 1 \newline
+1 & 1 & 1 & 1 & 1 \newline
+\end{bmatrix}
+$$

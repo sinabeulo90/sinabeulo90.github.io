@@ -6,7 +6,7 @@ categories: "Grepp/KDT"
 tag: ROS
 ---
 
-## 과제 1: 라이다를 사용하여 장애물이 있으면 정재했다가 다시 주행하는 기능 구현
+## 과제 1: 라이다를 사용하여 장애물이 있으면 정지했다가 다시 주행하는 기능 구현
 
 ### 패키지 생성
 
@@ -150,5 +150,3 @@ while not rospy.is_shutdown():
 $ roslaunch lidar_drive lidar_drive.launch
 $ rqt_graph
 {% endhighlight %}
-
-

@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "OpenCV 실습"
+title:  "[실습] 기본적인 OpenCV 기능 사용"
 date:   2021-01-19 01:00:00 +0900
 categories: "Grepp/KDT"
 tags:
