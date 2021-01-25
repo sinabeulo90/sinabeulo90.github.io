@@ -34,7 +34,7 @@ plugins:
   - jekyll-feed
   - jekyll-sitemap
   - jekyll-gist
-google_analytics: G-01JC6TXRP6
+google_analytics: G-QPZC5JXV7G
 
 # Exclude from processing.
 # The following items will not be processed, by default.
