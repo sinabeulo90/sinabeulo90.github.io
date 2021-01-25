@@ -1,0 +1,53 @@
+---
+layout: post
+title:  "Warping 기법과 원근 변환"
+date:   2021-01-25 03:00:00 +0900
+categories: "Grepp/KDT"
+tag: OpenCV
+---
+
+## 이미지의 기하학적 변형 - 와핑(Warping)
+
+Warping이란 사전적 의미로 "뒤틀림", "왜곡하다"라는 의미인데, 영상 시스템에서의 이미는 영상의 이동, 회전, 크기 변환 등을 이용해서 원본 이미지를 찌그러뜨리거나, 반대로 찌그러진 이미지를 복원하기 위한 처리 기법을 말한다.
+
+
+
+## 다양한 이미지 변형 방법(Transformations)
+
+사이즈 변경(Scaling), 위치 변경(Translation), 회전(Rotation)와 같이 좌표 x를 새로운 좌표 x'로 변환하는 함수들이 있다..
+
+1. 강체 변환(Rigid-Body)
+    - 크기 및 각도가 보전되는 변환
+    - ex. Translation, Rotation
+2. 유사 변환(Similarity)
+    - 크기는 변하고 각도는 보존되는 변환
+    - ex. Scaling
+3. 선형 변환(Linear)
+    - Vector 공간에서의 이동
+    - ex. 2D ---> 3D
+4. Affine
+    - 선의 수평성은 유지하면서 선형 변환과 이동 변환을 포함하는 변환
+    - ex. 사각형 ---> 평행사변형
+5. Perspective
+    - 선의 수평성도 유지 하지 않고, Affine 변환도 포함하는 변환
+    - ex. 원근변환
+
+![Transformation](/assets/grepp/transformations.png)
+
+[Image Geometric Transformation In Numpy and OpenCV](https://towardsdatascience.com/image-geometric-transformation-in-numpy-and-opencv-936f5cd1d315)
+
+
+
+## 차선 검출의 Warping 적용
+
+3차원 공간에서는 먼 곳에 있는 물체가 작게 보이는 원근 형상이 있기 때문에, Perspective 변환을 적용하여 하늘에서 보는 Bird Eye View 영상으로 바꿀 수 있다.
+
+이를 활용하면, 차선은 직선이기 떄문에 차선 찾는데 훨씬 수월해 질 수 있다. 그리고 휘어져 있는 차선일 경우, Bird Eye View 영상에서는 해당 차선의 곡률을 알수 있기 때문에 자동차의 핸들을 얼만큼 돌려야 하는지도 알 수 있다.
+
+
+
+## 도로 이미지에 대한 영상 처리 Warping 과정
+
+1. Perspective 변환: 도로 이미지는 Bird Eye View로 변형
+2. 차선 추출
+3. 원본 이미지에 오버레이

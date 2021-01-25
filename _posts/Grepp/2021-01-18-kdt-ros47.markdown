@@ -64,7 +64,7 @@ imshow("derivatives Y", deriv_Y);
 - Canny is superior to Sobel
 - Key Idea
     1. Non-Maximum suppression: thining the edges
-        - 각 픽실의 gradient가 얻어지면, 그 방향과 같은 gradient를 가진 인접 픽셀들의 gradient magnitude들과 비교하여 크기가 가장 큰 픽셀만 에지로 남긴다.
+        - 각 픽셀의 gradient가 얻어지면, 그 방향과 같은 gradient를 가진 인접 픽셀들의 gradient magnitude들과 비교하여 크기가 가장 큰 픽셀만 에지로 남긴다.
         - blur한 영역의 에지들을 제거하는 효과를 가진다.
     2. Double threshold
         - 이미지의 노이즈로 인해 나타난 false positive들(에지로 인식되었으나 사실은 에지가 아닌 픽셀들)을 제거함

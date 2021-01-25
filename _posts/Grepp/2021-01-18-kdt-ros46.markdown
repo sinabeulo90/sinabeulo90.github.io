@@ -47,8 +47,8 @@ tags: OpenCV
     - threshold_type
         - THRESH_BINARY: (픽셀 값의 평균치 - C) 보다 크면 max_val, 아니면 0
         - THRESH_BINARY_INV: (픽셀 값의 평균치 - C)보다 작으면 max_val, 아니면 0
-        - 
-- `adactiveThreshold(img, dst, 255, ADAPTIVE_THRESH_MEAN_C, THRESH_BINARY, 19, 0);`
+
+- `adaptiveThreshold(img, dst, 255, ADAPTIVE_THRESH_MEAN_C, THRESH_BINARY, 19, 0);`
 
 
 
