@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "[실습] 평행이동, 확대/축소"
+title:  "[실습] 평행이동, 확대/축소 변환"
 date:   2021-01-25 04:00:00 +0900
 categories: "Grepp/KDT"
 tag: OpenCV
