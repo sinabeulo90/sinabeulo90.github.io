@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "[과제] 슬라이딩 윈도우 기반 차선인식 주행"
-date:   2021-01-26 03:00:00 +0900
+date:   2021-01-26 04:00:00 +0900
 categories: "Grepp/KDT"
 tag: OpenCV
 ---
