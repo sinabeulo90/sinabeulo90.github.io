@@ -109,7 +109,7 @@ def calibrate_image(frame):
 
     # 위에서 구한 보정 행렬값을 적용하여 이미지를 반듯하게 수정하는 함수
     tf_image = cv2.undistort(frame, mtx, dist, None, cal_mtx)
-    x, y, w h = cal_roi
+    x, y, w, h = cal_roi
     tf_image = tf_image[y:y+h, x:x+w]
 
     return cv2.resize(tf_image, (Width, Height))

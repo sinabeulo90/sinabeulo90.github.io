@@ -6,7 +6,7 @@ categories: "Grepp/KDT"
 tags: ROS
 ---
 
-[노드 통신을 위한 패키지 만들기]({% post_url Grepp/2020-12-22-kdt-ros07-practice %})의 `teacher.py`, `student.py` 예제 코드 분석
+[노드 통신을 위한 패키지 만들기]({% post_url Grepp/Week04/2020-12-22-kdt-ros07-practice %})의 `teacher.py`, `student.py` 예제 코드 분석
 
 
 ## teacher.py
