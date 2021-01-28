@@ -1,0 +1,111 @@
+---
+layout: post
+title:  "Mat 채널 분리/병합, ROI, 노이즈 제거"
+date:   2021-01-18 04:00:00 +0900
+categories: "Grepp/KDT"
+tags: OpenCV
+plugins: mathjax
+---
+
+# 강의 자료: OpenCV 특강, 한동대학교 전산전자공학부 이강 교수
+
+
+## 채널 분리 및 병합
+
+- `split(Mat, vector<Mat>);`
+- `merge(vector<Mat>, Mat);`
+
+
+{% highlight C++ %}
+#include <vector>
+#include <opencv2/opencv.hpp>
+
+using namespace std;
+using namespace cv;
+
+int main(int argc, char* argv[]) {
+    Mat img = imread("Lenna.jpg", IMREAD_COLOR);
+    resize(img, img, Size(200, 200 * img.rows / img.cols));
+    imshow("org", img);
+
+    vector<Mat> channel;
+    split(img, channel);
+
+    char wname[10];
+    for (int i = 0; i < img.channels(); ++i) {
+        sprintf(wname, "ch%d", i);
+        imshow(wname, channel[i]);
+    }
+
+    Mat merged;
+    channel[0] = channel[0] / 2;
+    channel[1] = channel[1] / 2;
+
+    merge(channel, merged);
+    imshow("mrg", merged);
+    waitKey(0);
+    return 0;
+}
+{% endhighlight %}
+
+
+
+## 기존 Matrix의 일부를 Sub Matrix로 나타내기(ROI, Region of Interest)
+
+- 이미지 화면 내에서 관심 영역을 설정
+- C++: `Mat M(Mat, Rect)`
+- Python:
+    - `image[y1:y2, x1:x2]`
+    - numpy.ndarray의 다차원 배열에서 특정 영역을 잘라냄(slicing)
+
+{% highlight C++ %}
+Mat img = imread("Lenna.jpg", IMREAD_COLOR);
+
+# sub1, sub2는 img와 데이터를 공유하므로,
+# img, sub1, sub2 중 하나의 값을 바꾸면 모두 변경
+Mat sub1(img, Rect(30, 60, 200, 400));
+Mat sub2(img, Rect(Point(230, 60), Point(430, 460)));
+
+sub1 = Scalar(0, 255, 0);
+sub2 = Scalar(255, 255, 255);
+
+imshow("sub1", sub1);
+imshow("sub2", sub2);
+imshow("org+sub", img);
+{% endhighlight %}
+
+
+
+## 노이즈 제거(Filtering, Smoothing)
+
+- 자연적인 이미지라면 픽셀이 급격히 튀는 부분은 없을 것이므로, 그 부분들을 노이즈라고 생각하고 주변의 픽섹들을 이용해서 해당 픽셀을 부드럽게 만들어 준다.
+- Neighborhood of a pixel in (x, y)
+- Image Averaging
+- image Filtering
+    - Convolution
+
+
+{% highlight C++ %}
+for (int i = 5; i < 20; i += 6) {
+    blur(img, blurred, Size(i, i));
+    medianBlur(img, blurred, i);
+    bilateralFilter(img, blurred, i, i * 2, i / 2);
+}
+{% endhighlight %}
+
+
+### Gaussian Blur
+
+- 각 픽셀에 5x5 윈도우를 올려 놓고, 그 영역 안에 포함되는 값을 모두 더한 뒤, 25로 나누어 인접한 점들의 밝기를 산술 평균을 구하는 방식으로 노이즈 제거
+- 윈도우의 크기가 클수록 더 부드러운 blur를 얻게 됨
+
+$$
+K = \frac{1}{25}
+\begin{bmatrix}
+1 & 1 & 1 & 1 & 1 \newline
+1 & 1 & 1 & 1 & 1 \newline
+1 & 1 & 1 & 1 & 1 \newline
+1 & 1 & 1 & 1 & 1 \newline
+1 & 1 & 1 & 1 & 1 \newline
+\end{bmatrix}
+$$

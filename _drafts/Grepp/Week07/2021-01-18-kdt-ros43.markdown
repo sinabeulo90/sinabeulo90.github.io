@@ -1,0 +1,109 @@
+---
+layout: post
+title:  "Mat 기본 자료구조"
+date:   2021-01-18 02:00:00 +0900
+categories: "Grepp/KDT"
+tags: OpenCV
+---
+
+## 기본 자료구조 및 픽셀 접근
+
+- Mat: 하나의 이미지를 표현하는 기본되는 자료구조로, 이미지가 Mat Object에 저장된다.
+    - Header: 이미지의 핵심 정보
+        - 해상도
+        - 채널의 갯수
+        - 픽셀의 데이터 타입: ex. 8bit int, 16bit int, 32bit float 등
+        - **Body를 가리키는 포인터**
+    - Body: 이미지의 실제 픽셀 값
+    - `Mat m = n`: `n`의 헤더의 값이 `m`의 헤더로 복사된다. 이 과정에서 `n`의 Body를 가리키는 포인터도 함께 복사되므로, `m`은 `n`의 Body를 가리키게 되어, 같은 이미지를 공유하게 된다.
+    - Mat 만드는 방법
+        - Mat M;
+        - Mat M(row, columns, pixel_type);
+        - Mat M(row, columns, pixel_type, initial_value);
+        - Mat M(Size(width, height), pixel_type, initial_value);
+- Body의 픽셀은 `BGR` 순서로 저장된다.
+- 픽셀 타입
+    - CV_8UC3: 8bit Unsigned, Channel 3개, 일반적인 24bit 컬러 이미지
+    - CV_8UC1: 8bit Unsigned, Channel 1개, Grayscale 흑백 이미지
+    - CV_16UC3, CV_32FC3, ...
+
+
+{% highlight C++ %}
+#include <opencv2/opencv.hpp>
+
+using namespace cv;
+
+int main() {
+    Mat M0(100, 200, CV_8UC1, Scalar(50));  // Gray scale = 50
+    Mat M1(100, 200, CV_8UC1, Scalar(100));  // Gray scale = 50
+    Mat M2(100, 200, CV_8UC1, Scalar(150));  // Gray scale = 50
+    Mat M3(100, 200, CV_8UC3, Scalar(0, 0, 255));  // color = red
+    Mat M4(100, 200, CV_8UC3, Scalar(255, 0, 0));  // color = blue
+    Mat M5(100, 200, CV_8UC3, Scalar(255, 0, 255));  // color = red + blue
+
+    imshow("M0", M0);
+    imshow("M1", M1);
+    imshow("M2", M2);
+    imshow("M3", M3);
+    imshow("M4", M4);
+    imshow("M5", M5);
+
+    waitKey(0);
+    return 0;
+}
+{% endhighlight %}
+
+ 
+
+## Mat 정보 접근
+
+`Mat.type()`: 데이터 타입 반환(상수 값)
+`Mat.depth()`: 한 픽셀의 byte 크기 반환
+`Mat.at<datatype> (row, column)[channel]`: 해당 위치의 픽셀 값 접근, 컬러 이미지 경우, `datatype`은 `Vec3b`
+
+{% highlight C++ %}
+int dark_cntB = 0, dar_cntG = 0, dark_cntR = 0;
+
+for (int i = 0; i < M.rows; ++i) {
+    for (int j = =0; j < M.cols; ++j) {
+        zero_cntB += M.at<Vec3b>(i, j)[0] < 50 ? 1 : 0;
+        zero_cntG += M.at<Vec3b>(i, j)[1] < 50 ? 1 : 0;
+        zero_cntR += M.at<Vec3b>(i, j)[1] < 50 ? 1 : 0;
+    }
+}
+
+cout << "Blue=" zero_cntB << " Green=" << zero_cntG << " Red=" << zero_cntR << endl;
+{% endhighlight %}
+
+- 이미지 크기 계산: #columns x #rows x #channels x channel_depth
+    - `Mat m(10, 15, CV_8UC3)`의 이미지 크기: 10 rows x 15 columns x 3 channels/pixel x 1Byte/channel = 450Bytes
+    - `Mat.elemSize1()`: 한 픽셀의 1개 채널의 byte 수 반환
+    - `Mat.elemSize()`: 한 채널의 byte 수 반환(`Mat.elemSize1()` x `Mat.channels`)
+
+
+{% highlight C++ %}
+#include <iostream>
+#include <opencv2/opencv.hpp>
+
+using namespace std;
+using namespace cv;
+
+int main() {
+    Mat M(10, 15, CV_8UC3);
+    int imageSize = M.cols * M.rows * M.channels() * M.elemSize1();
+    cout << "total size=" << imageSize << "Bytes" << endl;
+    return 0;
+}
+{% endhighlight %}
+
+
+
+## Mat Data 메모리 공유 vs 복사
+
+- `dst`와 `src`의 Data 공유(shallow copy)
+    - `Mat dst = src;`
+    - `Mat dst(src);`
+- 원 영상 데이터를 공유하지 않은 독립적으로 할당(deep copy)
+    - 기억장소 추가 할당 + 이미지 데이터 복사
+    - `dst = src.clone()`
+    - `src.copyTo(dst)`

@@ -1,0 +1,161 @@
+---
+layout: post
+title:  "[실습] RVIZ 기반의 Odometry 활용"
+date:   2021-01-07 02:00:00 +0900
+categories: "Grepp/KDT"
+tags: ROS
+plugins: mathjax
+---
+
+## Odometry 정보를 Publishing 하는 하기
+
+- Odometry 토픽: /odom
+- 메시지 타입: nav_msgs/Odometry
+
+{% highlight bash %}
+$ rosmsg show nav_msgs/Odometry
+{% endhighlight %}
+
+{% highlight bash %}
+std_msgs/Header header
+  uint32 seq
+  time stamp
+  string frame_id
+string child_frame_id
+geometry_msgs/PoseWithCovariance pose
+  # 자세 정보
+  geometry_msgs/Pose pose
+    # 3차원 공간에서 위치 정보
+    geometry_msgs/Point position
+      float64 x
+      float64 y
+      float64 z
+    # 3차원 공간에서 자세 정보
+    # roll, yaw, pitch 대신, 직관적으론 이해하기 어려운 가상 공간에서 사용하는 가상의 값
+    geometry_msgs/Quaternion orientation
+      float64 x
+      float64 y
+      float64 z
+      float64 w
+  float64[36] covariance
+geometry_msgs/TwistWithCovariance twist
+  # 속도 정보
+  geometry_msgs/Twist twist
+    # 한 방향으로만 가는 선속도
+    geometry_msgs/Vector3 linear
+      float64 x
+      float64 y
+      float64 z
+    # 곡선으로 회전할때의 각속도
+    geometry_msgs/Vector3 angular
+      float64 x
+      float64 y
+      float64 z
+  float64[36] covariance
+{% endhighlight %}
+
+
+
+## /odom 토픽 발행 예제 코드
+
+odometry_publisher 노드를 생성하고, 1초에 한 번씩 /odom 토픽을 발행한다. 아래 코드를 `odom_publisher_ex.py`로 저장하여 사용한다.
+
+{% gist f2754f75bedb6ea56e3e0264ec405dcf %}
+
+
+
+### $x$축, $y$축, 이동 속도 벡터 계산
+
+아래 수식을 코드로 적용
+
+$$ \delta_x = v_x \cos\theta - v_y \sin\theta $$
+
+$$ \delta_y = v_x \sin\theta + v_y \cos\theta $$
+
+< 수식 유도를 위한 참고 >
+
+![Velocity Components](/assets/grepp/lecture_velocity_components.png)
+
+
+
+## 토픽 발행 파이썬 코드 분석
+
+**파일 생성 후 실행 권한을 부여!**
+
+{% highlight bash %}
+$ chmod +x odom_publisher_ex.py
+{% endhighlight %}
+
+{% gist 69ce90e61687921e1831e91f82584bf6 %}
+
+
+
+## 실행과 확인
+
+{% highlight bash %}
+$ roscore
+$ rosrun ex_urdf odom_publisher_ex.py
+$ rostopic list
+$ rostopic info odom
+$ rqt_graph
+$ rosmsg show nav_msgs/Odometry
+$ rostopic echo odom
+{% endhighlight %}
+
+
+
+## RVIZ 가상공간에서 물체 이동시키기
+
+
+
+### 기존 ex_urdf 패키지 이용
+
+ex_urdf 패키지에서 `/src` 폴더 안에 `odom_publisher_ex.py`, `/launch` 폴더 안에 `odom_pub.launch` 파일을 만든다.
+
+
+{% highlight bash %}
+~/xycar_ws/
+├── build
+├── devel
+└── src
+    └── ex_urdf
+        ├── launch
+        │   └── odom_pub.launch
+        └── src
+            └── odom_publisher_ex.py
+{% endhighlight %}
+
+
+
+### odom_pub.launch
+
+{% highlight XML %}
+<launch>
+    <arg name="model" />
+    <param name="robot_description" textfile="$(find ex_urdf)/urdf/pan_tilt.urdf" />
+
+    <!-- Setting gui parameter to true for display joint slider -->
+    <param name="use_gui" value="true"/>
+    <!-- Starting Joint state publisher node which will publish the joint values -->
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
+    <!-- Starting robot state publish which will publish tf -->
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />
+    <!-- Launch visualization in rviz -->
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find ex_urdf)/urdf.rviz" required="True" />
+
+    <node name="odom_publisher" pkg="ex_urdf" type="odom_publisher_ex.py" />
+</launch>
+{% endhighlight %}
+
+
+
+### 실행
+
+{% highlight XML %}
+$ roslaunch ex_urdf odom_pub.launch
+$ rqt_graph
+{% endhighlight %}
+
+![실행 결과1](/assets/grepp/odometry_rviz1.png)
+
+![실행 결과2](/assets/grepp/odometry_rviz2.png)
