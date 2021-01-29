@@ -36,6 +36,13 @@ plugins:
   - jekyll-gist
 google_analytics: G-9T03ZHRP3D
 
+# Markdown
+kramdown:
+ input: GFM
+ auto_ids: true
+ hard_wrap: false
+ syntax_highlighter: rouge
+
 # Exclude from processing.
 # The following items will not be processed, by default.
 # Any item listed under the `exclude:` key here will be automatically added to

@@ -1,0 +1,64 @@
+---
+layout: post
+title:  "Xycar 차선추종주행 경주대회 참고 코드"
+date:   2021-01-29 00:00:00 +0900
+categories: "Grepp/KDT"
+tags: ROS
+---
+
+## roslaunch 파일
+
+1. `roslaunch` 명령어를 실행할 때, 모든 토픽을 `rosbag`으로 기록하기
+
+ROS를 실행하기 위해, `roscore`, `rosrun` 명령어를 실행할 수도 있지만, 보통은 `roslaunch`를 사용한다. 테스트 주행을 할 경우 필요에 따라 topic을 기록해야 할 경우가 있는데, 매변 별도로 `rosbag record -O NAME` 명령어를 실행시키는 대신 필요할 때 기록할 수 있도록 아래와 같이 추가한다.
+
+참고 사이트
+
+- [Record with rosbag from launch file](https://answers.ros.org/question/52773/record-with-rosbag-from-launch-file/)
+- [rosbag record](http://wiki.ros.org/rosbag/Commandline#rosbag_record)
+- [\<arg\> tag](http://wiki.ros.org/roslaunch/XML/arg)
+- [if and unless attributes](http://wiki.ros.org/roslaunch/XML#if_and_unless_attributes)
+- [Rosbag record to different path?](https://answers.ros.org/question/231741/rosbag-record-to-different-path/)
+
+
+{:start="2"}
+2. main_b2.launch 파일의 예
+
+{% highlight XML %}
+<launch>
+
+    <!--
+    ...
+    필요한 노드들을 추가!
+    ...
+    -->
+    
+    <!-- 'record'라는 이름의 변수를 생성하고, 기본값을 "false"로 설정한다. -->
+    <arg name="record" default="false" />
+    <!--
+    'rosbag'패키지에 있는 'record'파일을 'recoder'라는 이름으로 노드를 실행한다.
+        <node> tag
+            -j: BZ2 압축 사용한다.
+            -o PREFIX: 'PREFIX'는 '$(find soha_drive)/rosbag/track'가 되는데, 이때 출력되는 rosbag 파일은
+                        '$(soha_drive 패키지 경로)/rosbag/track_2021-01-29-23-51-17.bag'와 같이 끝에
+                        기록이 시작된 시간이 추가된다.
+        <if> tag: 'record' 변수값이 true일 경우 해당 노드가 실행된다.
+    -->
+    <node name="recoder" pkg="rosbag" type="record"
+          args="-jo $(find soha_drive)/rosbag/track /rosout" if="$(arg record)" />
+</launch>
+{% endhighlight %}
+
+
+{:start="3"}
+3. 실행 방법의 예
+
+{% highlight bash %}
+# 단순히 launch 파일을 실행할 경우
+$ roslaunch soha_drive soha_drive.launch
+
+# launch 파일을 실행하면서, topic을 기록할 경우
+$ roslaunch soha_drive soha_drive.launch record:=true
+{% endhighlight %}
+
+
