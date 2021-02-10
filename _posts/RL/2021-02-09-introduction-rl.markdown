@@ -1,8 +1,8 @@
 ---
 layout: post
 title:  "[정리중] Introduction to Reinforcement Learning"
-date:   2021-02-09 00:00:00 +0900
-categories: "Reinforcement Learning"
+date:   2021-02-10 00:00:00 +0900
+category: "Reinforcement Learning"
 tags: YouTube
 ---
 
@@ -125,3 +125,54 @@ Major Components of an RL Agent
 		- 환경을 정확히 알기 어려울 때, agent가 환경이 어떻게 될 것인지 예측하기 위해 모델링을 한다.
 		- 1. reward 예측, 2. state transition 예측
 		- 이 모델링 기법은 쓰일 수 있고(model-based), 안쓰일 수(model-free) 있다.
+
+ETC
+
+transition model P^a_{ss'}: s에서 a를 선택할때 s'으로 갈 확률
+reward model R^a_s : s에서 a를 선택할때 얻는 reward 값
+
+Categorizing RL agents(1)
+
+- Value Based
+	- value function만 있어도 agent 역할을 할 수 있다.
+	- 어느 위치가 좋은지 알면, 제일 좋은 위치로 이동할 수 있기 때문이다.
+- Policy Based
+	- Policy만 있으면, 어떻게 이동할 지 알 수 있다.
+- Actor Critic
+	- Policy와 value function을 사용해서 이동한다.
+
+Categorizing RL agents(2)
+
+- Model Free
+	- 내부적으로 모델을 만들지 않고, policy 또는 value function만 을 사용해서 이동한다.
+- Model based
+	- 내부적으로 환경에 대한 모델을 만들고, 그것에 근거해서 움직인다.
+
+총 6개 종류의 agent가 생긴다.
+
+Learning and Planning
+
+- Reinforcement Learning
+	- 환경을 모른채로, 환경과 interaction을 통해 policy를 개선
+	- Atari: 게임의 규칙을 모른채로, 계속 점수를 높이도록 학습
+- Planning, search
+	- 환경을 알고 있을 때(reward, transition을 알고 있을 때), agent가 실제 environment에서 행동하지 않고, 내부적으로 computation을 통해 policy 개선
+	- ex. Monte carlo tree search
+	- Emulator가 있어서, 쿼리를 날리면서 다음 상황과 reward를 알아내면서 최적의 policy를 찾아내는 것
+	- ex. tree search
+
+Exploration and Exploitation
+
+- 환경로부터 정보를 얻어서, 환경을 이해하는 과정에서 지금까지 얻은 정보를 통해 최선의 선택을 내리는 과정이 있는데, 정보를 모으는 것은 Exploration, 모인 정보를 바탕으로 최선의 선택을 내리는 것을 Exploitation
+- Exploration, Exploitation은 서로 trade off 관계에 있다.
+- Exploration는 Exploitation와는 다른 과정이다. 가보는 곳은 어떤 곳일지 모르고, 더 좋을 지도 모르고 탐험하는 것이기 때문에, 장기적으로 좋을 수는 있어도, 당장은 어떻게 될지는 모르는 관점이다.
+
+
+Prediction and Control
+
+- prediction
+	- policy가 주어졌을 때, 미래를 평가
+	- value function을 잘 학습 시키는 것
+- control
+	- 미래를 최적화하는 것
+	- 최적의 policy를 찾는 것
