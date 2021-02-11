@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "[정리중] Introduction to Reinforcement Learning"
+title:  "Introduction to Reinforcement Learning"
 date:   2021-02-10 00:00:00 +0900
 category: "Reinforcement Learning"
 tags: YouTube
