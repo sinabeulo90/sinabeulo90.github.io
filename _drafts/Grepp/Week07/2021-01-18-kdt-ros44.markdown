@@ -1,0 +1,184 @@
+---
+layout: post
+title:  "영상 입출력, 도형 그리기, 채널 변환"
+date:   2021-01-18 03:00:00 +0900
+categories: "Grepp/KDT"
+tags: OpenCV
+---
+
+# 강의 자료: OpenCV 특강, 한동대학교 전산전자공학부 이강 교수
+
+
+## 입/출력 및 그리기
+
+- 이미지 읽기
+    - C++
+        - `Mat img1 = imread("foo.png", IMREAD_COLOR);`
+        - ex. `Mat img2 = imread("foo.png", IMREAD_GRAYSCALE);`
+    - Python
+        - imread(filename, flags)
+        - ex. `cv2.imread("picture.jpg", cv2.IMREAD_GRAYSCALE)`: "picture.jpg" 파일을 1채널 Grayscale로 읽기
+- 이미지 쓰기
+    - C++
+        - `imwrite("bar.png", img1);`
+    - Python
+        - `imwrite(filename, image)`
+        - ex. `cv2.imwrite("new_image.jpg", img)`: "img" 객체에 저장되어 있는 이미지를 "new_image.jpg"라는 이름으로 파일 저장
+- 이미지 창 생성 및 띄우기
+    - C++
+        - `namedWindow("display", WINDOW_AUTOSIZE);`
+        - `imshow("display", img1);` 각 채널당 BGR로 대응되어 이미지를 띄운다.
+    - Python
+        - `imshow(window_title, image)`
+        - ex. `cv2.imshow("Grayscale", img)`: "Grayscale"이라는 이름의 윈도우 창에 img라는 객체에 저장되어 있는 이미지를 표시
+- 이미지 창 닫고 소멸시키기
+    - `distroyWindow("display");`
+    - `distoryAllWindows();`
+
+
+{% highlight C++ %}
+#include <opencv2/opencv.hpp>
+
+using namespace cv;
+
+int main(int argc, char* argv[]) {
+    Mat image = imread(argv[1]);
+
+    namedWindow("example", WINDOW_AUTOSIZE);
+    imshow("example", image);
+    waitKey(0);
+    destroyWindow("example");
+    return 0;
+}
+{% endhighlight %}
+
+
+{% highlight C++ %}
+#include <opencv2/opencv.hpp>
+
+using namespace cv;
+
+int main(int argc, char* argv[]) {
+    VideoCapture capture("finlename.avi");
+    if (capture.isOpened()) {
+        return 1;
+    }
+
+    namedWindow("example", WINDOW_AUTOSIZE);
+    
+    Mat frame;
+
+    while (true) {
+        capture >> frame;
+        if (!frame.data) {
+            break;
+        }
+
+        imshow("display", frame);
+        waitKey(30);
+    }
+
+    capture.release();
+    destroyWindow("example");
+    return 0;
+}
+{% endhighlight %}
+
+
+
+## 도형 그리기
+
+- Line
+    - C++
+        - `line(Mat &img, Point pt1, Point pt2, Scalar &color, int thickness)`
+        - `line(Mat &img, Point pt1, Point pt2, Scalar &color, int thickness=1, int line_type = 8, int shift = 0, double topLength = 0.1)`
+    - Python
+        - `line(img, start, end, color, thickness)`
+        - ex. `cv2.line(img, (0, 0), (511, 511), (255, 0, 0), 5)`
+- Box
+    - C++
+        - `rectangle(Mat &img, Point &pt1, Point &pt2, Scalar &color, int thickness = 1)`
+        - `rectangle(Mat &img, Rect rect, Scalar &color, int thickness = 1)`
+    - Python
+        - `rectangle(img, start, end, thickness)`
+        - ex. `cv2.rectangle(img, (100, 100), (300, 500), (0, 255, 0), 3)`
+- Circle
+    - C++
+        - `circle(Mat &img, Point &center, int radius, Scalar &color, int thickness = 1)`
+    - Python
+        - `circle(img, center, radius, color, thickness)`
+        - ex. `cv.circle(img, (300, 400), 100, (0, 0, 255), 2)`
+- Text
+    - C++
+        - `putText(Mat &img, String &text, Point org, int fontFace, double scale, Scalar color, int thickness = 1)`
+    - Python
+        - `putText(img, text, org, font, fontScale, color)`
+        - ex. `cv2.putText(img, "Text", (10, 50), cv2.FONT_HERSHEY_SIMPLEX, 4, (255, 255, 255))`
+
+
+
+## 이미지 색상 바꾸기
+
+- `cvtColor(input_img, output_img, flags)`
+- flags
+    - COLOR_BGR2GRAYSCALE
+    - COLOR_BGR2YUV
+    - COLOR_BGR2HSV
+    - COLOR_GRAY2BGR
+    - COLOR_BGR2RGB
+
+
+{% highlight C++ %}
+Mat img = imread("Lenna.jpg", IMREAD_COLOR);
+Mat dst1, dst2, dst3;
+
+cvtColor(img, dst1, COLOR_BGR2GRAY);
+cvtColor(img, dst2, COLOR_BGR2HSV);
+cvtColor(img, dst3, COLOR_BGR2YUV);
+
+imshow("img", img);
+imshow("GRAY", dst1);
+imshow("HSV", dst2);
+imshow("YUV", dst3);
+{% endhighlight %}
+
+
+
+## 채널 분리 및 병합
+
+- `split(Mat, vector<Mat>);`
+- `merge(vector<Mat>, Mat);`
+
+
+{% highlight C++ %}
+#include <vector>
+#include <opencv2/opencv.hpp>
+
+using namespace std;
+using namespace cv;
+
+int main(int argc, char* argv[]) {
+    Mat img = imread("Lenna.jpg", IMREAD_COLOR);
+    resize(img, img, Size(200, 200 * img.rows / img.cols));
+    imshow("org", img);
+
+    vector<Mat> channel;
+    split(img, channel);
+
+    char wname[10];
+    for (int i = 0; i < img.channels(); ++i) {
+        sprintf(wname, "ch%d", i);
+        imshow(wname, channel[i]);
+    }
+
+    Mat merged;
+    channel[0] = channel[0] / 2;
+    channel[1] = channel[1] / 2;
+
+    merge(channel, merged);
+    imshow("mrg", merged);
+    waitKey(0);
+    return 0;
+}
+{% endhighlight %}
+

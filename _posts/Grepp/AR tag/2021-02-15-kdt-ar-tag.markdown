@@ -1,0 +1,444 @@
+---
+layout: post
+title:  "AR Tag 이해와 활용"
+date:   2021-02-15 02:00:00 +0900
+category: "Grepp/KDT"
+tag: "QR Code"
+---
+
+## AR Tag 소개와 설치
+
+### AR Tag 소개
+- 증강 현실에서 사용하는 Tag
+    - AR Tag를 이용하여 현실의 물체를 가상환경에 대힙하는 것이 가능
+    - AR Tag가 인쇄된 종이를 인식하고 그로부터 얻은 데이터를 이용하여 자신 또는 대상 물체의 위치와 자세를 파악할 수 있음
+
+
+### AR Tag Tracking 활용
+- [Demo of April Tag Localization System](https://youtu.be/Y8WEGGbLWlA)
+- 교통 표지판
+- 주차 가이드 표시
+
+
+### ROS 환경에서 동작하는 AR Tag 패키지
+- ar_track_alvar
+
+
+#### AR Tag 패키지 설치
+- apt 명령어를 사용하여 설치
+
+{% highlight bash %}
+$ sudo apt install ros-kinetic-ar-track-alvar
+{% endhighlight %}
+
+- 설치되는 위치: /opt/ros/kinetic/share/ar_track_alar 디렉토리
+
+
+## AR Tag 실행 테스트
+
+### 패키지 생성
+- ROS workspace의 src 폴더에서 ar_viewer 패키지 만들기
+
+{% highlight bash %}
+$ catkin_create_pkg ar_viewer rospy std_msgs
+$ cm
+{% endhighlight %}
+
+{% highlight bash %}
+~/xycar_ws/
+├── build
+├── devel
+└── src
+    └── ar_viewer
+        ├── calibration
+        ├── launch
+        ├── rviz
+        └── src
+{% endhighlight %}
+
+
+### Launch 파일 살펴보기
+- 예시 launch 파일을 살펴보자
+
+{% highlight bash %}
+$ cd /opt/ros/kineticshare/ar_track_alvar/launch
+{% endhighlight %}
+
+- 많은 launch 파일들이 있지만, Kinect 장비를 사용하지 않고 단일 태그만을 인식하는 `pr2_indiv_no_kinect.launch` 파일을 복사해서 사용하면 된다.
+- `pr2_indiv_no_kinect.launch` 파일의 내용 중에서 `marker_size` 항목에는 사용할 AR Tag의 사이즈가 들어가야 함
+    - 우리가 사용할 태그의 크기는 9.0cm이다.
+
+{% highlight XML %}
+    <!-- <arg name="marker_size" default="4.4" /> -->
+    <arg name="marker_size" default="9.0" />
+{% endhighlight %}
+
+- `cam_image_topic` 항목에는 카메라 영상을 담은 토픽 이름이 들어가야 함
+    - 우리는 usb_cam 패키지를 사용하고 있으므로 `/usb_cam/image_raw`가 들어가야 함
+
+{% highlight XML %}
+    <!-- <arg name="cam_image_topic" default="/wide_stereo/left/image_color" /> -->
+    <arg name="cam_image_topic" default="/usb_cam/image_raw" />
+{% endhighlight %}
+
+- `cam_info_topic` 항목에는 카메라의 캘리브레이션 정보를 담는 토픽명이 들어가야 함
+    - 우리는 usb_cam 패키지를 사용하고 있으므로 `/usb_cam/camera_info`가 들어가야 함
+
+{% highlight XML %}
+    <!-- <arg name="cam_info_topic" default="/wide_stereo/left/camera_info" /> -->
+    <arg name="cam_info_topic" default="/usb_cam/camera_info " />
+{% endhighlight %}
+
+- `output_frame` 항목에는 카메라 노드의 fame_id가 들어가야함
+    - usb_cam 패키지를 사용하고 있으므로 `head_camera`가 기본값이지만, 나중에 RVIZ에서 사용하게 되므로 여기서는 `map`값으로 설정함
+
+{% highlight XML %}
+    <!-- <arg name="output_frame" default="/torso_lift_link" /> -->
+    <arg name="output_frame" default="/map" />
+{% endhighlight %}
+
+
+### Launch 파일 작성 - ar_viewer.launch
+- /launch 폴더 아래에 `pr2_indiv_no_kinect.launch` 파일을 복사해서 작성한다.
+- marker_size, output_frame 값 변경
+    - marker_size: 9.0
+    - output_frame: map
+
+{% highlight XML %}
+<launch>
+    <node name="usb_cam" pkg="usb_cam" type="usb_cam_node" respawn="false" output="screen">
+        <param name="video_device" value="/dev/video0" />
+        <param name="image_width" value="640" />
+        <param name="image_height" value="480" />
+        <param name="pixel_format" value="yuyv" />
+        <param name="camera_frame_id" value="map" />
+        <param name="camera_name" value="usb_cam" />
+        <param name="camera_info_url" value="file://$(find ar_viewer)/calibration/usb_cam.yaml" />
+        <param name="io_method" value="mmap" />
+    </node>
+    <!-- marker_size: 9.0, output_frame: map -->
+    <node name="ar_track_alvar" pkg="ar_track_alvar" type="individualMarkerNoKinect" respawn="false" output="screen">
+        <param name="marker_size" type="double" value="9.0" />
+        <param name="max_new_marker_error" type="double" value="0.05" />
+        <param name="max_track_error" type="double" value="0.05" />
+        <param name="output_frame" type="string" value="map" />
+        <remap from="camera_image" to="/usb_cam/image_raw" />
+        <remap from="camera_info" to="/usb_cam/camera_info" />
+    </node>
+    <node name="rviz_repub" pkg="ar_viewer" type="ar_viewer.py" output="screen" />
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find ar_viewer)/rviz/ar_viewer.rviz" />
+</launch>
+{% endhighlight %}
+
+
+## 카메라 캘리브레이션
+
+### 카메라 캘리브레이션
+- Camera Calibration
+- 우리가 실제 눈으로 보는 세상은 3차원임
+- 그런데 이것을 카메라로 찍으면 2차원의 이미지로 변하게 됨
+- 이 때, 3차원의 점들이 이미지 상에서 어디에 맺히는지는 (기하학적으로 생각하면) 영상을 찍을 당시의 카메라의 위치 및 방향에 의해 결정됨
+- 하지만 실제 이미지는 사용된 렌즈, 렌즈와 이미지 센서와이ㅡ 거리, 렌즈와 이미지 센서가 이루는 각 등 카메라 내부의 기구적인 부분에 의해서 영향을 받아 왜곡됨
+- 따라서, 3차원 점들이 영상에 투영된 위치를 구하거나 역으로 영상 좌표로부터 3차원 공간 좌표를 복원할 때에는 이러한 내부 요인을 제거해야만 정확한 계산 결과가 나옴
+- 이러한 내부 요인의 파라미터 값을 구하는 과정을 카메라 캘리브레이션이라고 함
+- 캘리브레이션으로 재설정해야 하는 중요한 카메라 내부 파라미터들
+    - 초점 거리(focal length)
+    - 주점(principal point)
+    - 비대칭 계수(skew coefficient)
+
+
+### Calibration을 위한 이미지 출력
+- 아래 링크에서 체스 그림을 담은 pdf 파일을 다운로드해서 프린트한다.
+    - [check-108.pdf](http://wiki.ros.org/camera_calibration/Tutorials/MonocularCalibration?action=AttachFile&do=view&target=check-108.pdf)
+- 해당 pdf 파일의 원본 크기는 체스 무늬의 정사각형 한 변의 길이가 10.8cm로 매우 크므로
+- 인쇄할 때는 페이지 맞춤으로 설정해서 A4 한 장으로 출력해야 함
+
+
+### Calibration을 위한 카메라 노드 실행
+- 캘리브레이션을 시도할 카메라 노드를 실행
+
+{% highlight bash %}
+$ roslaunch usb_cam usb_cam-test.launch
+{% endhighlight %}
+
+
+### Calibration을 위한 명령 실행
+- 아래 명령으로 카메라 Calibration 프로그램을 실행한다.
+    - 출력된 종이에서 사각형의 한 변의 길이를 실제로 정확하게 재서 미터 단위로 변경해서 입력한다.
+    - 2.5cm = 0.025m
+{% highlight bash %}
+$ rosrun camera_calibration cameracalibrator.py --size 8x6 --square 0.025 image:=/usb_cam/image_raw camera:=/usb_cam
+{% endhighlight %}
+
+- 카메라 영상과 함께 우측에 동그란 버튼 3개가 표시되는 창이 뜬다.
+
+### Calibration 작업 진행
+- 우측 상단 x와, y게이지가 녹색이 될 때까지 체스 무늬 종이를 계속 움직인다.
+- 우측 상단 x, y 게이지가 가득 차면 'CALIBRATE' 버튼이 활성화되고, 버튼을 누르면 Calibration 작업이 시작된다.
+
+### Calibration 결과 저장
+- 'SAVE' 버튼이 활성화 되면 해당 버튼을 눌러 Calibration 결과를 저장한다.
+- /tmp 폴더에 calibrationdata.tar.gz 파일이 만들어진다.
+
+
+### Calibration 결과 파일
+- /tmp 폴더에 있는 calibrationdata.tar.gz 파일에서
+- `ost.yaml` 파일을 꺼내서 ar_viewer/calibration 디렉토리로 옮긴다.
+
+
+### 카메라 Calibration - 파라미터 수정
+- /calibration 폴더로 복사된 `ost.yaml` 파일의 이름을 `usb_cam.yaml`로 바꾼다.
+- 내용을 조금 수정한다.
+    - 3번째 줄에서 camera_name 값을 usb_cam으로 변경한다.
+
+{% highlight bash %}
+~/xycar_ws/
+├── build
+├── devel
+└── src
+    └── ar_viewer
+        ├── calibration
+        |   └── usb_cam.yaml
+        ├── launch
+        ├── rviz
+        └── src
+{% endhighlight %}
+
+
+### 카메라 Calibration - usb_cam.yaml
+- usb_cam.yaml 파일 내용
+    - 여기에 있는 숫자들의 값이 Calibration 작업으로 얻어진 보정값이며,
+    - 이 값은 각자의 카메라 제품에 따라 다른 수치를 갖는다.
+
+
+## RVIZ 뷰어 설정(AR Tag 정보 시각화)
+
+
+### RVIZ 뷰어 설정
+- 우선 아래를 실행한다.
+
+{% highlight bash %}
+$ roslaunch ar_viewer ar_viewer.launch
+{% endhighlight %}
+
+- 아직 설정 정보가 없어서 RVIZ 화면에 아무것도 표시되지 않는다.
+    - 데이터를 표시할 뷰어 컴포넌트 3개를 추가하고,
+        - Camera
+        - MarkerArray
+        - PoseArray
+    - 몇 개의 파라미터 값을 설정한 뒤 저장한다.
+        - Camera
+            - Visibility: true
+            - Image Topic: /usb_cam/image_raw
+            - Transport Hint: raw
+            - Queue Size: 2
+            - Image Rendering: background and overlay
+            - Overlay Alpha: 0.5
+            - Zoom Factor: 1
+        - MarkerArray
+            - Marker Topic: /ar_track_alvar/VisualMarker
+            - Queue Size: 100
+        - PoseArray
+            - Topic: /ar_track_alvar/PoseArray
+            - Shape: Axes
+            - Axes Length: 0.3
+            - Axes Radius: 0.01
+- 다시 launch 파일을 실행하면 RVIZ에서 카메라 영상이 표시된다.
+
+
+### AR Tag 준비
+- ar_track_alvar 패키지에 AR Tag 생성기가 들어있다.
+
+{% highlight bash %}
+$ rosrun ar_track_alvar createMarker
+{% endhighlight %}
+
+- 또는 ROS 사이트에서 이미 완성된 그림파일을 다운받을 수 있다.
+    - [markers0to8.png](http://wiki.ros.org/ar_track_alvar?action=AttachFile&do=view&target=markers0to8.png)
+
+
+### AR Tag 인식 프로그램 실행
+
+{% highlight bash %}
+# 실행 노드
+# - usb_cam
+# - ar_track_alvar
+# - rviz_repub
+# - rviz
+$ roslaunch ar_viewer ar_viewer.launch
+$ rqt_graph
+{% endhighlight %}
+
+
+### RVIZ 뷰어 실행 화면
+- 카메라 영상과 함께 가상 공간에 AR Tag의 위치와 방향(자세)이 표시된다.
+
+
+## AR Tracker가 발생하는 토픽 구독 
+
+### AR Tag 준비
+- ar_track_alvar 패키지에 AR Tag 생성기가 들어있다.
+
+{% highlight bash %}
+$ rosrun ar_track_alvar createMarker
+{% endhighlight %}
+
+- 또는 ROS 사이트에서 이미 완성된 그림파일을 다운받을 수 있다.
+    - [markers0to8.png](http://wiki.ros.org/ar_track_alvar?action=AttachFile&do=view&target=markers0to8.png)
+
+
+### AR Tag 정보를 추출해서 화면에 출력
+- /usb_cam 노드 --- /usb_cam/image_raw 토픽 ---> /ar_track_alvar 노드
+- /ar_track_alvar 노드 --- /ar_pose_marker 토픽 ---> /ar_info_print 노드
+
+
+### ROS 노드와 토픽 리스트 확인
+- 일단 ar_viewer을 실행시켜 놓고 노드와 리스트를 확인한다.
+
+{% highlight bash %}
+$ roslaunch ar_viewer ar_viewer.launch
+$ rosnode list
+$ rostopic list
+{% endhighlight %}
+
+
+### /ar_pose_marker 토픽 내용 살펴보기
+
+{% highlight bash %}
+$ rostopic echo /ar_pose_marker
+$ rostopic info /ar_pose_marker
+$ rosmsg info ar_track_alvar_msgs/AlvarMarker
+
+std_msgs/Header header  # 헤더 정보
+  uint32 seq        # 시퀀스 넘버
+  time stamp        # 타임 스템프
+  string frame_id   # frame_id = "usb_cam"
+uint32 id
+uint32 confidence
+geometry_msgs/PoseStamped pose
+  std_msgs/Header header
+    uint32 seq
+    time stamp
+    string frame_id
+  geometry_msgs/Pose pose
+    # 위치 정보: 인식된 AR Tag의 위치 정보(3차원 벡터 값)
+    geometry_msgs/Point position
+      float64 x
+      float64 y
+      float64 z
+    # 방향(자세) 정보: 인식된 AR Tag의 방향(자세) 정보(쿼터니언 값)
+    geometry_msgs/Quaternion orientation
+      float64 x
+      float64 y
+      float64 z
+      float64 w
+{% endhighlight %}
+
+
+### 구독자 파이썬 코드: ar_info_print.py
+- ar_track_alvar가 발행하는 ar_pose_marker 토픽을 구독해서
+- 안에 담긴 정보를 추출하여 화면에 출력한다.
+
+{% highlight Python %}
+#!/usr/bin/env python
+import rospy, math
+from ar_track_alvar_msgs.msg import AlvarMarkers
+from tf.transformations import euler_from_quaternion
+
+arData = {
+    "DX": 0.0, "DY": 0.0, "DZ": 0.0,
+    "AX": 0.0, "AY": 0.0, "AZ": 0.0, "AW": 0.0}
+roll, pitch, yaw = 0, 0, 0
+
+def callback(msg):
+    global arData
+    for i in msg.markers:
+        # AR Tag의 위치 정보(3차원 벡터값)
+        arData["DX"] = i.pose.pose.position.x
+        arData["DY"] = i.pose.pose.position.y
+        arData["DZ"] = i.pose.pose.position.z
+        # AR Tag의 자세 정보(쿼터니언 값)
+        arData["AX"] = i.pose.pose.orientation.x
+        arData["AY"] = i.pose.pose.orientation.y
+        arData["AZ"] = i.pose.pose.orientation.z
+        arData["AW"] = i.pose.pose.orientation.w
+
+rospy.init_node("ar_info_print")
+rospy.Subscriber("ar_pose_marker", AlvarMarkers, callback)
+
+while not rospy.is_shutdown():
+    (roll, pitch, yaw) = euler_from_quaternion(
+        (arData["AX"], arData["AY"], arData["AZ"], arData["AW"]))
+    
+    roll = math.degrees(roll)
+    pitch = math.degrees(pitch)
+    yaw = math.degrees(yaw)
+
+    print("==========================")
+    # Roll/Pitch/Yaw 값 출력
+    print(" roll : ", round(roll, 1))
+    print("pitch : ", round(pitch, 1))
+    print("  yaw : ", round(yaw, 1))
+    
+    print("x : ", arData["DX"])
+    print("y : ", arData["DY"])
+    print("z : ", arData["DZ"])
+{% endhighlight %}
+
+
+### 실행하기
+- ar_viewer 런치파일 실행시킨 후, 다른 터미널 창에서 ar_info_print.py를 실행한다.
+
+{% highlight bash %}
+$ roslaunch ar_viewer ar_viewer.launch
+$ rosrun ar_viewer ar_info_print.py
+{% endhighlight %}
+
+
+### 결과 확인(ar_info_print.py)
+- AR Tag 종이의 Roll, Pitch, Yaw 값과 X, Y, Z 좌표값이 출력된다.
+
+
+### X, Y, Z 좌표 값
+- X 좌표: AR Tag를 카메라 화면의 좌우로 움직여 보자
+    - 화면의 중앙: 0
+    - 화면의 왼쪽: -
+    - 화면의 오른쪽: +
+- Y 좌표: AR Tag를 카메라 화면의 상하로 움직여 보자
+    - 화면의 중앙: 0
+    - 화면의 상단: -
+    - 화면의 하단: +
+- Z 좌표: AR Tag를 카메라 화면에 가까이 멀리 움직여 보자
+    - 화면과 AR Tag 사이의 거리
+    - - 값은 존재하지 않음
+
+
+### X, Y, Z 거리 정보를 정리하면
+- 거리 정보(카메라 화면 기준으로)
+    - 우측으로 x 증가, 좌측으로 x 감소
+    - 위쪽으로 y 감소, 아래쪽으로 y 증가
+    - 가까이 오면 z 감소, 멀리가면 z 증가
+
+
+### Roll, Pitch, Yaw 자세값
+- 위의 X, Y, Z축을 그려보고, 그 축을 기준으로 생각!
+- Roll: AR Tag를 앞으로 숙이고 뒤로 젖혀보자
+    - 똑바른 자세: 180°
+    - 뒤로 젖힐때: -
+    - 앞으로 숙일때: +
+- Pitch: AR Tag를 위에서 볼 때, 시계 방향과 반시계 방향으로 좌우로 돌려보자
+    - 똑바른 자세: 0°
+    - 위에서 볼 때 반시계 방향: -
+    - 위에서 볼 때 시계 방향: +
+- Yaw: AR Tag를 정면에서 보기에 왼쪽과 오른쪽으로 기우뚱하게 기울여보자
+    - 똑바른 자세: 0°
+    - 왼쪽으로 기우뚱: -
+    - 오른쪽으로 기우뚱: +
+
+
+### Roll, Pitch, Yaw 자세 정보를 정리하면
+- 자세 정보(카메라 화면 기준으로)
+    - 숙이면 roll 증가, 젖히면 roll 감소
+    - 위에서 시계방향 pitch 증가, 반시계 방향 pitch 감소
+    - 시계 방향 yaw 증가, 반시계 방향 yaw 감소
+    - 축을 위에서 봤을 때 반시계 방향이 증가하는 방향이다.
