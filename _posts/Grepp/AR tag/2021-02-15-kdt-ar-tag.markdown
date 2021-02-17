@@ -184,6 +184,10 @@ $ rosrun camera_calibration cameracalibrator.py --size 8x6 --square 0.025 image:
 ### Calibration 결과 파일
 - /tmp 폴더에 있는 calibrationdata.tar.gz 파일에서
 - `ost.yaml` 파일을 꺼내서 ar_viewer/calibration 디렉토리로 옮긴다.
+    - 참고: `camera_matrix`와 `distortion_coefficients` 수치를 따로 기록해서 추후에 OpenCV API에서 사용할 수 있다.
+        - `camera_matrix`는 yaml 파일 내부에서 shape가 9인 리스트로 구성되어 있지만, 실제 입력할 때에는 shape를 (3, 3)으로 변경해서 넣는다.
+            - YAML: [422.047858, 0.0, 245.895397, 0.0, 435.589734, 163.625535, 0.0, 0.0, 1.0]
+            - 입력 시: [[422.047858, 0.0, 245.895397, 0.0], [435.589734, 163.625535], [0.0, 0.0, 1.0]]
 
 
 ### 카메라 Calibration - 파라미터 수정
