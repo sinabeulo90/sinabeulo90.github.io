@@ -34,6 +34,7 @@ plugins:
   - jekyll-feed
   - jekyll-sitemap
   - jekyll-gist
+  - youtube
 google_analytics: G-9T03ZHRP3D
 
 # Markdown
