@@ -31,10 +31,9 @@ tags:
 
 
 ## 개선 사항
-- Calibration
-    - calibration을 적용한 영상의 좌측 영역에 약간의 왜곡이 있었기 떄문에, calibration 다시 수행
+- Calibration: calibration을 적용한 영상의 좌측 영역에 약간의 왜곡이 있었기 떄문에, calibration 다시 수행
 - Sliding window sequence
-    - 영상의 하단부터 시작되는 차선을 찾지 못한다면: 가장자리 하단에서 시작되는 차선 검출 시도
+    - 영상의 하단부터 시작되는 차선을 찾지 못할 때, 가장자리 하단부터 시작되는 차선 검출 시도
     - 검출된 점들에 가장 잘 맞는 3차함수 구하기
 
 ![3차 함수를 사용해야 하는 예](/assets/grepp/lane_cubic.png)
