@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Planning by dynamic programming"
+title:  "Model Free Prediction"
 date:   2021-02-26 00:00:00 +0900
 category: "Reinforcement Learning"
 tags: YouTube
@@ -15,7 +15,7 @@ tags: YouTube
 
 
 ## Model-Free Prediction
-environment를 모를때, model-free prediction을 풀기 위한 방법론
+environment를 모를때(환경의 transition을 모르고, 환경의 reward 함수를 모를때), model-free prediction을 풀기 위한 방법론
 
 
 ## Model-Free Reinforcement Learning
