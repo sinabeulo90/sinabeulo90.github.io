@@ -11,7 +11,7 @@ tags: YouTube
 - video
     - [[강화학습 4강] Model Free Prediction](https://youtu.be/47FyZtBRglI)
 - slide
-	-[Lecture 4: Model-Free Prediction](https://www.davidsilver.uk/wp-content/uploads/2020/03/MC-TD.pdf)
+	- [Lecture 4: Model-Free Prediction](https://www.davidsilver.uk/wp-content/uploads/2020/03/MC-TD.pdf)
 
 
 ## Model-Free Prediction

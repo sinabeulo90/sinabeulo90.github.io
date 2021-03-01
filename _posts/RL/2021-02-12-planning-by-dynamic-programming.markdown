@@ -11,7 +11,7 @@ tags: YouTube
 - video
     - [[강화학습 3강] Planning by Dynamic Programming](https://youtu.be/rrTxOkbHj-M)
 - slide
-	-[Lecture 3: Planning by Dynamic Programming](https://www.davidsilver.uk/wp-content/uploads/2020/03/DP.pdf)
+	- [Lecture 3: Planning by Dynamic Programming](https://www.davidsilver.uk/wp-content/uploads/2020/03/DP.pdf)
 
 
 ## Planning by dynamic programming

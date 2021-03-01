@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Model Free Prediction(2)"
-date:   2021-03-01 00:00:00 +0900
+date:   2021-03-01 01:00:00 +0900
 category: "Reinforcement Learning"
 tags: YouTube
 ---
@@ -11,7 +11,7 @@ tags: YouTube
 - video
     - [[강화학습 4강] Model Free Prediction](https://youtu.be/47FyZtBRglI)
 - slide
-	-[Lecture 4: Model-Free Prediction](https://www.davidsilver.uk/wp-content/uploads/2020/03/MC-TD.pdf)
+	- [Lecture 4: Model-Free Prediction](https://www.davidsilver.uk/wp-content/uploads/2020/03/MC-TD.pdf)
 
 
 ## Temporal-Difference Learning
