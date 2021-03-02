@@ -1,0 +1,82 @@
+---
+layout: post
+title:  "YOLO 개요"
+date:   2021-03-02 03:00:00 +0900
+category: "Grepp/KDT"
+tag: "Deep Learning"
+plugins: mathjax
+---
+
+## Object Detection
+- Classification: 객체가 무엇인지 알아내는 문제
+- Object Detection: 다수의 객체 각각의 위치에 bounding box를 그려줘야하며 각 bounding box 내부의 대상을 분류하는 문제
+
+
+### 딥러닝 기반 Object Detection의 종류
+- Two-shot Detection
+    - 먼저 객체의 위치 검출 후 분류 수행
+    - 일반적으로 연산 시간이 길지만, 정확도가 높음
+    - 관련 기법: R-CNN, F-CNN, R-FCN, FPN-FRCN, Fast R-CNN
+- One-shot Detection
+    - 객체의 위치 검출과 분류를 동시에 수행
+    - 일반적으로 연산이 빠르지만 정확도가 낮음
+    - 관련 기법: YOLO, SSD, RetinaNet
+
+
+
+## YOLO
+- 논문: You Only Look Once: Unified, Real-Time Object Detection(2016)
+- Facebook AI Research
+- Version1(2016), Version2(2017), Version3(2018), Version5, Version5, PP-YOLO(2020)
+
+
+### YOLO의 특징
+- 한번 보는 것 만으로 객체의 위치 검출과 분류를 수행 = only look once
+- 장점
+    - 간단한 처리과정으로 속도가 매우 빠름
+    - 낮은 background error를 보임
+    - 객체에 대해 일반화된 특징을 학습(실제 사람 사진으로 학습하고, 그림을 보여줘도 사람으로 인지)
+- 단점
+    - 상대적으로 낮은 정확도(특히 작은 물체에 취약)
+
+
+### YOLO 네트워크
+- 이미지를 입력으로 하며, 네트워크를 통화하면 2개의 결과를 얻음
+    - Bounding box + Confidence
+        - 각 그리드마다 경계 박스를 2개씩 생성
+        - 경계 박스 안쪽에 객체가 있다는 확신이 높을수록 진하게 표시
+        - 굵은 경계 박스들은 남기고, 얇은 박스들은 지워줌
+    - Class Probability Map
+        - 각 그리드가 어떤 대상인지 분류
+    - 위의 결과들을 종합하여 객체의 위치 검출과 객체에 대한 분류 수행
+- 이미지를 SxS의 그리드로 나눠줌 
+- 네트워크 구조
+    - GoogLeNet 모델 기반
+    - 24개의 Conv, 2개의 FC layer
+    - 7x7x30 크기를 가지는 결과 도출
+- Output
+    - 7x7은 Grid cell을 의미, 30 = 5 x Grid당 bounding box의 수(2) + 분류할 클래스의 수(20)
+    - 각 Bounding box(bbox)가 가지는 값
+        - x: bbox 중앙의 x좌표
+        - y: bbox 중앙의 y좌표
+        - w: bbox의 너비
+        - h: bbox의 높이
+        - c: 확신의 정도
+    - 30개 중 처음 10개는 1번째와 2번째 bbox를 구성하는 값들
+    - 20개는 분류를 위한 class의 수(각각 class에 대한 확률값을 가짐)
+- 손실함수
+    - 총 5개의 손실함수 사용
+        - 객체가 존재하는 grid에서 bbox의 x, y위치에 대한 손실함수
+        - 객체가 존재하는 grid에서 bbox의 w, h에 대한 손실함수
+        - 객체가 존재하는 grid에서 confidence score에 대한 손실함수
+        - 객체가 존재하지 않는 grid에서 confidence score에 대한 손실함수
+        - 객체가 존재하는 grid에서 분류 클래스 확률에 대한 손실함수
+    
+
+### YOLO 결과
+- Real-time Detector 중 높은 정확도 ---> mAP(Mean Average Precision)
+- Fast YOLO의 경우 가장 빠른 연산 수행 ---> FPS(Frame Per Second)
+- Fast R-CNN에 비해 정확도(Correct)는 낮지만, Background error가 낮은 것을 확인할 수 있음
+- 실제 이미지를 통해 학습 후 예술품이나 인터넷에서 찾은 랜덤한 이미지에 적용해도 좋은 결과를 보이는 것을 확인할 수 있음
+
+![YOLO Reference](/assets/Grepp/yolo_reference.png)

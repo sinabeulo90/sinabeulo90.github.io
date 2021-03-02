@@ -1,0 +1,37 @@
+---
+layout: page
+permalink: /categories/
+title: Categories
+---
+
+<div class="home">
+    {%- if site.posts.size > 0 -%}
+      {%- for category in site.categories -%}
+        <h2 class="post-list-heading">{{ category | first | default: "ETC" }}</h2>
+        <ul class="post-list">
+            {%- for post in category.last -%}
+            <li style="margin-bottom: 0px;">
+              {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
+              <div style="display: flex;">
+                <div style="width: 100px; margin-bottom: 15px; position: relative;">
+                    <span class="post-meta" style="position: absolute; bottom: 0px;">{{ post.date | date: date_format }}</span>
+                </div>
+                <h3>
+                  <a class="post-link" href="{{ post.url | relative_url }}">
+                    {{ post.title | escape }}
+                  </a>
+                </h3>
+              </div>
+              {%- if site.show_excerpts -%}
+                {{ post.excerpt }}
+              {%- endif -%}
+            </li>
+            {%- endfor -%}
+          </ul>
+      {%- endfor -%}
+  
+      <p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | relative_url }}">via RSS</a></p>
+    {%- endif -%}
+  
+  </div>
+  
