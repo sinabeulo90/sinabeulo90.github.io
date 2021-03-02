@@ -79,4 +79,4 @@ plugins: mathjax
 - Fast R-CNN에 비해 정확도(Correct)는 낮지만, Background error가 낮은 것을 확인할 수 있음
 - 실제 이미지를 통해 학습 후 예술품이나 인터넷에서 찾은 랜덤한 이미지에 적용해도 좋은 결과를 보이는 것을 확인할 수 있음
 
-![YOLO Reference](/assets/Grepp/yolo_reference.png)
+![YOLO Reference](/assets/grepp/yolo_reference.png)
