@@ -24,7 +24,7 @@ tag: "AR Tag"
 - ar_track_alvar
 
 
-#### AR Tag 패키지 설치
+#### AR Tag 패키지 설치
 - apt 명령어를 사용하여 설치
 
 {% highlight bash %}

@@ -6,7 +6,7 @@ category: "Grepp/KDT"
 tag: "QR Code"
 ---
 
-## QR코드 소개
+## QR코드 소개
 
 ### 자율주행 자동차와 QR코드
 - 교통 표지판 역할

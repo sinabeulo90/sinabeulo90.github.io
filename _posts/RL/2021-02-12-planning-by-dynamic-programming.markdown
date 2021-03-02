@@ -65,7 +65,7 @@ tags: YouTube
 	- ex. 모든 state의 value function을 0으로 초기화
 	- 1번 iterative한 방법을 사용해서 v_2를 만들고, v_2에서 v_3를 만들어가면 v_\pi에 수렴한다. v_\pi는 \pi에 대한 value function으로, 궁극적으로 학습하고 싶은 것
 	- 점화식과는 조금 다르게 거친다.
-- backup: cache와 비슷하게 메모리에 저장해 두는 것
+- backup: cache와 비슷하게 메모리에 저장해 두는 것
 	- synchronous backup: 모든 state에 대해서 매 iteration마다 업데이트를 한다.(full sweep), 현재	 state에 있는 value를 다음 state에 대한 value 값을 이용해서 조금씩 더 정확하게 만든다.
 	- asynchronous backup: 5단원에서 나옴
 

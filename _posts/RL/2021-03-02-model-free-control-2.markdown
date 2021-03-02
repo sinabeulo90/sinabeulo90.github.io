@@ -75,7 +75,7 @@ tags: YouTube
 
 
 ## Forward View Sarsa(\lambda)
-- TD(\lambda): 모든 stap에 대해서 geometric mean을 한 것
+- TD(\lambda): 모든 stap에 대해서 geometric mean을 한 것
 	- 1 step: 1 - \lambda
 	- n step: (1 - \lambda)*\lambda^{n-1}
 

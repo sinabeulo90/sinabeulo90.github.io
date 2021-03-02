@@ -62,7 +62,7 @@ tags: YouTube
 
 
 ## Bias/Variance Trade-Off
-- Return G_t는 편향되지 않은 V_\pi(S_t)의 측정 값
+- Return G_t는 편향되지 않은 V_\pi(S_t)의 측정 값
 	- G_t의 기댓값 = V_\pi(S_t), G_t를 계속 샘플링하면, 그 평균(기댓값)이 V_\pi(S_t)로 수렴한다.
 - True TD Target: 전지전능한 신이 V_\pi(S_{t+1})의 실제 값을 알려주면, R_{t+1} + \gamma V_\pi(S_{t+1})은 편향되지 않는 값이다.
 	- 왜냐하면 Bellan Equation이 이를 보장하기 떄문

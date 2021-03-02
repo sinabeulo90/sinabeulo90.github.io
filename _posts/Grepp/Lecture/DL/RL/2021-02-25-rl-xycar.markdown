@@ -471,7 +471,7 @@ $ python viewer.py
 ## DQN2Xycar 패키지 제작
 - DQN Viewer.py를 이용하여 차량에서 구동하는 ROS 패키지 만들기
 
-### 패키지 설게
+### 패키지 설게
 - ROSModule.py
     - Ros기능들만 모아 클래스 제작
     - 라이다 --- 라이다 데이터 ---> DQN

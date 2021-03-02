@@ -135,4 +135,4 @@ policy에는 최적화하고자 하는 policy와 behavior policy, 즉 environmen
 - \alpha: 얼만큼 업데이트할 지 나타냄
 - TD error: R + \gammaQ(S', A') - Q(S, A)
 	- TD target: R + \gammaQ(S', A')
-	- \gammaQ(S', A'): 한 스텝을 더 가서, 거기서 예측하는 예측치
+	- \gammaQ(S', A'): 한 스텝을 더 가서, 거기서 예측하는 예측치
