@@ -246,4 +246,161 @@ tags: YouTube
 
 
 ## Monte-Carlo Policy Gradient(REINFORCE)
-- 
+- 이전의 Q는 신이 알려주는 Q인데, 실제로는 어떤 것으로 해야 할까?
+    - return을 사용한다. return은 Q의 unbiased sample이다. 결국 모분포가 Q이고, r이 샘플이기 떄문에 r을 계속 샘플링하다보면 결국 평균은 Q로 가게 된다.(unbiased estimation) 즉 Q자리에 return을 사용하는 것이 결국 Monte-Carlo approach이다.
+        - Monte-Carlo 방식: 게임을 끝까지 하고 얻은 return을 value 학습할 때 썼던 방식
+    - 결국 Q자리에 V(return G_t)를 넣어서 \pi를 업데이트 한다.
+        - return: accumulated discounted reward
+    - step size \alpha를 곱해서, 그만큼 \theta를 업데이트한다.
+- Pseudo code
+    1. \theta를 임의로 초기화
+    2. \theta로 이루어진 \pi로 게임을 진행
+    3. 에피소드가 끝나면, 첫번째 state부터 마지막 state까지 \theta를 업데이트
+        - 초기화 되었던 \theta에 \alpha x gradient log\pi x return을 더해준다.
+    4. 조금씩 조금씩 좀 더 좋은 policy \pi가 된다.
+        - value function을 아예 쓰지 않고 바로 policy를 업데이트하므로, policy based 방법론이다.
+        - Q자리에 return을 쓰는 방법은 monte-carlo 방법론이므로, monte-carlo policy gradient라고 부르고, 다른 말로는 reinforce 알고리즘이라고 한다.
+- Reinforce 알고리즘은 알파고1에 사용되었다.
+
+
+
+## Puck World Example
+- continuous action space
+- 아이스하키의 puck에 힘을 줘서 움직이는 게임
+- target은 30초마다 위치가 바뀌고, target에 가까울수록 reward를 받는다.
+- 학습 곡선을 보면 점점 reward가 올라간다.
+    1. learning curve가 지그재그하지 않다. 하지만 value based 방법론은 지그재그하게 올라간다.
+        - policy 기반 방법론은 stable하다. value 기반 방법론은 max를 찾기 위해 policy를 급격하게 바꾸는데, policy 기반은 \theta를 조금씩 조금씩 바꾼다.
+    2. x축이 10^7인 것을 보면, 매우 느리다는 것을 알 수 있다. 왜냐하면 variance가 크기 때문이다. monte-carlo의 return을 사용할 때의 단점으로 return은 variance가 커서, TD(0)가 biased가 있지만, variance 관점에서는 좋다. 여기서도 그 단점이 똑같이 적용된다.
+        - 그렇다면 variance를 어떻게 줄일까? ---> Actor-Critic
+    
+
+
+## Reducing Variance Using a Critic
+- Monte-Carlo policy gradient(Reinforce 알고리즘)은 variance 문제가 있다.
+- variance를 줄이기 위해 critic이 들어오게 된다.
+    - policy gradient theorem: score function x Q의 기댓값 = gradient J
+        - Q^\pi: 신이 주는 진짜 Q
+    - Reinforce 알고리즘: Q자리에 return을 넣음
+    - Actor-Critic: 실제 신에 주는 Q는 모르니까, Q자리에 Q를 따로 학습해서 넣음
+        - 신이 주는 Q^\pi를 Q_w로 estimate해서 function approximation을 Q에도 적용한다.
+        - 학습 대상이 2개: Q, \pi를 학습한다.
+            - Q는 w라는 파라미터로 표현
+            - \pi는 \theta라는 파라미터로 표현
+            - Q는 항상 \pi가 붙는데, 그 \pi를 따라서 끝까지 얻을 기댓값이다.
+            - Q는 \pi에 종속적인 얜데, \pi가 계속 바뀌니까, Q를 학습해서 Q로 \pi를 업데이트하고, \pi가 업데이트 되니까 \pi로 Q를 학습하는 식으로 계속 같이 간다.
+            - Policy Iteration과 유사한 방법으로 학습한다.
+
+
+
+## Estimating the Action-Value Function
+- 그러면 Q를 학습해야 하는데, 이 문제는 policy evaluation 문제이다.(prediction 문제)
+    - Monte-Carlo 방법
+    - TD
+    - TD(\lambda)
+- 자신이 쓰고 싶은 방법을 사용해서 Q를 학습한다.
+
+
+
+## Action-Value Actor-Critic
+- 가장 간단한 Actor-Critic
+    - Critic: TD(0)
+    - Actor: policy gradient
+    - QAC: Q Actor Critic
+- Pseudo code
+    1. state와 \theta를 초기화
+    2. policy \pi를 이용해서 \theta에서 action을 샘플링한다.
+    3. 매 step마다 reward와 다음 state s'를 무엇이 되는지도 알텐데, 이 state s'에서 어떤 action을 할지도 샘플링(a')을 한다.
+    4. r + \gamma Q - Q: 한 step 더 가서의 추측치 - 현재 위치 추측치
+        - \delta: TD error
+        - \delta는 w를 업데이트하는데 사용한다.
+        - \beta: learning rate
+        - \phi(s, a): Q의 features
+            - neural net을 사용할 경우, gradient Q를 적용(6장)
+        - linear combination of features라는 function approximatior을 사용해서 표현
+    5.  Q가 업데이트 됨과 동시에 \theta를 gradient log \pi x Q로 업데이트한다.
+        - J의 gradient = gradient log \pi x Q의 expectation
+        - J는 개념상 정의되었고, J를 maximize하도록 \theta를 업데이트하고 싶기 때문에 J에 대한 gradient를 구해야 하는데, J에 대한 gradient가 policy gradient theorem에 의해 gradient log \pi x Q가 된다.
+    - 한 에피소드 안에서 매 step마다 바뀐다. 결국 generalized policy iteration의 또 다른 형태이다. Q는 평가하는 것이고, \theta를 업데이트하는 것은 개선하는 것이므로, 이렇게 평가와 개선이 한 step안에 일어나는 것이 수시로 동작하는 것을 알 수 있다.
+    - 결국 action을 어떻게 업데이트하는가, \theta를 어떻게 업데이트하는가를 보면, gradient log \pi가 action a를 선택하는 확률을 바꾸는 방향인데, Q가 좋았으면 Q가 더 좋게 바꾸는 것이고, Q가 안좋으면 Q가 덜 안좋게 바꾼다. 즉 action a를 했을 때, 좋은 선택이었다면 더 좋은 선택을 하도록, 아니라면 좀 덜 안좋은 방향으로 하도록 계산한다. 그리고 좋은지 않좋은지의 지표를 Q가 제공한다.
+
+
+
+## Reducing Variance Using a Baseline
+- variance를 줄이기 위해 Monte-carlo 대신 critic(Q)를 사용했는데, 여기서 더 variance를 줄이는 방법
+- 직관:
+    - policy gradient 식을 보면, a를 바꾸는 방향으로 Q가 좋으면 더 좋게 방향을 바꾸고, 안좋으면 덜 안좋게 바꾸어라는 의미인데, 만약에 action a1를 했을 때 Q값이 1,000,000이고, action a2를 했을 때 Q값이 999,000라고 할 때, 우리는 a1이 더 좋게 만들고 싶은데, 지금은 Q값이 a1이나 a2일때 둘다 커서 우선은 처음에는 2개 모두 학습하게 만든 다음에, 어느정도 수렴을 하게 되면 그 상대적인 차이를 배울 때 그때 policy가 발전한다.
+    - 그런데 결국은 이 상대적인 차이가 중요하기 때문에, 그때까지 수렴을 기다린 다음에 policy를 발전시키는 방식이 비효율적이기 때문에, 똑같이 999,500을 빼게 되면, a1의 Q는 +500, a2의 Q는 -500이 되므로 이럴 경우 학습이 훨씬 쉽게 이루어 진다. 즉 baseline을 빼주면서 variance를 줄이고자 한다.
+    - 결국 우리가 말하는 더 나은 policy라는 것은 어떤 state에서 action 사이의 상대적인 우열을 가리는 것인데, 그렇다면 상대적인 차이가 중요할 것이다. 애초에 값이 너무 크거나, 너무 작으면 그것을 학습하기 위해 너무 많은 것을 버리고, variance도 크다.
+- state에 대한 baseline이라는 함수 B(s)가 있을 때, state에 대한 어떤 함수를 정할 수 있다고 하자.
+    - 원래는 gradient log \pi에 Q를 곱했지만, 이번에는 B를 곱했을 때의 기댓값을 생각해보자.
+        - likelihood ratio trick을 써서 다시 반대로 되돌아간다.
+            - expectation을 풀면, \sum 에 \pi가 생긴다.
+            - gradient log \pi를 gradient \pi로 바뀌었다.
+        - B(s)는 \sum 안에 있는 a와 관련이 없으므로, \sum_a 에서 밖으로 빼 놓을 수 있다.
+        - \pi_\theta(s, a)의 모든 action에 대한 합이 1이므로, 이것을 gradient \theta로 미분하면 0이 된다.
+    - 이 과정을 왜 하느냐하면, 원래 Q가 있을 때는 policy gradient인데, B에 대한 기댓값은 0이기 때문에 Q - B를 해도 기댓값은 바뀌지 않으면서 variance를 줄일 수 있다.
+        - 그럼 B(s)는 어떤 것을 써야 할까? B(s)는 \theta에 대한 일반적인 함수이기 때문에 우리가 value function으로 선택하면, policy gradient 함수에서 Q자리에 Q - V를 넣어도 J의 gradient와 동일하다. (V에 대한 expectation은 0이므로)
+            - B(s)는 s에 대한 일반적인 함수이기 때문에, s에 대한 모든 함수가 가능하다. 따라서 V(s), state value function을 안 쓸 이유가 없다.
+        - d^\pi_\theta: 목적함수를 정의할 때, 이 policy \pi를 따라서 게임을 하다보면, 각 state에 얼마나 머무르는지에 대한 비율을 구할 수 있다. 그 확률분포 stationary distribution을 말한다.
+    - advantage function: Q - V
+        - 1,000,000과 999,000의 상대적인 차이를 +1 또는 -1로 알고 싶을 때, state s의 value가 있고, 거기서 action a를 추가적으로 했을 때의 차이를 보면 되기 때문에, V가 baseline이 된다. s에 있는 것보다 a를 하는 것이 얼마나 좋은지, 얼마나 안좋은지에 대한 상대적인 차이를 만들어줘서 advantage function이 된다. 따라서 Q자리에 advantage가 들어와도 이 gradient gradient는 여전히 성립힌다. (state에 대한 임의의 함수 B에 대해서 영향이 없음을 앞에서 보였기 때문)
+- advantage 개념이 들어옴으로써 학습을 더 효과적으로 할 수 있게 된다.
+
+
+
+## Estimating the Advantage Function(1)
+- advantage function이 policy gradient의 variance를 눈에 띄게 굉장히 줄일 수 있다.
+- critic은 advantage를 estimate를 할 수 있어야지 쓸수 있을 것이다.
+- 우리는 policy를 학습하기 위한 neural net weight \theta 1개 있고, Q를 학습하기 위한 neural net weight w 1개가 있고, 이제는 V를 학습하기 위한 neural net weight v 1개가 더 필요하다. 즉 파라미터가 3쌍이 필요하다.
+- QAC Pseudo code에서 Q만 업데이트 하는 것이 아니라, TD를 사용해서 V도 같이 업데이트 하면 된다.
+
+
+
+## Estimating the Advantage Function(2)
+- V에 대한 파라미터만으로, advantage를 계산할 수 있다. 즉, Q를 없을 수 있다.
+    - 만약 신이 알려주는 true value function V^\pi(s)가 있다고 하자. 이때, TD error는 r + \gamma V^\pi(s') - V^\pi(s)인데, 이 TD error는 advantage의 unbiased estimate이다. 즉 TD error는 advantage의 샘플이다.
+    - \delta의 기댓값을 계산해보면, r + \gamma V^\pi(s')의 기댓값과 V^\pi(s)를 빼는데, 뒷 항의 V^\pi(s)가 그냥 나오는 이유는 이전 항은 s, a와 관련된 항이지만, 뒷 항은 a와는 관련이 없기 때문이다. 그리고 앞 항의 r + \gamma V^\pi(s')의 기댓값은, MDP가 environment에서 같은 행동을 해도 transition에 의해 여러값을 가질 수 있기 때문에 이 기댓값은 아직 남아 있다. 그런데 이 기댓값은 결국 어떤 state에서 action a를 했을 때, 그때의 받는 reward와 한 step 더 가서의 value의 기댓값을 더한 것은 결국 Q가 되기 때문에, Q - V가 된다. 그럼 Q - V는 advantage가 되므로, 이 \delta의 기댓값이 A이기 떄문에, \delta라는 샘플들은 A의 unbiased 샘플이 된다. 즉 \delta 1개는 A와 같지는 않겠지만, 계속 \delta를 취하면 모든 값들의 평균은 A와 같을 것이다.
+    - 이렇게 되면 이 advantage A자리에 advantage의 샘플인 TD error \delta를 넣을 수 있다. 이것은 true value function에 대한 이야기이고, 실제로 사용할 때는 우리가 true value function을 모방하는 V를 그대로 사용할 수 있다. 즉 학습해서 모사하고 있는 TD를 사용하면 된다. 그렇게 되면, Q를 학습할 필요 없이 오로지 파라미터 v만 필요하게 된다.
+
+
+
+## Critics at Different Time-Scales
+- critic 학습 따로 해야 하고, actor 따로 학습해야 한다.
+- critic 학습으로 여러가지 사용할 수 있다.
+    - MC, TD(0), TD(\lambda)
+
+
+
+## Actors at Different Time-Scales
+- 이전 장처럼 Q든 V든 학습하고 나면, Actor를 학습할 때도, 다른 시간크기에 대해 학습할 수 있다.
+
+
+
+## Policy Gradient with Eligibility Traces
+- Actor도 여러 time scale에서 볼수 있기 떄문에, TD(\lambda) 개념도 사용할 수 있다.
+    - v^\lambda_t
+- backward-view TD(\lambda)는 책임사유를 묻는 eligibility traces를 사용했는데, 원래는 table lookup(state-action pair)이나, feature별로 책임을 물었었다.
+    - 여기서는 score function에 대해서 책임사유를 묻는 다는 점에서 차이가 있다.
+
+
+
+## Summary of Policy Gradient Algorithms
+- policy gradient는 여러가지 동등한 형태들이 있다. 각 형태별로 알고리즘 이름이 붙은 것이다.
+    - REINFOCE: gradient log \pi x return
+        - policy based method
+        - critic X, actor O
+    - Q Actor-Critic: return 자리를 Q로 대치
+        - policy gradient theorem
+        - return 대신 Q를 쓴 이유는 return이 Monte-carlo 방법론이다보니 variance가 크기 때문에, variance를 줄여주기 위해서 Q를 학습시켜서 사용
+    - Advantage Actor-Critic
+        - Q 또한 상대적인 차이가 중요하기 때문에 이를 이용해서 학습하면 variance를 줄일수 있기 때문에 baseline을 사용
+        - Q - V를 한 advantage 값 사용
+    - TD Actor-Critic
+        - Advantage를 사용하려니, Q와 V를 학습해야 하는데, 너무 파라미터가 많이 필요하고 학습도 복잡해지기 때문에, TD error를 advantage 자리에 사용한다.
+        - TD error는 advantage function의 샘플이기 때문
+    - TD(\lambda) Actor-Critic
+        - TD Actor-Critic은 1 step에 대해서만 관찰하는데, 여러 time scale을 고려하기 위해 eligibility traces를 사용해서 TD(\lambda)를 사용할 수 있다.
+        - eligibility traces는 score function에 의해 계산되고 축적된다.
+    - 위의 알고리즘들은 stochastic gradient ascent 알고리즘에 의해 학습이 진행된다.
+- Critic 학습은 policy evaluation 방법이므로, 이전 장에 배운 MC, TD를 사용하면 된다.
