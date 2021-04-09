@@ -9,6 +9,8 @@ plugins: mathjax
 
 David Silver 님의 [Introduction to reinforcement learning](https://youtube.com/playlist?list=PLqYmG7hTraZDM-OYHWgPebj2MfCFzFObQ) 강의 내용을 [팡요랩 Pang-Yo Lab](https://www.youtube.com/channel/UCwkGvF7xKz2E0Lv-fZ9wv2g)의 [강화학습의 기초 이론](https://youtube.com/playlist?list=PLpRS2w0xWHTcTZyyX8LMmtbcMXpd3s4TU)에서 풀어서 설명하기에, 이를 바탕으로 공부하여 정리한 내용입니다.
 
+- Video: [[강화학습 1강] 강화학습 introduction](https://youtu.be/wYgyiCEkwC8?t=3494)
+- Slide: [Lecture 1: Introduction to Reinforcement Learning](https://www.davidsilver.uk/wp-content/uploads/2020/03/intro_RL.pdf)
 
 ---
 
@@ -233,10 +235,3 @@ Categorizing RL agents(1)
 - Control
 	- 미래를 최적화한다.
 	- 최적의 policy를 찾는 것을 의미한다.
-
-
----
-
-## References
-- Video: [[강화학습 1강] 강화학습 introduction](https://youtu.be/wYgyiCEkwC8?t=3494)
-- Slide: [Lecture 1: Introduction to Reinforcement Learning](https://www.davidsilver.uk/wp-content/uploads/2020/03/intro_RL.pdf)
