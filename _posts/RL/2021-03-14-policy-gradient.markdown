@@ -46,7 +46,7 @@ tags: YouTube
 
 ## Advantages of Policy-Based RL
 - 장점
-    - 수렴하는 성질이 더 좋다. value based method는 function approximatior을 사용하기 떄문에, variance가 크면 수렴을 잘 안하면 학습이 어렵다.
+    - 수렴하는 성질이 더 좋다. value based method는 function approximatior을 사용하기 때문에, variance가 크면 수렴을 잘 안하면 학습이 어렵다.
     - 할 수 있는 action(dimension)의 가짓수가 많을 때, 심지어 continuous action space를 생각해보면, 이런 행동 가짓수는 value based로 학습하기 어렵다.
         - ex. Q(S, a)를 학습했다고 가정할 때, greedy하게 움직이기 위해, 내가 가능한 action중 제일 큰 Q값을 가지는 action a를 뽑아야 할텐데, 그 자체가 또 하나의 최적화 문제이다.
             - 어떤 임의의 함수 Q가 있고, input이 0~1사이의 모든 실수에 대해서 가능할 때, 이 때 Q를 제일 maximize하는 input을 찾는 문제 자체도 또 하나의 고유의 문제이다.(optimization 문제)
@@ -93,7 +93,7 @@ tags: YouTube
 
 
 ## Example: Aliased Gridworld(3)
-- value based RL: deterministic policy를 학습하기 떄문에, 평생 금에 도달하지 못할 것이다.
+- value based RL: deterministic policy를 학습하기 때문에, 평생 금에 도달하지 못할 것이다.
 - 양쪽으로 가는 것이 1/2확률인 stochastic policy가 있다면, 몇 번 step만 밟으면 금에 도착할 것이다.
 - 즉 state의 완전한 표현이 불가능한 상황(partially observable한 상황)에서 사용할 수 있다.
 - 3장? 4장?에서 항상 최적의 deterministic한 policy가 존재한다는 정리를 통해서, deterministic policy를 안전하게 믿고 학습을 진행해왔는데, 위의 예시는 반대되는 것이 아닐까?
@@ -121,7 +121,7 @@ tags: YouTube
             - average value
             - snapshot을 보면 각 state별로 몇 %의 확률로 있는지를 알기 때문에, 모든 state들에 대해서 sum을 하는 것
         3. average reward per time-step
-            - stationary distribution d^\pi(s)에 대해서 각 state에서 policy의 action을 한번 하고 그 떄 얻는 reward를 \pi의 확률 가중치를 곱해서 모두 더한 뒤, stationary distribution 가중치를 곱해서 더한다.
+            - stationary distribution d^\pi(s)에 대해서 각 state에서 policy의 action을 한번 하고 그 때 얻는 reward를 \pi의 확률 가중치를 곱해서 모두 더한 뒤, stationary distribution 가중치를 곱해서 더한다.
             - 한 step에 대해서만 보는 것이다. snapshot을 보면 각 state별로 몇 %의 확률로 있는지를 알기 때문에, 모든 state들에 대해서 sum을 하고, 각 state에서 action을 할 수 있는 확률들이 있고, 그 action을 했을 때 얻는 reward를 더해서 목적함수로 사용한다.
     - 위의 3가지 서로 다른 목적에 대해서 똑같은 방법이 작동한다. 어느 한 방법론이 있으면, 동시에 어느 한개 목적함수를 최적화하는 것이 아니라, 3개를 동시에 최적화시킨다.
 
@@ -131,7 +131,7 @@ tags: YouTube
 - optimisation problem: 어떤 임의의 함수가 있을 때, 주어진 정의에 관해서 값을 최대화하는 input x를 찾는 문제
     - 최적화 문제, 특정한 어떤 도메인은 가리키는 용어
 - 목적함수 J(\theta)를 maximise하는 input \theta를 찾는 것이 목적
-    - \theta가 policy를 정해준다. 왜냐하면, policy가 theta로 parameterize되어 있기 떄문이다.(\theta로 표현된 함수)
+    - \theta가 policy를 정해준다. 왜냐하면, policy가 theta로 parameterize되어 있기 때문이다.(\theta로 표현된 함수)
     - \theta가 바뀌면 policy가 바뀌고, policy가 바뀌면 게임하는 동안 얻는 reward가 바퀼 테고, 그렇게 되면 J가 바뀌게 된다. 그러므로 우리는 \theta를 조정해서 J를 maximize하고 싶은 것이고, 이것이 최적화 문제를 푸는 것이다.
 - 최적화 문제에는 다양한 방법론이 있다.
     - gradient를 쓰지 않는 방법
@@ -191,7 +191,7 @@ tags: YouTube
 - J(\theta): 목적함수 3개 중의 3번째 정의를 가져옴
     - d(s): 각각의 initial state 분포
     - \pi_\theta(s, a): 해당 state에서 어떤 action을 할 것인지에 대한 확률
-    - R_{s, a}: 해당 state에서 어떤 action을 선택했을 떄의 reward
+    - R_{s, a}: 해당 state에서 어떤 action을 선택했을 때의 reward
 - likelihood ratio trick에 의해 gradient \pi 대신 \pi x gradient log \pi를 넣어준다.
     - likelihood ratio trick을 사용하면, \pi가 생김으로써 괄호 안에 있는 값의 기댓값이 된다. 즉 J(\theta)에 대한 gradient가 기댓값으로 표현된다.
     - r: 실제 s에서 a를 했을 때 받는 값, 같은 s에서 같은 a를 해도 매번 다를 수 있다. 실제 샘플을 의미한다.
@@ -247,7 +247,7 @@ tags: YouTube
 
 ## Monte-Carlo Policy Gradient(REINFORCE)
 - 이전의 Q는 신이 알려주는 Q인데, 실제로는 어떤 것으로 해야 할까?
-    - return을 사용한다. return은 Q의 unbiased sample이다. 결국 모분포가 Q이고, r이 샘플이기 떄문에 r을 계속 샘플링하다보면 결국 평균은 Q로 가게 된다.(unbiased estimation) 즉 Q자리에 return을 사용하는 것이 결국 Monte-Carlo approach이다.
+    - return을 사용한다. return은 Q의 unbiased sample이다. 결국 모분포가 Q이고, r이 샘플이기 때문에 r을 계속 샘플링하다보면 결국 평균은 Q로 가게 된다.(unbiased estimation) 즉 Q자리에 return을 사용하는 것이 결국 Monte-Carlo approach이다.
         - Monte-Carlo 방식: 게임을 끝까지 하고 얻은 return을 value 학습할 때 썼던 방식
     - 결국 Q자리에 V(return G_t)를 넣어서 \pi를 업데이트 한다.
         - return: accumulated discounted reward
@@ -360,7 +360,7 @@ tags: YouTube
 ## Estimating the Advantage Function(2)
 - V에 대한 파라미터만으로, advantage를 계산할 수 있다. 즉, Q를 없을 수 있다.
     - 만약 신이 알려주는 true value function V^\pi(s)가 있다고 하자. 이때, TD error는 r + \gamma V^\pi(s') - V^\pi(s)인데, 이 TD error는 advantage의 unbiased estimate이다. 즉 TD error는 advantage의 샘플이다.
-    - \delta의 기댓값을 계산해보면, r + \gamma V^\pi(s')의 기댓값과 V^\pi(s)를 빼는데, 뒷 항의 V^\pi(s)가 그냥 나오는 이유는 이전 항은 s, a와 관련된 항이지만, 뒷 항은 a와는 관련이 없기 때문이다. 그리고 앞 항의 r + \gamma V^\pi(s')의 기댓값은, MDP가 environment에서 같은 행동을 해도 transition에 의해 여러값을 가질 수 있기 때문에 이 기댓값은 아직 남아 있다. 그런데 이 기댓값은 결국 어떤 state에서 action a를 했을 때, 그때의 받는 reward와 한 step 더 가서의 value의 기댓값을 더한 것은 결국 Q가 되기 때문에, Q - V가 된다. 그럼 Q - V는 advantage가 되므로, 이 \delta의 기댓값이 A이기 떄문에, \delta라는 샘플들은 A의 unbiased 샘플이 된다. 즉 \delta 1개는 A와 같지는 않겠지만, 계속 \delta를 취하면 모든 값들의 평균은 A와 같을 것이다.
+    - \delta의 기댓값을 계산해보면, r + \gamma V^\pi(s')의 기댓값과 V^\pi(s)를 빼는데, 뒷 항의 V^\pi(s)가 그냥 나오는 이유는 이전 항은 s, a와 관련된 항이지만, 뒷 항은 a와는 관련이 없기 때문이다. 그리고 앞 항의 r + \gamma V^\pi(s')의 기댓값은, MDP가 environment에서 같은 행동을 해도 transition에 의해 여러값을 가질 수 있기 때문에 이 기댓값은 아직 남아 있다. 그런데 이 기댓값은 결국 어떤 state에서 action a를 했을 때, 그때의 받는 reward와 한 step 더 가서의 value의 기댓값을 더한 것은 결국 Q가 되기 때문에, Q - V가 된다. 그럼 Q - V는 advantage가 되므로, 이 \delta의 기댓값이 A이기 때문에, \delta라는 샘플들은 A의 unbiased 샘플이 된다. 즉 \delta 1개는 A와 같지는 않겠지만, 계속 \delta를 취하면 모든 값들의 평균은 A와 같을 것이다.
     - 이렇게 되면 이 advantage A자리에 advantage의 샘플인 TD error \delta를 넣을 수 있다. 이것은 true value function에 대한 이야기이고, 실제로 사용할 때는 우리가 true value function을 모방하는 V를 그대로 사용할 수 있다. 즉 학습해서 모사하고 있는 TD를 사용하면 된다. 그렇게 되면, Q를 학습할 필요 없이 오로지 파라미터 v만 필요하게 된다.
 
 
@@ -378,7 +378,7 @@ tags: YouTube
 
 
 ## Policy Gradient with Eligibility Traces
-- Actor도 여러 time scale에서 볼수 있기 떄문에, TD(\lambda) 개념도 사용할 수 있다.
+- Actor도 여러 time scale에서 볼수 있기 때문에, TD(\lambda) 개념도 사용할 수 있다.
     - v^\lambda_t
 - backward-view TD(\lambda)는 책임사유를 묻는 eligibility traces를 사용했는데, 원래는 table lookup(state-action pair)이나, feature별로 책임을 물었었다.
     - 여기서는 score function에 대해서 책임사유를 묻는 다는 점에서 차이가 있다.

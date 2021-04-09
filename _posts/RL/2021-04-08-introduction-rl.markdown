@@ -31,10 +31,10 @@ David Silver 님의 [Introduction to reinforcement learning](https://youtube.com
 2. Only a reward signal: 오직 Reward 신호만을 사용해서 좋은 방법론을 찾아 간다.
 	- Reward를 주는 행위가 지도학습에서 정답을 알려주는 행위와 비슷하게 느껴질 수도 있다.
 	- 하지만, Reward는 어떤 목적을 위해 설정해 놓은 것일 뿐, 구체적으로 어떻게 행동을 해야 한다는 것을 알려주지는 않는다.
-	- Supervised Learning은 어떤 상황에서 어떤 행위를 해야하는지 알려주기 떄문에, 이는 강화학습과 약간의 차이가 있다.
+	- Supervised Learning은 어떤 상황에서 어떤 행위를 해야하는지 알려주기 때문에, 이는 강화학습과 약간의 차이가 있다.
 	- Reward만 설정해준다면, 오히려 Supervisor가 정답으로 알고있는 방법들보다 더 나은 방법을 찾아낼 수도 있을 것이다.
 3. *Feedback is delayed, not instantaneous: 피드백이 즉시 주어지지 않고, 지연되서 주어진다. 이 부분이 강화학습을 어렵게 만든다.*{: style="color: red"}
-4. Time really matters(sequential, non [i.i.d](https://en.wikipedia.org/wiki/Independent_and_identically_distributed_random_variables) data): 순서가 있는 데이터이기 떄문에, 시간이 중요하다.
+4. Time really matters(sequential, non [i.i.d](https://en.wikipedia.org/wiki/Independent_and_identically_distributed_random_variables) data): 순서가 있는 데이터이기 때문에, 시간이 중요하다.
 5. Agent's actions affect the subsequent data it receives: 어떤 행동을 하느냐에 따라 얻게되는 데이터가 그때그때 달라진다.
 
 
@@ -60,7 +60,7 @@ David Silver 님의 [Introduction to reinforcement learning](https://youtube.com
 
 #### Sequential Decision Making
 
-- 목표: 미래의 보상이 총 합을 극대화하는 행동을 선택하는 것
+- 목표: 미래 보상의 총 합을 극대화하는 행동을 선택하는 것
 - 행동들은 장기적은 결과를 만들어 낼 것이다.
 - 보상은 지연될 것이다.
 - 지금 당장은 손해보더라도, 장기적으로 더 큰 보상을 얻으려는 것이 좋을 것이다.
@@ -125,7 +125,7 @@ David Silver 님의 [Introduction to reinforcement learning](https://youtube.com
 - Ex: 헬리콥터의 현재 위치, 각도, 각/가속도, 바람 세기 등의 정보가 주어졌을 때, 이 헬리콥터가 균형을 유지하기 위해서 오직 바로 지금의 상태만을 알면 될 때, 이 상태를 Markov하다고 말한다.
 - *다음 state를 결정하기 위해 오직 현재 state만을 사용하고, 이전 state들은 사용하지 않는다.*{: style="color: red"}
 	- $\mathbb{P}[S_{t+1} \| S_t] = \mathbb{P}[S_{t+1} \| S_1, \dots, S_t]$
-	- $\mathbb{P}[S_{t+1} \| S_1, \dots, S_t]$: $S_1, \dots, S_t$가 모두 주어졌을 떄, $S_{t+1}$로 갈 확률
+	- $\mathbb{P}[S_{t+1} \| S_1, \dots, S_t]$: $S_1, \dots, S_t$가 모두 주어졌을 때, $S_{t+1}$로 갈 확률
 - $H_{1:t}$가 $S_t$를 결정하고, $S_t$가 $H_{t+1:\infty}$을 결정한다.
 	- $H_{1:t} \rightarrow S_t \rightarrow H_{t+1:\infty}$
 - *Agent state가 markov state가 아닌 경우*{: style="color: red"
@@ -165,7 +165,7 @@ David Silver 님의 [Introduction to reinforcement learning](https://youtube.com
 	- Value function: 상황이 얼마나 좋은지를 나타낸다.
 		- 게임이 끝날 때까지 받을 수 있는 미래의 reward 총합을 예측한다.
 		- 현재 state에서 어떤 정책 $\pi$를 따랐을 때, 게임이 끝날 때까지 얻을 reward 총합의 기댓값
-		- 기댓값이라고 표현하는 이유는 Stochastic policy일 경우도 있지만, Deterministic policy라고 하더라고 environment 자체에 확률적인 요소가 있기 떄문이다.
+		- 기댓값이라고 표현하는 이유는 Stochastic policy일 경우도 있지만, Deterministic policy라고 하더라고 environment 자체에 확률적인 요소가 있기 때문이다.
 		- $v_\pi(s) = \mathbb{E_\pi} [R_{t+1} + \gamma R_{t+2} + \gamma^2 R_{t+3} + \dots \| S_t = s]$
 			- Discount factor $\gamma$: 미래의 reward는 불확실할 수 있고, 또한 미래의 가치는 현재의 가치보다 적기 때문에 조금씩 줄여서 예측하기 위해 붙여준다.
 	- Model: 환경이 어떻게 될 것인지를 예측한다.

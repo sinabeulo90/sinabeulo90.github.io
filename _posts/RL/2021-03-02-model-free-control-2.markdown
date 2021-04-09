@@ -46,7 +46,7 @@ tags: YouTube
 			- 만약 Q value의 실제 값이 1억인데, 0으로 initialize 했으면, 1억까지 업데이트를 할 수 있어야 한다는 의미
 		- \alpha의 제곱을 1에서 무한히 더하면 무한보다 작다.
 			- Q value를 수정하는 것이 점점 작아져 결국에는 수렴할 수 있어야 한다는 의미
-		- 실질적으로 실제 쓸 떄는, 이 2개 조건들을 고민하지 않아도 잘 수렴한다.
+		- 실질적으로 실제 쓸 때는, 이 2개 조건들을 고민하지 않아도 잘 수렴한다.
 		- 이론적으로 수렴성을 만족하기 위해서는, 이 조건들을 만족해야 한다는 정도로 알아두면 될 듯 하다.
 
 
@@ -61,7 +61,7 @@ tags: YouTube
 
 ## Sarsa on the Windy Gridworld
 - x축: 총 업데이트한 횟수
-- y축: G에 도달할 떄마다 1씩 증가
+- y축: G에 도달할 때마다 1씩 증가
 - 2000번 움직여야 첫 에피소드가 걸린다.
 	- 랜덤하게 너무 바보같이 움직이기 때문이다.
 - 우연히 한번 도달하기 시작하면, reward 때문에 정보가 전파되기 시작하면서 그 다음번 에피소드를 진행할 때는 훨씬 적은 time step을 소모한다.
@@ -85,7 +85,7 @@ tags: YouTube
 	- 어떤 state를 방문할 때마다 2가지 관점에서 책임 사유를 묻는 것
 		- 1. 가장 최근에 방문했는가?
 		- 2. 여러번 방문했는가?
-	- Q처럼 각 state-action pair하게 값을 갖고 있으며, 각 state-action을 방문하면 1 증가, 시간이 지날 떄마다 감쇠시켜준다.
+	- Q처럼 각 state-action pair하게 값을 갖고 있으며, 각 state-action을 방문하면 1 증가, 시간이 지날 때마다 감쇠시켜준다.
 - E_t(s, a)가 크면 책임사유가 크다고 판단하고 더 많이 업데이트 되고, 적으면 더 적게 업데이트 된다.
 - Forward View와 수학적으로 동일함이 증명됨
 
@@ -144,7 +144,7 @@ tags: YouTube
 
 
 ## Importance Sampling for Off-Policy Monte-Carlo
-- MC: policy \mu를 이용해서 게임이 끝나면, return G_t를 받게 되는데 여기에 G_t를 그냥 쓰는 것이 아니라, G_t를 얻기까지 나왔던 모든 action의 확률의 비율(\mu와 \pi의 비율)을 계속 곱해주면, 다른 policy를 따랐음에서 policy \pi를 따랐을 떄의 return을 구할 수 있다.
+- MC: policy \mu를 이용해서 게임이 끝나면, return G_t를 받게 되는데 여기에 G_t를 그냥 쓰는 것이 아니라, G_t를 얻기까지 나왔던 모든 action의 확률의 비율(\mu와 \pi의 비율)을 계속 곱해주면, 다른 policy를 따랐음에서 policy \pi를 따랐을 때의 return을 구할 수 있다.
 - target 자리에 G_t^{\pi/\mu}가 들어가게 되어, 정확하게 업데이트 할 수 있다.
 - 주사위를 한번만 던지면 P/Q를 한번만 곱해지는데, 실제 게임이 끝날때까지 주사위를 계속 던지므로, 각 던질때 마다 교정 term이 들어가서 action수 만큼 교정 term이 들어간다.
 - 하지만 이 방법은 상상속에나 존재하는 방법론이다. 이 방법론은 쓸 수 없다. 왜냐하면 이 교정 term의 variance가 극도록 크기 때문에, 도저히 현실에서 쓸 수 없는 방법론이다.
@@ -154,7 +154,7 @@ tags: YouTube
 
 ## Importance Sampling for Off-Policy TD
 - MC 대신 TD에 적용한다.
-- TD는 한 스텝마다 업데이트하기 떄문에, 앞에 곱해지는 importance sampling ratio가 1개 밖에 없다.
+- TD는 한 스텝마다 업데이트하기 때문에, 앞에 곱해지는 importance sampling ratio가 1개 밖에 없다.
 	- action 하나 한것에 대해서 target policy의 확률과 behavior policy의 확률을 나눈 것을 곱해준다.
 - 이 방법은 variance가 훨씬 적기 때문에 가능하다.
 
@@ -166,12 +166,12 @@ tags: YouTube
 	-  behavior policy를 통해 얻은 S_{t+1}의 Q value로 target policy를 따를 때의 action a'에 대한 Q(S_{t+1}, a')을 사용한다.
 	- 원래 우리가 알던 식과 동일하고, 굉장히 말이 되는 업데이트이다.
 	- S에서 A를 할 때의 value를 한 스텝 가보고 그 스텝에서 추측하는 것으로 업데이트를 하는 것이 TD learning이었는데, 그 추측치가 behavior policy를 안써도 되니까 이 식이 성립한다.
-- A_{t+1}을 \mu로 골라서 선택했고, A_t도 \mu를 골라서 선택했다. S_t가 있을 때 \mu를 통해 A_t를 골라서 S_{t+1}이동했기 때문에 이에 대한 action-value를 구하고 싶은데 이 떄, S_{t+1}에 대한 action a'은 behavior policy가 아닌 target policy를 통한 행동을 사용한다.
+- A_{t+1}을 \mu로 골라서 선택했고, A_t도 \mu를 골라서 선택했다. S_t가 있을 때 \mu를 통해 A_t를 골라서 S_{t+1}이동했기 때문에 이에 대한 action-value를 구하고 싶은데 이 때, S_{t+1}에 대한 action a'은 behavior policy가 아닌 target policy를 통한 행동을 사용한다.
 
 
 ## Off-Policy Control with Q-Learning
 - behavior policy를 하나 정해야 하는데, taget policy 처럼 behavior policy도 improvement 되었으면 좋겠다. 그러면서 behavior policy는 탐험적인 행동을 했으면 좋겠다.
-- 따라서 target policy는 무조건 잘하면 되기 때문에 greedy Q로 정하고, behavior policy는 다양하게 해주면 되기 떄문에 \epsilon-greedy Q로 정한다.
+- 따라서 target policy는 무조건 잘하면 되기 때문에 greedy Q로 정하고, behavior policy는 다양하게 해주면 되기 때문에 \epsilon-greedy Q로 정한다.
 	- 이렇게 정한 것이 Q-learning으로 더 많이 쓰인다.
 	- 이렇게 하면 behavior policy도 점점 좋아진다.
 

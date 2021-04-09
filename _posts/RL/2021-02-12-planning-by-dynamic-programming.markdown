@@ -72,7 +72,7 @@ tags: YouTube
 
 ## Iterative Policy Evaluation(2)
 - Bellman expectation equation
-- 한 state의 value 값을 계산할 때, 다음 state의 정확하지 않은 value 값을 이용해서 업데이트한다. 정확한 reward가 있기 떄문에 점점 정확한 정보가 들어가게 되면서, 수렴될 때 까지 계속 반복한다.
+- 한 state의 value 값을 계산할 때, 다음 state의 정확하지 않은 value 값을 이용해서 업데이트한다. 정확한 reward가 있기 때문에 점점 정확한 정보가 들어가게 되면서, 수렴될 때 까지 계속 반복한다.
 
 
 ## Evaluating a Random Policy in the Small Gridworld
@@ -111,7 +111,7 @@ tags: YouTube
 - B 지점: 하루에 4번 렌트 요청이 오고, 2번 반납
 - 밤 중에 A 지점에서 B 지점으로, 혹은 B 지점에서 A 지점으로 계속 차를 옮겨야 한다.
 - 하나를 빌려줄 때 마다 10달러의 수익을 얻는다.
-- 이때 수익을 최대화 하기 위해서, B지점에서 수요가 더 많기 떄문에 A 지점의 차가 좀 더 적어도 B로 차량을 옮기는 것이 더 나을 수 있을 것이다.
+- 이때 수익을 최대화 하기 위해서, B지점에서 수요가 더 많기 때문에 A 지점의 차가 좀 더 적어도 B로 차량을 옮기는 것이 더 나을 수 있을 것이다.
 
 
 ## Policy Iteration in Jack's Car Rental
@@ -174,7 +174,7 @@ tags: YouTube
 - 간단한 문제들에서는 직접할 수도 있겠지만, 실제 복잡한 문제에서는 끝 주변의 state가 어디인지도 알기 어렵고, 끝이이라는게 있는지도 모르기 때문에 매 step마다 asynchronous하게 full sweep 하게 모든 것을 다 본다.
 - 매 step 업데이트 될 때마다, terminate state에 가까운 것들부터 점점 value가 확정된다. 그러면서 가장 멀리 있는 state의 value가 확정된다.
 - 이렇게 하면 모든 state에서 value가 구해지고, 이 value를 통해서 policy도 알게 된다.
-- iteration이 진행되면서 마치 policy가 업데이트 되는 것 처럼 보이는데, 이는 policy iteration에서의 k=1과 value iteration가 동일하기 떄문이다.
+- iteration이 진행되면서 마치 policy가 업데이트 되는 것 처럼 보이는데, 이는 policy iteration에서의 k=1과 value iteration가 동일하기 때문이다.
 	- 하지만, greedy policy를 구한다고 해도, 다음 step은 greedy policy로 인해 구해지는 value 값이 아니다.
 
 
@@ -190,7 +190,7 @@ tags: YouTube
 ## Synchronous Dynamic Programming Algorithms
 - 알고리즘들이 state-value function에 기반한다면, complexity가 매우 크다. O(mn^2), m: action, n: state
 - action-value function일 경우에는 더 늘어난다.
-- full sweep하기 떄문에 매우 비효율 적이다.
+- full sweep하기 때문에 매우 비효율 적이다.
 
 
 ## Synchronous Dynamic Programming

@@ -19,7 +19,7 @@ environment를 모를때(환경의 transition을 모르고, 환경의 reward 함
 
 
 ## Model-Free Reinforcement Learning
-- 지난 강의: MDP를 알떄 푸는 방법(prediction, control)
+- 지난 강의: MDP를 알때 푸는 방법(prediction, control)
 	- control: Dynamic programming을 이용한 policy iteration 방법론
 
 
@@ -29,7 +29,7 @@ environment를 모를때(환경의 transition을 모르고, 환경의 reward 함
 - policy는 정해져 있으므로, agent는 환경 안에서 policy를 따라 움직이면서 계속 시도해본다. 그러면 어떤 state에서 게임이 끝났을데 얻을 수 있는 value가 매번 다를텐데, 게임을 계속 해보면서 얻은 return들을 적어 놓고 평균을 내는 것을 MC이다.
 - transition, reward를 몰라도 게임을 끝까지 하면서 경험으로부터 직접 배운다.
 - 에피소드가 끝나야 return이 정해진다.
-	- return: 게임이 끝날 떄 까지 얻은 discount가 적용된 reward들의 accumulate sum이다.
+	- return: 게임이 끝날 때 까지 얻은 discount가 적용된 reward들의 accumulate sum이다.
 	- 그리고 그런 return들을 평균 낸 것이 value
 - 단점: 에피소드가 끝나야지만, return이 확정되므로 MC 기법을 적용할 수 있다.
 
@@ -40,25 +40,25 @@ environment를 모를때(환경의 transition을 모르고, 환경의 reward 함
 	- return: discounted reward의 총계
 	- value function: return의 기댓값
 		- return은 확률 변수이다.
-		- 매번 에피소드를 진행할 때 마다 다르기 어떤 return을 받을지 다르기 떄문
+		- 매번 에피소드를 진행할 때 마다 다르기 어떤 return을 받을지 다르기 때문
 - Monte-Carlo policy evaluation: 실제적으로 수행한 return의 평균을 사용한다.
 
 
 ## First-Visit Monte-Carlo Policy Evaluation
 - Monte-Carlo에는 first-visit MC와 every-visit MC가 존재
-- state의 갯수만 큼 빈 칸이 있을 때, agent가 해당 state에 방문할 때마다 해당 빈 칸을 하나씩 늘려주고, 게임이 끝 날떄의 return을 그 칸에 적어준다.
+- state의 갯수만 큼 빈 칸이 있을 때, agent가 해당 state에 방문할 때마다 해당 빈 칸을 하나씩 늘려주고, 게임이 끝 날때의 return을 그 칸에 적어준다.
 	- 이 때, 한 에피소드에서 한 state를 여러번 방문할 수 있는데, 여러번 방문 하는 것을 모두 인정하는 것을 every-visit MC
 	- 처음 방문 한 것만 인정하는 것을 first-visit MC
-- 에피소드가 처음 방문할 떄만 count를 올려주고, 그 때만 return을 더해주고 평균을 낸다.
+- 에피소드가 처음 방문할 때만 count를 올려주고, 그 때만 return을 더해주고 평균을 낸다.
 - 큰 수의 법칙에 의해 n이 무한으로 가면 V(s)는 V_\pi(s)로 수렴한다.
 
 ## Every-Visit Monte-Carlo Policy Evaluation
-- state를 방문할 떄마다 count를 올려주는 것만 다를 뿐 똑같은 아이디어
+- state를 방문할 때마다 count를 올려주는 것만 다를 뿐 똑같은 아이디어
 - 둘 중 어떤 것을 사용하던 상관 없다고 한다. 결과는 같다.
 - (단지 서로 다른 구현이 있다고 이해하면 될 것 같다.)
-- 두개 방법을 사용하기 위한 조건: policy가 골고루 움직이는 정책을 가지기 떄문에, 모든 state를 다 방문한다는 가정이 있어야 한다.
-	- 왜냐하면 N(s)는 무한으로 가야하기 떄문에, 어떤 state가 방문하지 않으면 그 state가 갱신되지 않는다.
-	- 그리고 우리는 모든 state를 평가하는 것이 목적이기 떄문에 방문하지 않으면, 그 state의 가치를 구하기 위해 참고할 수 있는 통계치가 없기 떄문이다.
+- 두개 방법을 사용하기 위한 조건: policy가 골고루 움직이는 정책을 가지기 때문에, 모든 state를 다 방문한다는 가정이 있어야 한다.
+	- 왜냐하면 N(s)는 무한으로 가야하기 때문에, 어떤 state가 방문하지 않으면 그 state가 갱신되지 않는다.
+	- 그리고 우리는 모든 state를 평가하는 것이 목적이기 때문에 방문하지 않으면, 그 state의 가치를 구하기 위해 참고할 수 있는 통계치가 없기 때문이다.
 
 
 ## Balckjack Example

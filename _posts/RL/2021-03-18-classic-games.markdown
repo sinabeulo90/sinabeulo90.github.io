@@ -32,7 +32,7 @@ tags: YouTube
 - perfect: 완전히 풀렸다. 즉 신이 와도 못 이기는 완전한 플레이를 한다. 최적의 해를 알고 있다.
 - superhuman: 사람 1등을 이긴 것
 - grandmaster: 프로레벨을 이긴 것
-    - 현재는 Go 떄문에, superhuman level에 도달했다.
+    - 현재는 Go 때문에, superhuman level에 도달했다.
 - chess의 deep blue: 체스 1등을 IBM에서 만든 딥블루가 이겼다.
 
 
@@ -64,7 +64,7 @@ tags: YouTube
         - Nash equilibrium: 내쉬 평형
             - 모든 애들이 상호간의 policy인 것
             - 모든 player가 상대방에 대해 best response인 경우
-            - 내가 10명의 플레이어와 게임을 하는데, 내 입장에서 나머지 9명에 대해서 best response를 하고 있고, 동시에 2번 플레이어 입장에서 나머지 9명에 대해서 best response를 하고 있다. 즉 서로 상호간에 서로 모두가 best response인 경우, 내 전략을 바꿀 요인이 전혀 없다. 왜냐하면 나는 지금 다른 모든 플레이어들에 대해서 best response를 하고 있기 때문, 여기서 무언가를 바꿀 이유가 없다. 그런데 나만 그런 것이 아니라, 2, 3, 4 모두 best response이기 떄문에, 그 누구도 자신의 policy를 바꿀 요인이 없다.
+            - 내가 10명의 플레이어와 게임을 하는데, 내 입장에서 나머지 9명에 대해서 best response를 하고 있고, 동시에 2번 플레이어 입장에서 나머지 9명에 대해서 best response를 하고 있다. 즉 서로 상호간에 서로 모두가 best response인 경우, 내 전략을 바꿀 요인이 전혀 없다. 왜냐하면 나는 지금 다른 모든 플레이어들에 대해서 best response를 하고 있기 때문, 여기서 무언가를 바꿀 이유가 없다. 그런데 나만 그런 것이 아니라, 2, 3, 4 모두 best response이기 때문에, 그 누구도 자신의 policy를 바꿀 요인이 없다.
             - 그래서 이 policy는 서로 안바꾸기 때문에, 서로 고정되고 서로 균형이 맞춰지며, 이를 nash 균형이라고 한다.
 
 
@@ -134,7 +134,7 @@ tags: YouTube
 - minimax policy: \pi^1과 \pi^2가 있어서, 이대로 하면 minimax value를 얻게되는 policy
     - 흑은 흑대로 잘하고, 백은 백대로 잘하는 policy
 - 2player, alternative game이고, zero-sum game이고, perfect information game일 경우, minimax value function이 unique하다. 그리고 minimax policy는 nesh equilibrium을 만족한다.
-- policy는 그 수에 대해 국한되는 개념이 아니라, 어느 상황과 관계없이 나의 정책을 의미한다. 흑도 흑의 정책이 있고, 백도 백의 정책이 있는데, minimax policy는 둘다 최선을 다해서 잘하는 경우이고, 그럴떄 이 policy대로 하면 minimax value를 얻게 된다.
+- policy는 그 수에 대해 국한되는 개념이 아니라, 어느 상황과 관계없이 나의 정책을 의미한다. 흑도 흑의 정책이 있고, 백도 백의 정책이 있는데, minimax policy는 둘다 최선을 다해서 잘하는 경우이고, 그럴때 이 policy대로 하면 minimax value를 얻게 된다.
 - minimax value는 이 상황에서 둘 다 완벽하게 플레이하면 누가 이길까의 의미이다.
 
 
@@ -161,7 +161,7 @@ tags: YouTube
 - 백이 a_1을 선택해서 얻은 값이 해당 state의 minimax value가 된다.
 - 마찬가지로, 다른 하단 검은색 원들 중에서 백 입장에서 두 값중에 더 큰 값을 고르면 된다. 그러면 해당 state의 minimax value가 계산된다.
 - 반대로 가장 상단 흰색 원(흑 입장)에서는 b_1과 b_2 중 어떤 행동을 선택해야 할까?
-    - b_2: 왜냐하면 흑은 minimize하는 것이 목표이다. -로 갈 수록 흑이 이기기 떄문이다.
+    - b_2: 왜냐하면 흑은 minimize하는 것이 목표이다. -로 갈 수록 흑이 이기기 때문이다.
 
 
 ## Minimax Search Example
@@ -214,7 +214,7 @@ tags: YouTube
     - 8천 개의 feature
     - binary-linear value function
     - weights는 각 상황들의 점수를 전문가들의 지식을 통해 토의해서 만들어내서 정했다.
-        - AI라고 할 수 있다. 왜냐하면 이것을 만드는 이유는 결국에 search를 하기 위해서이기 떄문이다.
+        - AI라고 할 수 있다. 왜냐하면 이것을 만드는 이유는 결국에 search를 하기 위해서이기 때문이다.
 - Search
     - alpha-beta search: minimax search의 한 종류
         - 트리에서 depth를 16 ~ 40수까지 수행하고, 그 자리에서 잘라서 사람의 knowledge가 들어간 value function을 그 자리에 배치해서, 아래부터 위로 계산을 해서 현재 state의 minimax value를 계산한다.
@@ -234,7 +234,7 @@ tags: YouTube
     - Retrograde analysis
         - retrograde: 시간에 역행하는
         - 게임이 이기는 것으로 끝나는 것부터 backward로 search를 수행
-        - 이 위치들을 lookup table에 저장해서, 최종적으로 n개의 나오면 그떄부터 완벽하게 play를 한다.
+        - 이 위치들을 lookup table에 저장해서, 최종적으로 n개의 나오면 그때부터 완벽하게 play를 한다.
             - n: 대충 11개의 체커
 - Results
     - Marion Tinsley라는 챔피언을 94년도에 이겼다.
@@ -359,8 +359,8 @@ tags: YouTube
 
 
 ## TD Root
-- 현재 state를 s_t라고 하고, 다음 state를 s_{t+1}이라고 할 떄, s_{t+1}에서 minimax search를 하자. 이 때, 오른쪽 트리와 같이 minimax value가 초록색 원이 되고(흑 입장에서 minimise, 백 입장에서 maximise 해서 도달한 노드), s_t를 이 초록색 값이 되도록 value를 업데이트를 한다.
-    - 게임의 규칙을 다 알고 있기 떄문에, value function만 알아도 action을 할 수 있는 상황이기 때문에 policy는 다루지 않고 있다.
+- 현재 state를 s_t라고 하고, 다음 state를 s_{t+1}이라고 할 때, s_{t+1}에서 minimax search를 하자. 이 때, 오른쪽 트리와 같이 minimax value가 초록색 원이 되고(흑 입장에서 minimise, 백 입장에서 maximise 해서 도달한 노드), s_t를 이 초록색 값이 되도록 value를 업데이트를 한다.
+    - 게임의 규칙을 다 알고 있기 때문에, value function만 알아도 action을 할 수 있는 상황이기 때문에 policy는 다루지 않고 있다.
 - 따라서 s_{t+1}에서 search를 하고, search한 value로 s_t의 value를 업데이트 한다.
     - learning과 search를 combine한 것이다.
 - 원래는 V(s_{t+1})이 V(s_t)로 왔는데, V(S_{t+1})보다 s_{t+1}에서 search를 돌린 value가 더 정확하니까 이 값을 V(S_t)에 넣자.
@@ -386,7 +386,7 @@ tags: YouTube
 
 ## TD Leaf
 - s_t에서 V(s_t)를 업데이트 하는 것이 아니라, 현재 state에서 search한 값을 다음 state에서 search한 값으로 덮어 쓴다.
-    - 왜냐하면 한 step 더 가서 search 한 것이 더 정확할 것이기 떄문
+    - 왜냐하면 한 step 더 가서 search 한 것이 더 정확할 것이기 때문
 - V_+(s_t): s_t에서 search한 값
 - V_+(s_{t+1}): s_{t+1}에서 search한 값
 - V_+(s_t)에서 V_+(s_{t+1}) 방향으로 조금 더 업데이트 한다는 의미이다.

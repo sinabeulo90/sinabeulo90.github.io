@@ -17,7 +17,7 @@ tags: YouTube
 ## Use of Model-Free Control
 - Model-free control이 쓰이는 곳
 - 엘리베이터 알고리즘, 로봇 축구, 포토폴리오 관리 등
-- MDP를 모르거나, 알고 있더라도 샘플링을 이용하는 것 이외에는 쓰기가 어려울 떄 사용한다.
+- MDP를 모르거나, 알고 있더라도 샘플링을 이용하는 것 이외에는 쓰기가 어려울 때 사용한다.
 
 
 ## On and Off-Policy Learning
@@ -40,7 +40,7 @@ policy에는 최적화하고자 하는 policy와 behavior policy, 즉 environmen
 	- MC는 model-free이어도 evaluation할 수 있음
 - Policy improvement: Greedy policy improvement
 - 이렇게 두면 Control 문제가 풀리는 게 아닐까?
-- 안된다. 왜냐하면, MC로 V_\pi를 학습한다는 말은 현재 state가 있고, 다음 state가 무엇인지 알 때, 다음 state의 V 값 중에 제일 V 값이 큰 state로 가는 것인데, 다음 state를 안다는 것은 MDP를 안다는 것이다. MDP를 모를 때는, 다음 state가 뭐가 되는지는 가보지 않고는 모른다. 어떤 확률도 무엇이 될지도 아무것도 모르는데, 지금 V만 알고서는 greedy하게 policy를 improvement하게 학습할 수가 없다. 왜냐하면 model-free이기 떄문에, policy evaluation을 할 수 있는데, 다음 state가 뭔지를 모르기 때문에 greedy policy improvement할 수 없다. 내가 갈 수 있는 곳 중에서 제일 좋은 곳으로 가야하는데..
+- 안된다. 왜냐하면, MC로 V_\pi를 학습한다는 말은 현재 state가 있고, 다음 state가 무엇인지 알 때, 다음 state의 V 값 중에 제일 V 값이 큰 state로 가는 것인데, 다음 state를 안다는 것은 MDP를 안다는 것이다. MDP를 모를 때는, 다음 state가 뭐가 되는지는 가보지 않고는 모른다. 어떤 확률도 무엇이 될지도 아무것도 모르는데, 지금 V만 알고서는 greedy하게 policy를 improvement하게 학습할 수가 없다. 왜냐하면 model-free이기 때문에, policy evaluation을 할 수 있는데, 다음 state가 뭔지를 모르기 때문에 greedy policy improvement할 수 없다. 내가 갈 수 있는 곳 중에서 제일 좋은 곳으로 가야하는데..
 
 
 ## Model-Free Policy Iteration Using Action-Value Function
@@ -49,7 +49,7 @@ policy에는 최적화하고자 하는 policy와 behavior policy, 즉 environmen
 	- V: state 마다 값이 하나씩 있는 것
 	- Q: state 갯수 x action 갯수만큼 값이 있는 것
 		- Q의 value는 MC 방법으로 알 수 있다. value function 자체는 Q, V 모두 구할 수 있다. 왜냐하면 state에서 action을 취할 때, 나온 return들의 평균을 취한 것이 Q이기 때문이다. Q(s, a)를 구하는 것은 어렵지 않다.
-- Q에서는 greedy policy imporvement 할 수 있다. 왜냐하면 state에서 할수 있는 action이 몇 가지인지 알수 있기 떄문에, 할 수 있는 action들 중 Q 값이 제일 높은 action을 policy를 새로운 policy로 삼으면 되기 때문이다.
+- Q에서는 greedy policy imporvement 할 수 있다. 왜냐하면 state에서 할수 있는 action이 몇 가지인지 알수 있기 때문에, 할 수 있는 action들 중 Q 값이 제일 높은 action을 policy를 새로운 policy로 삼으면 되기 때문이다.
 
 
 ## Generalised Policy Iteration with Action-Value Function
@@ -71,7 +71,7 @@ policy에는 최적화하고자 하는 policy와 behavior policy, 즉 environmen
 - policy improvement할 때, \epsilon의 확률(5%)로 랜덤하게 다른 행동을 선택한다. 95%의 확률로 제일 좋은 행동을 선택한다.
 - 장점:
 	- 모든 action에 대해 exploration을 보장할 수 있다.
-	- policy가 발전함을 보장할 수 있다. 왜냐하면 1 - \epsilon일 확률일 떄는 제일 좋은 행동을 선택하기 때문이다.
+	- policy가 발전함을 보장할 수 있다. 왜냐하면 1 - \epsilon일 확률일 때는 제일 좋은 행동을 선택하기 때문이다.
 
 
 ## \epsilon-Greedy Policy Improvement
@@ -88,7 +88,7 @@ policy에는 최적화하고자 하는 policy와 behavior policy, 즉 environmen
 
 
 ## Monte-Carlo Control
-- MC로 policy evaluation을 할 때 수렴할 때까지 evaluation을 할수도 있겠지만, MC는 episode 단위로 평가가 진행되기 때문에, 딱 한 episode만 쌓고 그것으로 MC policy evaluaction을 한 뒤 바로 policy improvement 단계로 가기 떄문에, 화살표가 Q방향으로 끝까지 가지 않는다.
+- MC로 policy evaluation을 할 때 수렴할 때까지 evaluation을 할수도 있겠지만, MC는 episode 단위로 평가가 진행되기 때문에, 딱 한 episode만 쌓고 그것으로 MC policy evaluaction을 한 뒤 바로 policy improvement 단계로 가기 때문에, 화살표가 Q방향으로 끝까지 가지 않는다.
 - policy evaluation 단계일 때, 끝까지 가지 않는 이유는 에피소드가 하나 끝나면 바로 한 에피소드 만큼의 경험을 갖고 policy를 개선할 수 있는데, 더 평가할 때까지 기다리지 않고 바로 policy improvement해도 되는 것 아닌가에 대한 아이디어이다.
 
 

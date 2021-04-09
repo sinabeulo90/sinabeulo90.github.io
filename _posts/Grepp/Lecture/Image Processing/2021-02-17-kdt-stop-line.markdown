@@ -252,7 +252,7 @@ $ python stopline_countNonZero.py
     - contour 근사 방법
         - cv2.CHAIN_APPROX_SIMPLE: contour의 점만 찾음
         - cv2.CHAIN_APPROX_NONE: 전부 찾음
-        - None은 전부 다 찾는 방법이기 떄문에 시스템 리소스를 많이 쓸수 밖에 없다. 그래서 여기서는 SIMPLE을 사용한다.
+        - None은 전부 다 찾는 방법이기 때문에 시스템 리소스를 많이 쓸수 밖에 없다. 그래서 여기서는 SIMPLE을 사용한다.
 
 
 ### 윤곽선의 총 길이, 너비, 외접하는 사각형 찾기

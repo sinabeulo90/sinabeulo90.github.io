@@ -85,14 +85,14 @@ tags: YouTube
     - \hat{v}와 v의 차이가 적다.
     - 모든 것을 아는 신이 v을 알고 있다고 가정하고, 실제 어떤 state s일때 s에서 실제 value v와 모방한 value \hat{v}을 빼서 제곱하고 기댓값을 구한다.
         - 제곱: 양과 음의 차이를 똑같은 차이라고 계산하기 위함
-        - 기댓값: policy \pi를 따랐을 때의 s에 대한 차이를 봐야하기 떄문
+        - 기댓값: policy \pi를 따랐을 때의 s에 대한 차이를 봐야하기 때문
     - 우리가 하고 싶은 것은 J를 줄이는 방향으로 w를 업데이트 해줘야 한다.
         - J: loss
         - V_\pi(S): 상수값
 - Stochastic gradient descent: expectation을 빼는 방법
     - policy \pi를 따라가면 방문했던 state들의 샘플들이 나오는데, 그것을 input으로 넣어준다는 의미이다.
     - 샘플들을 취해서, 그것을 바탕으로 업데이트를 하는 것을 말한다.
-- 만약 policy \pi가 1번을 자주 방문한다고 하면, 1번 샘플이 많이 뽑힐 것이고, 7번을 덜 방문하면, 7번은 적게 뽑히기 떄문에 여러번 시행하면 자연스럽게 expection과 같아지게 된다.
+- 만약 policy \pi가 1번을 자주 방문한다고 하면, 1번 샘플이 많이 뽑힐 것이고, 7번을 덜 방문하면, 7번은 적게 뽑히기 때문에 여러번 시행하면 자연스럽게 expection과 같아지게 된다.
     - 기댓값 갱신은 전체 gradient 갱신과 같아지게 된다.
 - 일반적인 function approximator를 이용
 
@@ -116,7 +116,7 @@ tags: YouTube
 - 처음에는 이상한 값들이 나올 텐데, 그 값들을 실제값들에 근사하게 w를 수정해나간다.
 - Objective function(목적함수)는 true value와 \hat{v}의 차의 제곱
 - Stochastic gradient descent는 global optimum으로 수렴하게 된다.
-    - 왜냐하면 모방함수가 선형함수이기 떄문에 최저점이 하나밖에 없기 때문이다.
+    - 왜냐하면 모방함수가 선형함수이기 때문에 최저점이 하나밖에 없기 때문이다.
 - update 규칙: 이전 슬라이드와 마찬가지로 진행한다.
     - update = step size x 틀린 정도(error) x feature value
 - value function을 학습하려고 하는데, 모방 함수를 사용하려고 하고, 모방함수의 linear combination을 넣었을 때 어떻게 되는지를 보는 중이다.
