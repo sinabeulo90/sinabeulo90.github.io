@@ -174,6 +174,7 @@ David Silver 님의 [Introduction to reinforcement learning](https://youtube.com
 
 
 ### Bellman Equation
+{: style="color: red"}
 
 
 #### Bellman Equation for MRPs
@@ -310,6 +311,7 @@ David Silver 님의 [Introduction to reinforcement learning](https://youtube.com
 
 
 ### Bellman Expectation Equation
+{: style="color: red"}
 
 
 #### Bellman Expectation Equation
