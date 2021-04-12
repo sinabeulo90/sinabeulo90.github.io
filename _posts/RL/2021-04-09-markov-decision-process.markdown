@@ -419,6 +419,7 @@ David Silver 님의 [Introduction to reinforcement learning](https://youtube.com
 <br>
 
 ### Bellman Optimality Equation
+{: style="color: red"}
 
 
 #### Bellman Optimality Equation for $V^\*$
