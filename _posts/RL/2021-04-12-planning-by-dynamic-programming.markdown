@@ -78,13 +78,13 @@ David Silver 님의 [Introduction to reinforcement learning](https://youtube.com
 	-  $v_1 \rightarrow v_2 \rightarrow \cdots \rightarrow v_\pi$
 - Synchronous backups
 	- Backup: Cache와 비슷하게 메모리에 저장해 두는 것을 의미한다.
-	- 모든 state에 대해 iteration마다 업데이트한다. (Full sweep)
+	- 모든 state에 대해 iteration마다 업데이트 한다. (Full sweep)
 	- 현재 step에 있는 value를 계산할 때, 다음 step의 value를 이용하여 조금씩 더 정확하게 만든다.
 		- 처음에는 모든 state의 value function $v_1$을 임의의 값 또는 0으로 초기화한다.
 		- 한 번 iterative한 방법을 사용해서 $v_2$를 만들고, 다시 한번 반복하여 $v_2$에서 $v_3$를 만든다. 이것을 계속 반복하면, $v_\pi$에 수렴한다.
 		- 이때, $v_\pi$는 policy $\pi$에 대한 value function이다.
 	- 점화식은 현재 state를 이용해서 다음 state를 갱신하므로, 점화식과는 다른 방식이다.
-- Asynchronous backups: 뒤에서 설명
+- Asynchronous backups: [뒤에서 설명](#asynchronous-dynamic-programming)
 
 
 #### Iterative Policy Evaluation (2)
@@ -365,7 +365,7 @@ David Silver 님의 [Introduction to reinforcement learning](https://youtube.com
 
 #### Real-Time Dynamic Programming
 
-- State space가 굉장히 크고 agent가 방문하는 곳은 한정적일 때, agent는 움직이게 두고, agent가 방문한 state를 바로바로 업데이트한다.
+- State space가 굉장히 크고 agent가 방문하는 곳은 한정적일 때, agent는 움직이게 두고, agent가 방문한 state를 바로바로 업데이트 한다.
 	- $v(S_t) \leftarrow \max_{a \in \mathcal{A}} \left( \mathcal{R_{S_t}^a} + \gamma \sum_{s' \in \mathcal{S}} \mathcal{P_{\mathcal{S_t}s'}^a} v(s') \right)$
 
 
