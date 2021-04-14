@@ -9,8 +9,8 @@ plugins: mathjax
 
 David Silver 님의 [Introduction to reinforcement learning](https://youtube.com/playlist?list=PLqYmG7hTraZDM-OYHWgPebj2MfCFzFObQ) 강의 내용을 [팡요랩 Pang-Yo Lab](https://www.youtube.com/channel/UCwkGvF7xKz2E0Lv-fZ9wv2g)의 [강화학습의 기초 이론](https://youtube.com/playlist?list=PLpRS2w0xWHTcTZyyX8LMmtbcMXpd3s4TU)에서 풀어서 설명하기에, 이를 바탕으로 공부하여 정리한 내용입니다.
 
-- video: [[강화학습 4강] Model Free Prediction](https://youtu.be/47FyZtBRglI)
-- slide: [Lecture 4: Model-Free Prediction](https://www.davidsilver.uk/wp-content/uploads/2020/03/MC-TD.pdf)
+- Video: [[강화학습 4강] Model Free Prediction](https://youtu.be/47FyZtBRglI)
+- Slide: [Lecture 4: Model-Free Prediction](https://www.davidsilver.uk/wp-content/uploads/2020/03/MC-TD.pdf)
 
 
 ---
@@ -439,7 +439,7 @@ David Silver 님의 [Introduction to reinforcement learning](https://youtube.com
 
 - $G_t^\lambda = (1 - \lambda) \sum_{n=1}^\infty \lambda^{n-1} G_t^{(n)}$
     - Geometric mean: $1 - \lambda, (1 - \lambda)\lambda, (1 - \lambda)\lambda^2, (1 - \lambda)\lambda^3, \dots, (1 - \lambda)\lambda^{n-1}$의 무한급수 결과가 1이다.
-- TD($\lambda$): TD(0)에서 MC까지 return의 평균을 예측치로 사용한다.
+- TD($\lambda$): TD(0)에서 MC까지 return의 geometric mean을 예측치로 사용한다.
     - 논문에서도 많이 쓰이는 방법이다.
 - Forward-view TD($\lambda$)와 Backward-view TD($\lambda$)가 있다.
     - Forward-view TD($\lambda$): $V(S_t) \leftarrow V(S_t) + \alpha \left( G_t^\lambda - V(S_t) \right)$

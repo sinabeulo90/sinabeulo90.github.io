@@ -9,8 +9,8 @@ plugins: mathjax
 
 David Silver 님의 [Introduction to reinforcement learning](https://youtube.com/playlist?list=PLqYmG7hTraZDM-OYHWgPebj2MfCFzFObQ) 강의 내용을 [팡요랩 Pang-Yo Lab](https://www.youtube.com/channel/UCwkGvF7xKz2E0Lv-fZ9wv2g)의 [강화학습의 기초 이론](https://youtube.com/playlist?list=PLpRS2w0xWHTcTZyyX8LMmtbcMXpd3s4TU)에서 풀어서 설명하기에, 이를 바탕으로 공부하여 정리한 내용입니다.
 
-- video: [[강화학습 3강] Planning by Dynamic Programming](https://youtu.be/rrTxOkbHj-M)
-- slide: [Lecture 3: Planning by Dynamic Programming](https://www.davidsilver.uk/wp-content/uploads/2020/03/DP.pdf)
+- Video: [[강화학습 3강] Planning by Dynamic Programming](https://youtu.be/rrTxOkbHj-M)
+- Slide: [Lecture 3: Planning by Dynamic Programming](https://www.davidsilver.uk/wp-content/uploads/2020/03/DP.pdf)
 
 
 ---
