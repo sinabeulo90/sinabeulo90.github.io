@@ -56,10 +56,10 @@ David Silver 님의 [Introduction to reinforcement learning](https://youtube.com
 	- State transition probability, Reward 등
 - Planning: MDP를 푸는 것을 의미한다.
 	- Prediction
-		- MDP $< \mathcal{S}, \mathcal{A}, \mathcal{P}, \mathcal{R}, \gamma >$와 policy $\pi$ 또는 MRP $< \mathcal{S}, \mathcal{P^\pi}, \mathcal{R^\pi}, \gamma >$ 로부터 value function $v_\pi$를 찾는다.
+		- MDP $\langle \mathcal{S}, \mathcal{A}, \mathcal{P}, \mathcal{R}, \gamma \rangle$와 policy $\pi$ 또는 MRP $\langle \mathcal{S}, \mathcal{P^\pi}, \mathcal{R^\pi}, \gamma \rangle$ 로부터 value function $v_\pi$를 찾는다.
 		- 최적의 policy인지 아닌지는 상관없이 어떤 바보같은 policy라도, MDP안에서 어떤 state에서 시작해서 끝날때 까지 얼만큼의 return을 받을지 예측한다.
 	- Control
-		- MDP $< \mathcal{S}, \mathcal{A}, \mathcal{P}, \mathcal{R}, \gamma >$ 로부터 optimal value function $v_\*$와 optimal policy $\pi_\*$를 찾는다.
+		- MDP $\langle \mathcal{S}, \mathcal{A}, \mathcal{P}, \mathcal{R}, \gamma \rangle$ 로부터 optimal value function $v_\*$와 optimal policy $\pi_\*$를 찾는다.
 
 
 ---

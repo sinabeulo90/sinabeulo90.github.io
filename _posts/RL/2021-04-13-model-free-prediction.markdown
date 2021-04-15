@@ -333,7 +333,7 @@ David Silver 님의 [Introduction to reinforcement learning](https://youtube.com
 
 #### Monte-Carlo Backup
 
-![Monte-Carlo Backup](/assets/rl/monte-carlo_backup.png)
+![Monte-Carlo Backup](/assets/rl/monte_carlo_backup.png)
 
 - $V(S_t) \leftarrow V(S_t) + \alpha(G_t - V(S_t))$
 - Monte-Carlo backup: 어떤 state $S_t$에서 시작해서 에피소드가 끝날 때 얻은 $G_t$로 $V(S_t)$를 업데이트한다.
@@ -393,7 +393,7 @@ David Silver 님의 [Introduction to reinforcement learning](https://youtube.com
 
 #### $n$-Step Prediction
 
-![$n$-Step Prediction](/assets/rl/n-step_prediction.png)
+![$n$-Step Prediction](/assets/rl/n_step_prediction.png)
 
 - TD의 변형들로, 현실을 1-step 또는 2-step만큼 반영하여 bootstrapping을 할 수 있다.
 
@@ -464,7 +464,7 @@ David Silver 님의 [Introduction to reinforcement learning](https://youtube.com
 
 #### Forward-view TD($\lambda$) on Large Random Walk
 
-![Forward-view TD($\lambda$) on Large Random Walk](/assets/rl/large_random_walk_forward-view-td_lambda.png)
+![Forward-view TD($\lambda$) on Large Random Walk](/assets/rl/large_random_walk_forward_view_td_lambda.png)
 
 - $\lambda$ 값에 따라 결과가 다르다.
 

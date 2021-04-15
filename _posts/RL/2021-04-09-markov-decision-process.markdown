@@ -75,7 +75,7 @@ David Silver 님의 [Introduction to reinforcement learning](https://youtube.com
 {: style="color: red"}
 
 - state들의 집합 $\mathcal{S}$ ($n$개)와 각 state들의 전이확률 $\mathcal{P}$ ($n^2$개)가 있으면 완전히 정의된다.
-    - tuple $<\mathcal{S}, \mathcal{P}>$
+    - $\langle \mathcal{S}, \mathcal{P} \rangle$
     - State의 집합과 Transition matrix로 완전히 표현 가능하다.
 - A Markov process is a memoryless random process. i.e. a sequence of random states $S_1, S_2, \dots$ with the Markov property
     - Memoryless: 어느 경로를 통해 어떤 위치로 왔는지 관계없이, 위치한 순간 미래가 정해진다.(Markov property)
@@ -119,7 +119,7 @@ David Silver 님의 [Introduction to reinforcement learning](https://youtube.com
 - MRP는 Markov chain에서 가치 값이 포함된 것이다.
     - RL은 environment의 reward를 최대화하는 문제이다.
 - $\mathcal{S}, \mathcal{P}$(Markov process)와 $\mathcal{R}, \gamma$가 있으면 완전히 정의된다.
-    - $<\mathcal{S}, \mathcal{P}, \mathcal{R}, \gamma>$
+    - $\langle \mathcal{S}, \mathcal{P}, \mathcal{R}, \gamma \rangle$
     - $\mathcal{S}$: State의 집합
     - $\mathcal{P}$: State transition matrix
         - $mathcal{P_{ss'}} = \mathbb{P} [S_{t+1} = s' \| S_t = s]$
@@ -246,7 +246,7 @@ David Silver 님의 [Introduction to reinforcement learning](https://youtube.com
 
 - MDP는 Markov reward process에서 action이 포함된 것이다.
 - $\mathcal{S}, \mathcal{P}, \mathcal{R}, \gamma$(Markov reward process)와 $mathcal{A}$가 있으면 완전히 정의된다.
-    - $<\mathcal{S}, \mathcal{A}, \mathcal{P}, \mathcal{R}, \gamma>$
+    - $\langle \mathcal{S}, \mathcal{A}, \mathcal{P}, \mathcal{R}, \gamma \rangle$
     - $\mathcal{A}$: Action의 집합
     - $\mathcal{P}$: State transition matrix
         - $\mathcal{P^a_{ss'}} = \mathbb{P} [S_{t+1} = s' \| S_t = s, A_t = a]$
@@ -284,10 +284,10 @@ David Silver 님의 [Introduction to reinforcement learning](https://youtube.com
 #### Policies (2)
 
 - MDP에서 어떤 policy $\pi$를 통해 행동을 선택한다고 할 때, 한 state에서 어떤 행동을 선택해서 다음 state로 움직이는 과정들은 Markov process로 표현할 수 있다. 왜냐하면 policy $\pi$가 고정되면, 현재 state에서 다음 state로 갈 확률을 계산할 수 있기 때문이다.
-    - Markov process $<\mathcal{S}, \mathcal{P^\pi}>$
+    - Markov process $\langle \mathcal{S}, \mathcal{P^\pi} \rangle$
     - $\mathcal{P_{ss'}^{\pi}} = \sum_{a \in \mathcal{A}} \pi(a \| s) \mathcal{P_{ss'}^{a}}$
 - 마찬가지로, 한 state에서 어떤 행동을 선택해서 다음 state로 움직일 때 reward를 얻게되는 과정들을 MRP로 표현할 수 있다.
-    - Markov reward process $<\mathcal{S}, \mathcal{P^\pi}, \mathcal{R^\pi}, \gamma>$
+    - Markov reward process $\langle \mathcal{S}, \mathcal{P^\pi}, \mathcal{R^\pi}, \gamma \rangle$
     - $\mathcal{R_{s}^{\pi}} = \sum_{a \in \mathcal{A}} \pi(a \| s) \mathcal{R}_{s}^{a}$
 
 
