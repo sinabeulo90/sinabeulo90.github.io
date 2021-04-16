@@ -74,7 +74,7 @@ David Silver 님의 [Introduction to reinforcement learning](https://youtube.com
 #### Markov Process(Markov chain)
 {: style="color: red"}
 
-- state들의 집합 $\mathcal{S}$ ($n$개)와 각 state들의 전이확률 $\mathcal{P}$ ($n^2$개)가 있으면 완전히 정의된다.
+- State들의 집합 $\mathcal{S}$ ($n$개)와 각 state들의 전이확률 $\mathcal{P}$ ($n^2$개)가 있으면 완전히 정의된다.
     - $\langle \mathcal{S}, \mathcal{P} \rangle$
     - State의 집합과 Transition matrix로 완전히 표현 가능하다.
 - A Markov process is a memoryless random process. i.e. a sequence of random states $S_1, S_2, \dots$ with the Markov property

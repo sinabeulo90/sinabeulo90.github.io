@@ -402,7 +402,7 @@ David Silver 님의 [Introduction to reinforcement learning](https://youtube.com
 ![Gradient Temporal-Difference Learning](/assets/rl/gradient_temporal_difference_learning.png)
 
 - TD does not follow the gradient of any objective function.
-- Gradient TD: Bellman error의 true gradient를 계산하기 떄문에 non-linear에 대해서도 수렴성이 좋고, off-policy에 대해서도 수렴성이 좋다.
+- Gradient TD: Bellman error의 true gradient를 계산하기 때문에 non-linear에 대해서도 수렴성이 좋고, off-policy에 대해서도 수렴성이 좋다.
 
 
 #### Convergence of Control Algorithm
@@ -469,7 +469,7 @@ David Silver 님의 [Introduction to reinforcement learning](https://youtube.com
     2. Fixed Q-targets
         - 업데이트하지 않는 고정된 파라미터 $\mathbf{w^-}$와 업데이트하는 파라미터 $\mathbf{w}$를 준비한다.
         - TD target을 계산할 때는 고정된 파라미터 $\mathbf{w^-}$를 사용하고, $\mathbf{w}$를 업데이트 한다.
-        - 파라미터를 하나만 두고 학습하게 되면, 업데이트를 할 때마다 파라미터가 향하는 방향이 계속 바뀌기 떄문에 non-linear function에서 수렴하기가 더 어려워진다. 그래서 2개의 파라미터를 만들고, 1000번 정도 한 파라미터를 고정시킨 채 TD target을 계산하면서 다른 파라미터를 업데이트 시키고, 다시 반대로 고정시켜서 1000번 정도 파라미터를 고정시킨 채 TD target을 계산하면서 다른 파라미터를 업데이트 시키는 방식으로 두 개의 파라미터를 관리한다.
+        - 파라미터를 하나만 두고 학습하게 되면, 업데이트를 할 때마다 파라미터가 향하는 방향이 계속 바뀌기 때문에 non-linear function에서 수렴하기가 더 어려워진다. 그래서 2개의 파라미터를 만들고, 1000번 정도 한 파라미터를 고정시킨 채 TD target을 계산하면서 다른 파라미터를 업데이트 시키고, 다시 반대로 고정시켜서 1000번 정도 파라미터를 고정시킨 채 TD target을 계산하면서 다른 파라미터를 업데이트 시키는 방식으로 두 개의 파라미터를 관리한다.
 - Q-network와 Q-learning target 사이의 MSE를 최적화시킨다.
     - $\mathcal{L}(\mathbf{w_i}) = \mathbb{E_{s, a, r, s' \sim \mathcal{D_i}}} \left [ \left ( r + \gamma \max_{a'}Q(s', a'; w_i^-) - Q(s, a; w_i) \right)^2 \right]$
         - $w_i^-$: 업데이트하지 않는 고정된 파라미터

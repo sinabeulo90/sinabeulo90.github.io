@@ -409,13 +409,13 @@ David Silver 님의 [Introduction to reinforcement learning](https://youtube.com
     - $V(S_t) \leftarrow V(S_t) + \alpha \left( G_t^{\pi/\mu} - V(S_t) \right)$
 - 주사위를 한 번만 던지면 $P/Q$를 한 번만 곱해진다. 하지만 실제 게임에서는 끝날때 까지 주사위를 계속 던지므로, 던진 수만큼 importance sampling correction이 들어간다.
 - 이 방법은 상상속에서나 존재하는 방법론이며 사용할 수 없다.
-    - 이 importance sampling의 variance는 매우 크기 떄문에, $G_t^{\pi/\mu}$ 값이 폭발하거나 매우 작게 수렴될 것이다.
+    - 이 importance sampling의 variance는 매우 크기 때문에, $G_t^{\pi/\mu}$ 값이 폭발하거나 매우 작게 수렴될 것이다.
     - 또한 $\mu$가 0일 경우도 쓸 수 없다.
 
 
 #### Importance Sampling for Off-Policy TD
 
-- TD는 1-step마다 업데이트하기 떄문에, importance sampling correction이 하나만 필요하다.
+- TD는 1-step마다 업데이트하기 때문에, importance sampling correction이 하나만 필요하다.
     - $V(S_t) \leftarrow V(S_t) + \alpha \left( \frac{\pi(A_t \| S_t)}{\mu(A_t \| S_t)} (R_{t+1} + \gamma V(S_{t+1})) - V(S_t) \right)$
     - 선택한 action으로부터 얻은 예측치에, $\pi/\mu$를 곱해준다.
 - TD에서는 Monte-Carlo importance sampling보다 훨씬 작기 때문에 사용할 수 있다.
@@ -434,15 +434,15 @@ David Silver 님의 [Introduction to reinforcement learning](https://youtube.com
 - *Importance sampling을 쓰지 않고, off-policy로 $Q$를 학습한다.*{: style="color: red"}
 - *Behavior policy $\mu$를 따르는 action을 선택해서, $S_{t+1}$로 이동한다.*{: style="color: red"}
 - *TD target인 $R_{t+1} + \gamma Q(S_{t_1}, A')$의 $A'$에는 target policy $\pi$를 따르는 action을 사용한다.*{: style="color: red"}
-    - 즉, 다음 state $S_{t+1}$로 이동할 떄는 behavior policy $\mu$를 따르고, 업데이트를 할 때는 $S_{t+1}$에서 target policy를 따르는 action $A'$를 선택하여, $Q(S_{t+1}, A')$를 사용한다.
-    - TD target은 behavior policy $\mu$를 따르지 않으므로, [Sarsa](#sarsalambda)와 식이 동일하기 떄문에 굉장히 말이 된다.
+    - 즉, 다음 state $S_{t+1}$로 이동할 때는 behavior policy $\mu$를 따르고, 업데이트를 할 때는 $S_{t+1}$에서 target policy를 따르는 action $A'$를 선택하여, $Q(S_{t+1}, A')$를 사용한다.
+    - TD target은 behavior policy $\mu$를 따르지 않으므로, [Sarsa](#sarsalambda)와 식이 동일하기 때문에 굉장히 말이 된다.
 
 
 #### Off-Policy Control with Q-Learning
 
 - Behavior policy: Target policy처럼 점점 improvement되면서, 탐험적인 행동을 하면 좋을 것 같다.
     - $\epsilon$-greedy w.r.t. $Q(s, a)$
-- Target policy: 항상 좋은 선택만 하면 되기 떄문에 greedy로 정한다.
+- Target policy: 항상 좋은 선택만 하면 되기 때문에 greedy로 정한다.
     - Greedy $Q$ w.r.t $Q(s, a)$: $\pi(S_{t+1}) = \arg\max_{a'} Q(S_{t+1}, a')$
 - 이렇게 정해서 사용하는 Q-learning이 많이 쓰인다.
 
