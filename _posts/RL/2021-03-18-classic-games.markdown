@@ -249,7 +249,7 @@ tags: YouTube
     - MC: 실제 value와 내가 예측하는 value 사이의 차이를 제곱한 값을 minimise한 것
         - Mean squared error를 미분하면, 제곱이 앞으로 나오고, 차이나 남고, gradient가 생긴다.
     - TD(0), TD(\lambda): 실제 value에 R + \gamma를 넣는 것
-- 2player 게임은 대부분 intermediate reward가 없다. 게임 도중에는 reward가 발생하지 않고, 게임이 끝난 뒤에 이겼는지 졌는지만 나오므로 0, 0, 0, ..., 1 또는 0, 0, 0, ..., -1이 나온다. 그래서 \gamma를 빼고, R도 모두 0이어서 R도 뺴고 식을 사용하였다.
+- 2player 게임은 대부분 intermediate reward가 없다. 게임 도중에는 reward가 발생하지 않고, 게임이 끝난 뒤에 이겼는지 졌는지만 나오므로 0, 0, 0, ..., 1 또는 0, 0, 0, ..., -1이 나온다. 그래서 \gamma를 빼고, R도 모두 0이어서 R도 빼고 식을 사용하였다.
     - 즉 다음 state의 value로 현재 state의 value를 업데이트 한다.
     - 여기서의 value는 모두 minimax value function의 approximatior이다.
 - 차이점 정리

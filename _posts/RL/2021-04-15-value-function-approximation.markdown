@@ -56,7 +56,7 @@ David Silver 님의 [Introduction to reinforcement learning](https://youtube.com
 
 - 사각형을 internal parameter $\mathbf{w}$를 담고있는 blackbox라고 생각한다.
 - Value function 모방 방법
-    - 첫 번쨰 사각형: 이 blackbox로 $s$를 쿼리로 던지면, blackbox 내부에서 $\mathbf{w}$를 통해 계산된 $\hat{v}$가 출력된다.
+    - 첫 번째 사각형: 이 blackbox로 $s$를 쿼리로 던지면, blackbox 내부에서 $\mathbf{w}$를 통해 계산된 $\hat{v}$가 출력된다.
 - Q value function 모방 방법
     1. 두 번째 사각형: $s, a$를 쿼리로 던지면, $\hat{q}$가 출력된다.
     2. *세 번째 사각형: $s$만 쿼리로 던지면, $s$에서 할 수 있는 모든 action들에 대해 여러 개의 $\hat{q}$가 출력된다.*{: style="color: red"}
