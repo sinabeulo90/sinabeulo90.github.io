@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Lecture 7: Policy Gradient"
-date:   2021-04-16 01:00:00 +0900
+date:   2021-04-18 14:35:09 +0900
 category: "Reinforcement Learning"
 tags: YouTube
 plugins: mathjax
@@ -328,7 +328,7 @@ David Silver 님의 [Introduction to reinforcement learning](https://youtube.com
 - Pseudo code
     1. $\theta$를 임의로 초기화한다.
     2. $\theta$로 구성된 policy $\pi$로 게임을 진행한다.
-    3. 한 에피소드가 끝나면, 첫 번쨰 state부터 마지막 state를 사용하여 $\theta$를 업데이트 한다.
+    3. 한 에피소드가 끝나면, 첫 번째 state부터 마지막 state를 사용하여 $\theta$를 업데이트 한다.
         - 초기화 되었던 $\theta$에 $\alpha \nabla_\theta \log\pi_\theta r$을 더해준다.
     4. 점점 더 좋은 policy $\pi$가 된다.
 - Value function을 사용하지 않고 직접 policy를 업데이트하므로, policy-based RL이다.
@@ -446,3 +446,105 @@ David Silver 님의 [Introduction to reinforcement learning](https://youtube.com
                 A^{\pi_\theta}(s, a) &= Q^{\pi_\theta}(s, a) - V^{\pi_\theta}(s)    \newline
                 \nabla_\theta J(\theta) &= \mathbb{E_{\pi_\theta}} [\nabla_\theta \log\pi_\theta(s, a) A^{\pi_\theta}(s, a)]
             \end{aligned}$
+
+
+#### Estimating the Advantage Function (1)
+
+- Advantage function은 policy gradient의 variance를 눈에 띄게 줄일 수 있기 때문에, critic은 advantage function을 estimation해야 할 것이다.
+- Policy $\pi$를 학습하기 위해 neural net weight $\theta$ 1개와 $Q^{\pi_\theta}$를 학습하기 위한 neural net weight $\mathbf{w}$가 기본으로 필요하고, advantage function을 계산하기 위해 필요한 $V^{\pi_\theta}$를 학습하기 위한 neural net weight $\mathbf{v}$가 필요하다.
+    - $\begin{aligned}
+        V_\mathbf{v}(s) &\approx V^{\pi_\theta}(s)  \newline
+        Q_\mathbf{w}(s, a) &\approx Q^{\pi_\theta}(s, a)    \newline
+        A(s, a) &= Q_\mathbf{w}(s, a) - V_\mathbf{v}(s)
+    \end{aligned}$
+        - Advantage function을 계산하기 위해 2개의 function approximator와 2개의 파라미터 벡터가 필요하다.
+        - Ex: [QAC](#action-value-actor-critic)의 pseudo code에서 $Q$만 업데이트하는 것이 아니라, TD를 사용해서 $V$도 같이 업데이트하면 된다.
+
+
+#### Estimating the Advantage Function (2)
+
+- *$Q_\mathbf{w}(s, a)$를 없애고, $V_\mathbf{v}(s)$만 사용해서 advantage function을 계산할 수 있다.*{: style="color: red"}
+    - 전지전능한 신이 true value function $V^{\pi_\theta}(s)$를 알려준다고 하면, 이 때의 TD error $\delta^{\pi_\theta}$는 unbiased estimation이 되고 advantage function의 샘플들로 계산할 수 있다.
+        - $\delta^{\pi_\theta} = r + \gamma V^{\pi_\theta}(s') - V^{\pi_\theta}(s)$
+        - $\begin{aligned}
+            \mathbb{E_{\pi_\theta}} [\delta^{\pi_\theta} \| s, a ] &= \mathbb{E_{\pi_\theta}} [r + \gamma V^{\pi_\theta}(s') \| s, a] - V^{\pi_\theta}(s)   \newline
+                                                                   &= Q^{\pi_\theta}(s, a) - V^{\pi_\theta}(s)      \newline
+                                                                   &= A^{\pi_\theta}(s, a)
+        \end{aligned}$
+            - TD error $\delta^{\pi_\theta}$의 기댓값은 $r + \gamma V^{\pi_\theta}(s')$의 기댓값에 $V^{\pi_\theta}(s)$를 빼는데, $\mathbb{E_{\pi_\theta}} [r + \gamma V^{\pi_\theta}(s') \| s, a]$ 항은 $s, a$와 관련된 수식이지만 $V^{\pi_\theta}(s)$는 $a$와 관련이 없기 때문에 따로 계산된다.
+            - $\mathbb{E_{\pi_\theta}} [r + \gamma V^{\pi_\theta}(s') \| s, a]$ 항은 어떤 state에서 같은 action을 선택해도 transition probability에 의해 다양한 값을 가질 수 있기 떄문에 기댓값으로 표현되었다. 이는 어떤 state $s$에서 어떤 action $a$를 선택할 때 받는 reward와 1-step 이후의 value의 기댓값을 더한 것이기 때문에, $Q^{\pi_\theta}(s, a)$로 나타낼 수 있다.
+            - TD error $\delta^{\pi_\theta}$의 기댓값은 advantage function $A^{\pi_\theta}$이기 떄문에, TD error $\delta^{\pi_\theta}$의 샘플들은 advantage function $A^{\pi_\theta}$의 unbiased 샘플이 된다. $\delta^{\pi_\theta}$의 샘플 한 개는 $A^{\pi_\theta}$와 같지는 않지만, 반복적으로 시행하면 대수의 법칙에 의해 샘플들의 평균은 결국 $A^{\pi_\theta}$와 같아진다.
+            - *이렇게 되면, true value function에 대해 advantage function $A^{\pi_\theta}$ 자리에 TD error $\delta^{\pi_\theta}$를 넣을 수 있다.*{: style="color: red"}
+                - $\nabla_\theta J(\theta) = \mathbb{E_{\pi_\theta}} [\nabla_\theta \log_\theta \log\pi_\theta(s, a) \delta^{\pi_\theta}]$
+                    - *이를 실제로 사용할 때는 true value function을 모방하는 $V_\mathbf{v}$를 사용할 수 있다. 즉 학습을 통해 모방하고 있는 TD error $\delta_\mathbf{v}$를 사용하면, $Q_\mathbf{w}$를 학습할 필요가 없어진다.*{: style="color: red"}
+                        - $\delta_\mathbf{v} = r + \gamma V_\mathbf{v}(s') - V_\mathbf{v}(s)$
+    - 위와 같은 방법을 따르면, critic 파라미터 $\mathbf{v}$만 사용하게 된다.
+
+
+<br>
+
+
+### Eligibility Traces
+
+
+#### Critics at Different Time-Scales
+
+- MC: $\Delta\theta = \alpha(v_t - V_\theta(s))\phi(s)$
+- TD(0): $\Delta\theta = \alpha(r + \gamma V(s') - V_\theta(s))\phi(s)$
+- Forward-view TD($\lambda$): $\Delta\theta = \alpha(v_t^\lambda - V_\theta(s))\phi(s)$
+- Backward-view TD($\lambda$)
+    - $\begin{aligned}
+        \delta_t &= r_{t+1} + \gamma V(s_{t+1}) - V(s_t)    \newline
+        e_t      &= \gamma \lambda e_{t-1} + \phi(s_t)      \newline
+        \Delta\theta &= \alpha\delta_t e_t
+    \end{aligned}$
+
+
+#### Actors at Different Time-Scales
+
+- Critic과 actor을 따로 학습해야 한다.
+- $Q$ 또는 $V$를 학습한 뒤, actor을 학습할 때도 다른 시간 크기에 대해 학습할 수 있다.
+- Policy gradient: $\nabla_\theta J(\theta) = \mathbb{E_{\pi_\theta}} [\nabla_\theta \log\pi_\theta(s, a) A^{\pi_\theta}(s, a)]$
+    - Monte-Carlo policy gradient: $\Delta\theta = \alpha(v_t - V_\mathbf{v}(s_t)) \nabla_\theta \log\pi_\theta(s_t, a_t)$
+    - Actor-critic policy gradient: $\Delta\theta = \alpha(r + \gamma V_\mathbf{v}(s_{t+1}) - V_\mathbf{v}(s_t)) \nabla_\theta \log\pi_\theta(s_t, a_t)$
+
+
+#### Policy Gradient with Eligibility Traces
+
+- Forward-vew TD($\lambda$)와 같이, actor도 time-scale을 섞을 수 있다.
+    - $\Delta\theta = \alpha(v_t^\lambda - V_\mathbf{v}(s_t)) \nabla_\theta \log\pi_\theta(s_t, a_t)$
+        - $v_t^\lambda - V_\mathbf{v}(s_t)$: Advantage function의 biased estimate이다.
+- Backward-view TD($\lambda$)는 책임을 묻는 eligibility trace를 사용한다. 여기서는 score function에 대해 책임 여부를 묻는다는 점에서 table lookup과 차이가 있다.
+    - $\begin{aligned}
+        \delta &= r_{t+1} + \gamma V_\mathbf{v}(s_{t+1}) - V_\mathbf{v}(s_t)    \newline
+        e_{t+1} &= \gamma \lambda e_t + \nabla_\theta \log\pi_\theta(s, a)      \newline
+        \Delta\theta &= \alpha\delta_t e_t
+    \end{aligned}$
+
+
+<br>
+
+
+### Summary of Policy Gradient Algoritms
+{: style="color: red"}
+
+![Summary of Policy Gradient Algoritms](/assets/rl/policy_gradient_algorithms.png)
+
+- Policy gradient는 여러가지 형태들이 있고, 각 형태별로 알고리즘 이름을 붙였다.
+    - REINFORCE return: $v_t$
+        - Critic X
+        - Actor O
+    - Q Actor-Critic return: $Q^\mathbf{w}(s, a)$
+        - Policy gradient theorem
+        - REINFORCE의 return은 Monte-Carlo 방법으로 구한 값이기 떄문에 variance가 높으므로, variance를 줄이기 위해 $Q^\mathbf{w}(s, a)$를 학습시킨다.
+    - Advantage Actor-Critic return: $A^\mathbf{w}(s, a)$
+        - $Q^\mathbf{w}(s, a)$의 상대적인 차이가 중요하기 떄문에, variance를 더 줄이기 위해 baseline $V_\mathbf{v}(s)$를 통해 advantage function $A^\mathbf{w}(s, a)$을 구한다.
+        - $A^\mathbf{w}(s, a) = Q^\mathbf{w}(s, a) - V_\mathbf{v}(s)$
+    - TD Actor-Critic return: $\delta$
+        - Advantage function을 그대로 사용하려면 $Q^\mathbf{w}$와 $V_\mathbf{v}$를 학습해야 하는데 너무 많은 파라미터가 필요하고 학습도 복잡해지기 때문에, TD error $\delta$를 advantage function 자리에 사용한다.
+        - TD error $\delta$는 advantage function의 샘플이다.
+    - TD(\lambda) Actor-Critic return: $\delta e$
+        - TD Actor-critic은 1-step 이후의 경험을 통해 계산하는데, time-scale을 고려하기 위해 eligibility trace를 적용하여 TD($\lambda$)를 사용한다.
+        - Eligibility trace는 score function의 책임을 계산한다.
+- 위의 policy gradient는 stochastic gradient ascent 알고리즘을 사용한다.
+- Critic은 policy evaluation을 하기 때문에, MC 또는 TD를 통해 학습하면 된다.
