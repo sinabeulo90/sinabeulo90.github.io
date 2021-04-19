@@ -81,7 +81,7 @@ David Silver 님의 [Introduction to reinforcement learning](https://youtube.com
 
 #### Example: Rock-Paper-Scissors
 
-- Stochastic policy가 필요한 상황에 대한 예이다.
+- Stochastic policy가 필요한 상황에 대한 예시이다.
 - Deterministic policy의 경우, agent A가 항상 주먹을 낼 경우, 몇 번 게임을 진행하면 상대방 agent B는 agent A를 이기는 policy를 금방 찾아낼 것이다.
 - Uniform random policy의 경우, 가위/바위/보를 낼 확률이 1/3이므로 상대방 agent B는 agent A를 완전히 이길 수 없을 것이다.
     - 따라서 두 agent는 1/3확률로 가위/바위/보를 내는 것이 최적이다. 이를 게임이론에서 *[내시 균형(Nash equilibrium)](https://ko.wikipedia.org/wiki/내시_균형)*{: style="color: red"}이라고 한다.
@@ -99,7 +99,7 @@ David Silver 님의 [Introduction to reinforcement learning](https://youtube.com
 
 ![Aliased Gridworld](/assets/rl/aliased_gridworld_1.png)
 
-- Stochastic policy가 필요한 상황에 대한 예이다.
+- Stochastic policy가 필요한 상황에 대한 예시이다.
 - 해골에 빠지면 죽고, 금에 도달하면 성공하는 게임이다.
 - MDP의 모든 정보를 알고 있는 상황을 partially observable한 상황으로 바꿔보자.
     - Ex: 동/서/남/북 방향에 벽이 있는지 여부를 확인하는 방식으로 state를 구분하는 feature를 만들면, fully known MDP가 깨지게 된다. 이렇게 되면, 회색 칸은 이 feature만으로 구분되지 않는 칸이 된다.
@@ -472,8 +472,8 @@ David Silver 님의 [Introduction to reinforcement learning](https://youtube.com
                                                                    &= A^{\pi_\theta}(s, a)
         \end{aligned}$
             - TD error $\delta^{\pi_\theta}$의 기댓값은 $r + \gamma V^{\pi_\theta}(s')$의 기댓값에 $V^{\pi_\theta}(s)$를 빼는데, $\mathbb{E_{\pi_\theta}} [r + \gamma V^{\pi_\theta}(s') \| s, a]$ 항은 $s, a$와 관련된 수식이지만 $V^{\pi_\theta}(s)$는 $a$와 관련이 없기 때문에 따로 계산된다.
-            - $\mathbb{E_{\pi_\theta}} [r + \gamma V^{\pi_\theta}(s') \| s, a]$ 항은 어떤 state에서 같은 action을 선택해도 transition probability에 의해 다양한 값을 가질 수 있기 떄문에 기댓값으로 표현되었다. 이는 어떤 state $s$에서 어떤 action $a$를 선택할 때 받는 reward와 1-step 이후의 value의 기댓값을 더한 것이기 때문에, $Q^{\pi_\theta}(s, a)$로 나타낼 수 있다.
-            - TD error $\delta^{\pi_\theta}$의 기댓값은 advantage function $A^{\pi_\theta}$이기 떄문에, TD error $\delta^{\pi_\theta}$의 샘플들은 advantage function $A^{\pi_\theta}$의 unbiased 샘플이 된다. $\delta^{\pi_\theta}$의 샘플 한 개는 $A^{\pi_\theta}$와 같지는 않지만, 반복적으로 시행하면 대수의 법칙에 의해 샘플들의 평균은 결국 $A^{\pi_\theta}$와 같아진다.
+            - $\mathbb{E_{\pi_\theta}} [r + \gamma V^{\pi_\theta}(s') \| s, a]$ 항은 어떤 state에서 같은 action을 선택해도 transition probability에 의해 다양한 값을 가질 수 있기 때문에 기댓값으로 표현되었다. 이는 어떤 state $s$에서 어떤 action $a$를 선택할 때 받는 reward와 1-step 이후의 value의 기댓값을 더한 것이기 때문에, $Q^{\pi_\theta}(s, a)$로 나타낼 수 있다.
+            - TD error $\delta^{\pi_\theta}$의 기댓값은 advantage function $A^{\pi_\theta}$이기 때문에, TD error $\delta^{\pi_\theta}$의 샘플들은 advantage function $A^{\pi_\theta}$의 unbiased 샘플이 된다. $\delta^{\pi_\theta}$의 샘플 한 개는 $A^{\pi_\theta}$와 같지는 않지만, 반복적으로 시행하면 대수의 법칙에 의해 샘플들의 평균은 결국 $A^{\pi_\theta}$와 같아진다.
             - *이렇게 되면, true value function에 대해 advantage function $A^{\pi_\theta}$ 자리에 TD error $\delta^{\pi_\theta}$를 넣을 수 있다.*{: style="color: red"}
                 - $\nabla_\theta J(\theta) = \mathbb{E_{\pi_\theta}} [\nabla_\theta \log_\theta \log\pi_\theta(s, a) \delta^{\pi_\theta}]$
                     - *이를 실제로 사용할 때는 true value function을 모방하는 $V_\mathbf{v}$를 사용할 수 있다. 즉 학습을 통해 모방하고 있는 TD error $\delta_\mathbf{v}$를 사용하면, $Q_\mathbf{w}$를 학습할 필요가 없어진다.*{: style="color: red"}
@@ -536,9 +536,9 @@ David Silver 님의 [Introduction to reinforcement learning](https://youtube.com
         - Actor O
     - Q Actor-Critic return: $Q^\mathbf{w}(s, a)$
         - Policy gradient theorem
-        - REINFORCE의 return은 Monte-Carlo 방법으로 구한 값이기 떄문에 variance가 높으므로, variance를 줄이기 위해 $Q^\mathbf{w}(s, a)$를 학습시킨다.
+        - REINFORCE의 return은 Monte-Carlo 방법으로 구한 값이기 때문에 variance가 높으므로, variance를 줄이기 위해 $Q^\mathbf{w}(s, a)$를 학습시킨다.
     - Advantage Actor-Critic return: $A^\mathbf{w}(s, a)$
-        - $Q^\mathbf{w}(s, a)$의 상대적인 차이가 중요하기 떄문에, variance를 더 줄이기 위해 baseline $V_\mathbf{v}(s)$를 통해 advantage function $A^\mathbf{w}(s, a)$을 구한다.
+        - $Q^\mathbf{w}(s, a)$의 상대적인 차이가 중요하기 때문에, variance를 더 줄이기 위해 baseline $V_\mathbf{v}(s)$를 통해 advantage function $A^\mathbf{w}(s, a)$을 구한다.
         - $A^\mathbf{w}(s, a) = Q^\mathbf{w}(s, a) - V_\mathbf{v}(s)$
     - TD Actor-Critic return: $\delta$
         - Advantage function을 그대로 사용하려면 $Q^\mathbf{w}$와 $V_\mathbf{v}$를 학습해야 하는데 너무 많은 파라미터가 필요하고 학습도 복잡해지기 때문에, TD error $\delta$를 advantage function 자리에 사용한다.
