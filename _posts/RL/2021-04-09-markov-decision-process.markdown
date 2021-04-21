@@ -143,8 +143,8 @@ David Silver 님의 [Introduction to reinforcement learning](https://youtube.com
 - $G_t = R_{t+1} + \gamma R_{t+2} + \dots = \sum^\infty_{k=0}\gamma^k R_{t + k + 1}$
     - Sampling된 경로 동안 받은 reward의 총 합
     - $\gamma$: 감가상각
-        - 0에 가까울 수록 근시안적인 reward에 집중
-        - 1에 가까울 수록 장기적인 reward에 집중
+        - 0에 가까울수록 근시안적인 reward에 집중
+        - 1에 가까울수록 장기적인 reward에 집중
     - 미래의 reward에 감가상각을 적용하여 더해준다.
 - RL의 목표는 Return을 maximize로 하는 것이 정확한 표현이다. reward를 maximize하는 것이 아니다.
 

@@ -116,7 +116,7 @@ David Silver 님의 [Introduction to reinforcement learning](https://youtube.com
 ![Blackjack Value function after Monte-Carlo Learning](/assets/rl/blackjack_value_function.png)
 
 - 내 카드의 합이 20 이상일 경우는 stick하고, 아니면 twist하는 policy를 수행할 때의 value function 결과이다.
-- Player의 카드 합이 21에 가까울 수록, value function이 높다는 것을 알 수 있다.
+- Player의 카드 합이 21에 가까울수록, value function이 높다는 것을 알 수 있다.
 - 500,000번 에피소드를 진행하고 난 뒤에야, 10,000번 에피소드의 value function이 아직 학습이 덜 되었다는 것을 알 수 있다.
 
 
@@ -500,7 +500,7 @@ David Silver 님의 [Introduction to reinforcement learning](https://youtube.com
         - Frequency heuristic: 매 시점마다 해당 state를 방문할 때, 1을 더한다.
         - Recency heuristic: 매 시점마다 해당 state를 방문하지 않을 때, $\gamma$를 곱한다.
             - Ex: $\gamma = 0.9$
-    - 자주 방문하거나 최근에 방문할 수록 값이 커진다.
+    - 자주 방문하거나 최근에 방문할수록 값이 커진다.
 
 
 #### Backward View TD($\lambda$)

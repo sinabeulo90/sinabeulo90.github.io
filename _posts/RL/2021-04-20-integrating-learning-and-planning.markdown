@@ -44,7 +44,7 @@ David Silver 님의 [Introduction to reinforcement learning](https://youtube.com
 
 ![Model-Based RL](/assets/rl/model_based_rl1.png)
 
-- 실제 environment를 모방한 model과 상호작용하면서 학습한다. Model은 실제 environment를 정확히 모방할 수록 좋지만, 조금 다른 부분이 있을 수 있다.
+- 실제 environment를 모방한 model과 상호작용하면서 학습한다. Model은 실제 environment를 정확히 모방할수록 좋지만, 조금 다른 부분이 있을 수 있다.
 
 
 ---
@@ -213,11 +213,11 @@ David Silver 님의 [Introduction to reinforcement learning](https://youtube.com
 
 - Model을 통해서 학습을 진행하는데, model이 environment와 조금씩은 다를 것이다.
 - Model이 완전히 같지 않다면, model-based RL의 성능은 approximate MDP $\langle \mathcal{S}, \mathcal{A}, \mathcal{P_\eta}, \mathcal{R_\eta} \rangle$의 optimal policy에 국한될 것이다.
-    - 즉, model이 좋으면 좋을 수록 planning은 그만큼 더 좋은 policy를 계산하고, model이 부정확하다면 suboptimal policy를 계산할 것이다.
+    - 즉, model이 좋으면 좋을수록 planning은 그만큼 더 좋은 policy를 계산하고, model이 부정확하다면 suboptimal policy를 계산할 것이다.
 - Model이 틀릴 때는 어떻게 학습해야 할까?
     1. Model을 버리고, model-free RL을 사용한다.
     2. Model을 학습할 때, 얼마나 신뢰할 수 있는지 정도를 같이 학습한다.
-        - Ex: Model에 어떤 구간을 출력한다고 가정하면, 구간분포가 넓을 수록 그만큼 불확실하다는 것을 의미할 것이다. 실제 reward는 30인데, model에서 reward가 0 ~ 100 구간에 있다고 말하는 것과 29.5 ~ 30.5 구간에 있다고 말할 때, 불확실한 정도를 알 수 있을 것이다.
+        - Ex: Model에 어떤 구간을 출력한다고 가정하면, 구간분포가 넓을수록 그만큼 불확실하다는 것을 의미할 것이다. 실제 reward는 30인데, model에서 reward가 0 ~ 100 구간에 있다고 말하는 것과 29.5 ~ 30.5 구간에 있다고 말할 때, 불확실한 정도를 알 수 있을 것이다.
         - Ex: Bayesian model-based RL: Bayesian 방법론을 통해 prior 분포를 두고, 더 많은 경험을 통해 이 분포를 점점 정교하도록 업데이트하면서 불확실성(variance)을 이용해 학습한다.
 
 
@@ -451,8 +451,8 @@ David Silver 님의 [Introduction to reinforcement learning](https://youtube.com
 
 - 현재 state에서 각 플레이어가 각자의 policy를 통해 번갈아 게임을 진행하면서 4개의 에피소드를 관찰했을 때, 결과가 1, 1, 0, 0이 나왔다고 하자.
     - 이 때 현재 state에서 검은 돌이 이길 확를은 0.5라고 평가한다.
-- Policy가 좋을 수록 더 좋지 않을까?
-    - 당연히 좋을 수록 좋다.
+- Policy가 좋을수록 더 좋지 않을까?
+    - 당연히 좋을수록 좋다.
     - MCTS의 놀라운 점은, random policy를 사용해도 꽤 정확하다.
 
 
@@ -503,7 +503,7 @@ David Silver 님의 [Introduction to reinforcement learning](https://youtube.com
     - Full-width backup을 하는 Dynamic programming과는 다른 의미이다.
     - Dynamically하게 계산한다는 것은 매번 해당 state에 방문할 떄마다 계산한다는 것을 의미한다.
         - Ex: 10개의 state가 있다고 할 때, $s_3$에서 $s_1$을 평가하는 것과 $s_8$에서 $s_1$을 평가하는 것은 달라질 수 있다. 왜냐하면 모든 state를 한번에 같이 평가하지 않기 때문이다. 매번 모든 state를 고려해서 평가하면 동일한 값을 계산하겠지만, MCTS는 현재 처한 상황을 기준으로 집중적으로 더 많이 평가하기 때문에, 위치한 state에 따라 평가가 달라진다.
-- 샘플링을 통해 학습하므로, 차원의 저주를 꺠뜨린다.
+- 샘플링을 통해 학습하므로, 차원의 저주를 깨뜨린다.
 - 모델이 어떻게 학습되었는지는 상관없이, query만 날릴 수 있으면 된다. 즉 샘플링을 위해 $s, a$를 입력하면 $r, s'$을 출력하기만 하면 된다.
 - 계산이 효율적이며, 병렬성도 좋다.
 

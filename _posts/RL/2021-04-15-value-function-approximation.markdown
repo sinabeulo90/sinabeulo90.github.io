@@ -158,7 +158,7 @@ David Silver 님의 [Introduction to reinforcement learning](https://youtube.com
         \nabla_\mathbf{w}                        &= \alpha (v_\pi(S) - \hat{v}(S, \mathbf{w})) \mathbf{x}(S)
     \end{aligned}$
     - *Update = step-size X prediction error X feature value*{: style="color: red"}
-- 처음에는 이상한 값들이 나오겠지만, 업데이트가 진행될 수록 실제 value에 근사하도록 $\mathbf{w}$가 수정된다.
+- 처음에는 이상한 값들이 나오겠지만, 업데이트가 진행될수록 실제 value에 근사하도록 $\mathbf{w}$가 수정된다.
 
 
 #### Table Lookup Features

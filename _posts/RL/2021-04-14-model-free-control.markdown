@@ -327,7 +327,7 @@ David Silver 님의 [Introduction to reinforcement learning](https://youtube.com
         E_t(s, a) &= \gamma \lambda E_{t-1}(s, a) + \mathbb{1}(S_t = s, A_t = a)
     \end{aligned}$
         - 각 state-action pair마다 값을 갖고 있으며, state-action를 방문하면 1씩 증가하고, step이 지날 때마다 일정한 비율로 감소한다.
-        - $E_t(s, a)$가 클 수록 책임이 크다고 판단하여 더 많이 업데이트되고, 작을 수록 더 작게 업데이트 된다.
+        - $E_t(s, a)$가 클수록 책임이 크다고 판단하여 더 많이 업데이트되고, 작을수록 더 작게 업데이트 된다.
     - Forward-view TD($\lambda$)와 수학적으로 동일함이 증명되었다.
 - $\begin{aligned}
     \delta_t &= R_{t+1} + \gamma Q(S_{t+1}, A_{t+1}) - Q(S_t, A_t)    \newline
