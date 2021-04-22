@@ -36,7 +36,7 @@ David Silver 님의 [Introduction to reinforcement learning](https://youtube.com
 
 - Value based
     - Value function에 기반한 방법론이다.
-    - Value function을 어떤 파라미터에 대한 함수로 표현하고, 이 value function이 정확한 value을 출력하도록 파라미터드를 업데이트 한다.
+    - Value function을 어떤 파라미터에 대한 함수로 표현하고, 이 value function이 정확한 value을 출력하도록 파라미터드를 업데이트한다.
     - Implicit policy: Value function을 통해서 만들어진 policy이다.
         - Ex: $\epsilon$-greedy
 - Policy based
@@ -197,7 +197,7 @@ David Silver 님의 [Introduction to reinforcement learning](https://youtube.com
                                     \vdots                                          \newline
                                     \frac{\partial J(\theta)}{\partial\theta_n}     \newline
                                 \end{pmatrix}$
-    - Policy gradient는 목적함수 $J(\theta)$에 대한 각 $\theta$ 성분의 편미분이기 때문에, 성분이 $n$개 있으면 $\theta_1$로 편미분한 값, $\theta_2$로 편미분한 값, ..., $\theta_n$으로 편미분한 값이 모여서 성분 $n$개의 벡터가 만들어진다. 벡터는 크기와 방향이 있기 때문에, 이 방향으로 step-size $\alpha$를 곱한 값 만큼 $\theta$를 업데이트 한다.
+    - Policy gradient는 목적함수 $J(\theta)$에 대한 각 $\theta$ 성분의 편미분이기 때문에, 성분이 $n$개 있으면 $\theta_1$로 편미분한 값, $\theta_2$로 편미분한 값, ..., $\theta_n$으로 편미분한 값이 모여서 성분 $n$개의 벡터가 만들어진다. 벡터는 크기와 방향이 있기 때문에, 이 방향으로 step-size $\alpha$를 곱한 값 만큼 $\theta$를 업데이트한다.
     - *Policy gradient는 목적함수 $J(\theta)$에 대한 gradient로 업데이트하는 것이지, $\pi_\theta$에 대한 gradient로 업데이트하는 것이 아니다. 즉, $J(\theta)$를 최대화하는 것이 목적이다.*{: style="color: red"}
 
 
@@ -324,11 +324,11 @@ David Silver 님의 [Introduction to reinforcement learning](https://youtube.com
     - Return $v_t$는 $Q^{\pi_\theta}(s, a)$의 unbiased sample이다. 즉, 모분포는 $Q$이고 $r$은 샘플이므로, 계속 샘플링한 $r$의 기댓값은 $Q$가 된다.
         - $\Delta\theta_t = \alpha \nabla_\theta \log\pi_\theta(s_t, a_t)v_t$
             - $v_t$: Accumulate discounted reward
-            - step-size $\alpha$를 곱한 만큼 $\theta$를 업데이트 한다.
+            - step-size $\alpha$를 곱한 만큼 $\theta$를 업데이트한다.
 - Pseudo code
     1. $\theta$를 임의로 초기화한다.
     2. $\theta$로 구성된 policy $\pi$로 게임을 진행한다.
-    3. 한 에피소드가 끝나면, 첫 번째 state부터 마지막 state를 사용하여 $\theta$를 업데이트 한다.
+    3. 한 에피소드가 끝나면, 첫 번째 state부터 마지막 state를 사용하여 $\theta$를 업데이트한다.
         - 초기화 되었던 $\theta$에 $\alpha \nabla_\theta \log\pi_\theta r$을 더해준다.
     4. 점점 더 좋은 policy $\pi$가 된다.
 - Value function을 사용하지 않고 직접 policy를 업데이트하므로, policy-based RL이다.
@@ -394,10 +394,10 @@ David Silver 님의 [Introduction to reinforcement learning](https://youtube.com
 ![Action-Value Actor-Critic](/assets/rl/action_value_actor_critic.png)
 
 - QAC: Q Actor-Critic
-    - Critic: Linear TD(0)로 $\mathbf{w}$를 업데이트 한다.
+    - Critic: Linear TD(0)로 $\mathbf{w}$를 업데이트한다.
         - $Q_\mathbf{w}(s, a) = \phi(s, a)^T \mathbf{w}$
         - Function approximator로 linear combination of features를 사용했다.
-    - Actor: Policy gradient로 $\theta$를 업데이트 한다.
+    - Actor: Policy gradient로 $\theta$를 업데이트한다.
     - 가장 간단한 Actor-Critic이다.
 - Pseudo code
     1. State $s$와 $\theta$를 초기화한다.
@@ -405,9 +405,9 @@ David Silver 님의 [Introduction to reinforcement learning](https://youtube.com
     3. 매 step마다 reward를 얻고 다음 state $s'$을 방문하면, 다음 state $s'$에서 policy $\pi_\theta$를 따르는 action $a'$을 샘플링한다.
         1. $\mathbf{w}$를 업데이트하기 위해 TD error를 계산한다.
             - $\delta = r + \gamma Q_\mathbf{w}(s', a') + Q_\mathbf{w}(s, a)$
-        2. $\theta$를 업데이트 한다.
+        2. $\theta$를 업데이트한다.
             - $\theta = \theta + \alpha \nabla_\theta \log\pi_\theta(s, a) Q_\mathbf{w}(s, a)$
-        3. $\mathbf{w}$를 업데이트 한다.
+        3. $\mathbf{w}$를 업데이트한다.
             - $\mathbf{w} \leftarrow \mathbf{w} + \beta\delta\phi(s, a)$
                 - $\beta$: Learning rate
                 - $\phi(s, a)$: $Q_\mathbf{w}(s, a)$의 features

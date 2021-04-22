@@ -46,7 +46,7 @@ David Silver 님의 [Introduction to reinforcement learning](https://youtube.com
         - Ex: Neural network 등
     - *내가 방문한 state부터 방문하지 않은 state까지 generalized하게, 실제 $V$와 $Q$를 하습하는 것이 목적이다.*{: style="color: red"}
         - Generalized: 방문하지 않은 state에 대해서도 올바른 value를 도출하도록 한다.
-    - *$\hat{v}(s, \mathbf{w})$는 $\mathbf{w}$에 의해 다른 함수가 되므로, 학습한다는 것은 결국 $\mathbf{w}$를 업데이트 한다는 의미이다.*{: style="color: red"}
+    - *$\hat{v}(s, \mathbf{w})$는 $\mathbf{w}$에 의해 다른 함수가 되므로, 학습한다는 것은 결국 $\mathbf{w}$를 업데이트한다는 의미이다.*{: style="color: red"}
         - $w$를 업데이트하기 위해, MC 또는 TD를 사용한다.
 
 
@@ -113,13 +113,13 @@ David Silver 님의 [Introduction to reinforcement learning](https://youtube.com
         - $V_\pi(S)$: 상수값
         - 제곱: +/-의 차이를 같은 차이라고 계산하기 위해 사용
         - 기댓값: policy $\pi$를 따를 때, $S$에 대한 차이를 알기 위해 사용
-    - $\hat{v}(s, \mathbf{w})$가 $v_\pi(s)$를 잘 모방하고 있다면 $J$가 작을 것이므로, $J$가 작아지도록 $\mathbf{w}$를 업데이트 해야한다.
+    - $\hat{v}(s, \mathbf{w})$가 $v_\pi(s)$를 잘 모방하고 있다면 $J$가 작을 것이므로, $J$가 작아지도록 $\mathbf{w}$를 업데이트해야 한다.
         - $\begin{aligned}
             \Delta \mathbf{w} &= \frac{1}{2} \alpha \nabla_w J(\mathbf{w})   \newline
                               &= \alpha \mathbb{E_\pi} \left[ (v_\pi(S) - \hat{v}(S, \mathbf{w}))\nabla_w \hat{v}(S, \mathbf{w}) \right]
         \end{aligned}$
         - 기댓값 갱신은 전체 gradient 갱신과 같다.
-- Stochastic gradient descent: policy $\pi$를 따라 state를 방문하면서 샘플을 얻게 되면, 이 샘플들을 통해 업데이트 한다.
+- Stochastic gradient descent: policy $\pi$를 따라 state를 방문하면서 샘플을 얻게 되면, 이 샘플들을 통해 업데이트한다.
     - $\Delta\mathbf{w} = \alpha (v_\pi(S) - \hat{v}(S, \mathbf{w}))\nabla_w \hat{v}(S, \mathbf{w})$
     - Policy $\pi$가 1번 state를 자주 방문한다면 1번 샘플이 많아질 것이고, 7번 state를 덜 방문하면 7번 샘플이 적어질 것이므로, 여러번 시행하면 자연스럽게 expectation과 같아진다.
 
@@ -199,7 +199,7 @@ David Silver 님의 [Introduction to reinforcement learning](https://youtube.com
         - $\Delta\mathbf{w} = \alpha (G_t - \hat{v}(S_t, \mathbf{w})) \nabla_\mathbf{w} \hat{v}(S_t, \mathbf{w})$
             - 모방함수가 state $s$에 대해 $G_t$를 출력해주기를 바라는 식이다.
             - 같은 $s$라도 $G_t$는 10 또는 20 등 될 수 있을 텐데, 만약 10과 20만 있다면 그 중간인 15를 향하는 방향으로 $\mathbf{w}$가 업데이트 될 것이다.
-            - 즉, 어떤 샘플들을 이용해서 $\mathbf{w}$를 업데이트 한다.
+            - 즉, 어떤 샘플들을 이용해서 $\mathbf{w}$를 업데이트한다.
     - TD(0): TD target은 현재 state로부터 1-step 나아갈 때 얻는 보상과 다음 state의 추측치의 합이다. True value function 자리에 이 TD target을 넣는다.
         - $\Delta\mathbf{w} = \alpha (R_{t+1} + \gamma \hat{v}(S_{t+1}, \mathbf{w}) - \hat{v}(S_t, \mathbf{w})) \nabla_\mathbf{w} \hat{v}(S_t, \mathbf{w})$
     - TD($\lambda$): True value function 자리에, 현재 step부터 마지막 step까지의 예측값에 $(1 - \lambda)\lambda^n$를 곱한 $\lambda$-return $G_t^\lambda$를 넣는다.
@@ -276,7 +276,7 @@ David Silver 님의 [Introduction to reinforcement learning](https://youtube.com
 
 - True value function $q$를 알고 있을 때, $\hat{q}$를 모방하는 방법을 설명한다.
     - $\hat{q}(S, A, \mathbf{w}) \approx q_\pi(S, A)$
-- Approximate action-value function $\hat{q}(S, A, \mathbf{w})$와 true action-value function $q_\pi(S, A)$의 mean-squared error를 최소화하는 방향으로 $\mathbf{w}$를 업데이트 한다.
+- Approximate action-value function $\hat{q}(S, A, \mathbf{w})$와 true action-value function $q_\pi(S, A)$의 mean-squared error를 최소화하는 방향으로 $\mathbf{w}$를 업데이트한다.
     - $J(\mathbf{w}) = \mathbb{E_\pi} \left[ (q_\pi(S, A) - \hat{q}(S, A, \mathbf{w}))^2 \right]$
     - Stochastic gradient descent
         - $\begin{aligned}
@@ -468,7 +468,7 @@ David Silver 님의 [Introduction to reinforcement learning](https://youtube.com
         - 그리고 replay memory $\mathcal{D}$에서 랜덤하게 mini-batch를 샘플링해서 이를 통해 학습한다.
     2. Fixed Q-targets
         - 업데이트하지 않는 고정된 파라미터 $\mathbf{w^-}$와 업데이트하는 파라미터 $\mathbf{w}$를 준비한다.
-        - TD target을 계산할 때는 고정된 파라미터 $\mathbf{w^-}$를 사용하고, $\mathbf{w}$를 업데이트 한다.
+        - TD target을 계산할 때는 고정된 파라미터 $\mathbf{w^-}$를 사용하고, $\mathbf{w}$를 업데이트한다.
         - 파라미터를 하나만 두고 학습하게 되면, 업데이트를 할 때마다 파라미터가 향하는 방향이 계속 바뀌기 때문에 non-linear function에서 수렴하기가 더 어려워진다. 그래서 2개의 파라미터를 만들고, 1000번 정도 한 파라미터를 고정시킨 채 TD target을 계산하면서 다른 파라미터를 업데이트 시키고, 다시 반대로 고정시켜서 1000번 정도 파라미터를 고정시킨 채 TD target을 계산하면서 다른 파라미터를 업데이트 시키는 방식으로 두 개의 파라미터를 관리한다.
 - Q-network와 Q-learning target 사이의 MSE를 최적화시킨다.
     - $\mathcal{L}(\mathbf{w_i}) = \mathbb{E_{s, a, r, s' \sim \mathcal{D_i}}} \left [ \left ( r + \gamma \max_{a'}Q(s', a'; w_i^-) - Q(s, a; w_i) \right)^2 \right]$

@@ -219,7 +219,7 @@ David Silver 님의 [Introduction to reinforcement learning](https://youtube.com
 ![Sarsa](/assets/rl/sarsa.png)
 
 - $Q(S, A) \leftarrow Q(S, A) + \alpha \left( R + \gamma Q(S', A') - Q(S, A) \right)$
-    - 1-step action을 선택하여 reward를 받으면, 그 값으로 $Q(s, a)$를 업데이트 한다.
+    - 1-step action을 선택하여 reward를 받으면, 그 값으로 $Q(s, a)$를 업데이트한다.
     - $\alpha$: 얼만큼 업데이트할 것인지에 대한 지표
     - $R + \gamma Q(S', A')$: TD target
         - $\gamma Q(S', A')$: 1-step 앞의 추측치
@@ -340,8 +340,8 @@ David Silver 님의 [Introduction to reinforcement learning](https://youtube.com
 ![Sarsa($\lambda$) Algorithm](/assets/rl/sarsa_lambda_algorithm.png)
 
 - [Sarsa Algorithm for On-Policy Control](#sarsa-algorithm-for-on-policy-control)과 비슷한데, 중간이 for-loop이 추가되었다.
-- Sarsa Algorithm에서는 한 state-action pair만 업데이트했지만, Sarsa($\lambda$) Algorithm에서는 모든 state-action pair를 업데이트 한다.
-    - 모든 state-action piar에 eligibility trace 값이 있기 때문에, 한 action을 하면 $Q$와 $E$를 업데이트 해야한다.
+- Sarsa Algorithm에서는 한 state-action pair만 업데이트 했지만, Sarsa($\lambda$) Algorithm에서는 모든 state-action pair를 업데이트한다.
+    - 모든 state-action piar에 eligibility trace 값이 있기 때문에, 한 action을 하면 $Q$와 $E$를 업데이트해야 한다.
     - 계산량은 좀 더 들어가지만, 대신 정보 전파가 빠르다.
 
 
@@ -352,7 +352,7 @@ David Silver 님의 [Introduction to reinforcement learning](https://youtube.com
 - 목적지까지 진행하는 동안 reward -1을 받는다.
 - 목적지에 도착하는 순간, 다른 reward를 받고 종료한다.
 - 2번째 그림: 1-step Sarsa
-    - 목적지까지 도착하는 순간의 것만 업데이트 한다.
+    - 목적지까지 도착하는 순간의 것만 업데이트한다.
     - 이전 state에서 위로 가는 것이 좋다는 것만 배운다.
 - 3번째 그림: Sarsa($\lambda$)
     - 지나온 모든 경로에 대해, eligibility trace 만큼 책임에 비례해서 업데이트 된다.
@@ -377,7 +377,7 @@ David Silver 님의 [Introduction to reinforcement learning](https://youtube.com
     - 예전에 했던 경험이나 다른 agent의 경험들을 재사용할 수 있기 때문에, 굉장히 효율적으로 경험을 사용할 수 있다.
         - Ex: 사람이 어떤 행동을 했을 때 그 행동을 하는 policy를 만드는 것이 아니라, 그 행동을 함으로써 나온 결과를 보고 따라한다거나 다른 행동을 해야겠다는 것 등을 배우는 것이다. 일단 사람은 어떤 경험을 제공해주고, 그 안에서 최적 policy를 배우는 것이다.
     - 한 policy를 따르면서 여러 개의 policy를 학습할 수 있다.
-- On-policy learning: 경험을 쌓는 policy와 학습하는 policy가 같으므로, 경험을 통해 policy가 업데이트 되면, 새로 업데이트된 policy로 선택된 action으로 얻은 경험을 통해 다시 policy를 업데이트 한다. 이 과정에서 이전 경험은 다시 사용하지 않고 버린다.
+- On-policy learning: 경험을 쌓는 policy와 학습하는 policy가 같으므로, 경험을 통해 policy가 업데이트 되면, 새로 업데이트된 policy로 선택된 action으로 얻은 경험을 통해 다시 policy를 업데이트한다. 이 과정에서 이전 경험은 다시 사용하지 않고 버린다.
 
 
 ### Importance Sampling

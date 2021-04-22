@@ -78,7 +78,7 @@ David Silver 님의 [Introduction to reinforcement learning](https://youtube.com
 	-  $v_1 \rightarrow v_2 \rightarrow \cdots \rightarrow v_\pi$
 - Synchronous backups
 	- Backup: Cache와 비슷하게 메모리에 저장해 두는 것을 의미한다.
-	- 모든 state에 대해 iteration마다 업데이트 한다. (Full sweep)
+	- 모든 state에 대해 iteration마다 업데이트한다. (Full sweep)
 	- 현재 step에 있는 value를 계산할 때, 다음 step의 value를 이용하여 조금씩 더 정확하게 만든다.
 		- 처음에는 모든 state의 value function $v_1$을 임의의 값 또는 0으로 초기화한다.
 		- 한 번 iterative한 방법을 사용해서 $v_2$를 만들고, 다시 한번 반복하여 $v_2$에서 $v_3$를 만든다. 이것을 계속 반복하면, $v_\pi$에 수렴한다.
@@ -288,7 +288,7 @@ David Silver 님의 [Introduction to reinforcement learning](https://youtube.com
 - Problem: Optimal policy $\pi$ 찾기
 - Solution: Bellman optimality backup을 계속 적용한다.
 	- $v_1 \rightarrow v_2 \rightarrow \cdots \rightarrow v_\*$
-	- Synchronous backup: Iteration $k+1$ 마다 모든 state $s$에 대해, $v_k(s')$을 사용하여 $v_{k+1}(s)$을 업데이트 한다.
+	- Synchronous backup: Iteration $k+1$ 마다 모든 state $s$에 대해, $v_k(s')$을 사용하여 $v_{k+1}(s)$을 업데이트한다.
 - Policy iteration과 다르게 policy가 없다.
 	- $\begin{aligned}
 		v_{k+1}(s) &= \max_{a \in \mathcal{A}} \left( \mathcal{R_s^a} + \gamma \sum_{s' \in \mathcal{S}} \mathcal{P_{ss'}^a} v_k(s') \right)	\newline
@@ -365,7 +365,7 @@ David Silver 님의 [Introduction to reinforcement learning](https://youtube.com
 
 #### Real-Time Dynamic Programming
 
-- State space가 굉장히 크고 agent가 방문하는 곳은 한정적일 때, agent는 움직이게 두고, agent가 방문한 state를 바로바로 업데이트 한다.
+- State space가 굉장히 크고 agent가 방문하는 곳은 한정적일 때, agent는 움직이게 두고, agent가 방문한 state를 바로바로 업데이트한다.
 	- $v(S_t) \leftarrow \max_{a \in \mathcal{A}} \left( \mathcal{R_{S_t}^a} + \gamma \sum_{s' \in \mathcal{S}} \mathcal{P_{\mathcal{S_t}s'}^a} v(s') \right)$
 
 

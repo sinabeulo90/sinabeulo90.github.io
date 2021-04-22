@@ -113,7 +113,7 @@ David Silver 님의 [Introduction to reinforcement learning](https://youtube.com
         - Supervised learning: Input과 output이 주어졌을 때, 이 둘의 관계를 학습시키는 방법이다. 여기서는 $r, s'$라는 답이 있기 때문에 가능한 학습 방법이다.
         - $s, a \rightarrow r$은 regression problem이다.
         - $s, a \rightarrow s'$은 density estimation problem이다.
-    - Loss function을 정의하여, 이 loss를 줄이는 방향으로 파라미터 $\eta$를 업데이트 한다.
+    - Loss function을 정의하여, 이 loss를 줄이는 방향으로 파라미터 $\eta$를 업데이트한다.
         - Loss function: 추정값과 기댓값의 차이를 정의한다.
             - $s_1, a_1$을 입력으로 주어졌을 때, $r'$이 출력되었다고 하자. 경험에서는 $r_2$가 출력되어야 하는데 $r'$이 출력되었으므로, 이 둘 차이를 계산하는 함수를 정의한다.
             - Ex: Mean-squared error, KL divergence(확률 분포의 차이를 표현)
@@ -267,19 +267,19 @@ David Silver 님의 [Introduction to reinforcement learning](https://youtube.com
     - Function approximator를 사용할 수 있다.
 - 실제 경험으로부터 1번 learning하고, model에서 시뮬레이션된 경험으로부터 $n$번 planning 한다.
     - Ex: $n = 50$
-    - (a) ~ (e): Real experience로 업데이트 한다.
-    - (f): Simulated experience로 업데이트 한다.
+    - (a) ~ (e): Real experience로 업데이트한다.
+    - (f): Simulated experience로 업데이트한다.
 - Environment과 쉽게 상호작용할 수 있다면, 실제 경험을 통해 학습하면 된다. 반면, environment와 상호작용이 어렵고 비용이 많이 들 경우, 한번 경험을 얻고, 얻은 경험으로부터 model을 만들어서 시뮬레이션된 경험을 통해 학습하면 된다.
 - Pseudo code
     1. 모든 state와 action에 대해, $Q$와 model을 random 값으로 초기화한다.
     2. 현재 state $S$에서 $\epsilon$-greedy를 통해 action $A$를 선택한 뒤, reward $R$를 얻고 다음 state $S'$으로 이동한다.
-    3. $S, A, R, S'$을 통해 $Q$를 업데이트 한다.
+    3. $S, A, R, S'$을 통해 $Q$를 업데이트한다.
         - $Q(S, A) \leftarrow Q(S, A) + \alpha [R + \arg\max_a Q'(S', a) - Q(S, A)]$
             - Model-free RL의 일반적인 Q-learning 방법론을 사용했다.
     4. $S, A, R, S'$을 통해 Model을 학습한다.
         - $Model(S, A) \leftarrow R, S'$
             - 쉽게 학습시키기 위해, deterministic environment라고 가정한다.
-    5. Planning을 통해 $Q$를 $n$번 업데이트 한다.
+    5. Planning을 통해 $Q$를 $n$번 업데이트한다.
         - $\begin{aligned}
             S &\leftarrow \text{random previously observed state}    \newline
             A &\leftarrow \text{random action previously taken in } S    \newline
@@ -288,7 +288,7 @@ David Silver 님의 [Introduction to reinforcement learning](https://youtube.com
         \end{aligned}$
             - 한번 방문했던 state를 뽑아서, 해당 state에서 선택했던 action을 뽑는다.
             - 그리고, model을 통해 샘플링된 $S, A$에 대한 reward $R$과 다음 state $S'$를 뽑는다.
-            - 샘플링된 transition $\langle S, A, R, S' \rangle$을 통해 model-free RL과 같은 방식으로 업데이트 한다.
+            - 샘플링된 transition $\langle S, A, R, S' \rangle$을 통해 model-free RL과 같은 방식으로 업데이트한다.
 
 
 #### Dyna-Q on a Simple Maze
@@ -501,7 +501,7 @@ David Silver 님의 [Introduction to reinforcement learning](https://youtube.com
 - Current state를 거치는 에피소드를 반복적으로 만들면서 계산되므로, current state는 매우 정확하다.
 - State를 dynamically하게 계산한다.
     - Full-width backup을 하는 Dynamic programming과는 다른 의미이다.
-    - Dynamically하게 계산한다는 것은 매번 해당 state에 방문할 떄마다 계산한다는 것을 의미한다.
+    - Dynamically하게 계산한다는 것은 매번 해당 state에 방문할 때마다 계산한다는 것을 의미한다.
         - Ex: 10개의 state가 있다고 할 때, $s_3$에서 $s_1$을 평가하는 것과 $s_8$에서 $s_1$을 평가하는 것은 달라질 수 있다. 왜냐하면 모든 state를 한번에 같이 평가하지 않기 때문이다. 매번 모든 state를 고려해서 평가하면 동일한 값을 계산하겠지만, MCTS는 현재 처한 상황을 기준으로 집중적으로 더 많이 평가하기 때문에, 위치한 state에 따라 평가가 달라진다.
 - 샘플링을 통해 학습하므로, 차원의 저주를 깨뜨린다.
 - 모델이 어떻게 학습되었는지는 상관없이, query만 날릴 수 있으면 된다. 즉 샘플링을 위해 $s, a$를 입력하면 $r, s'$을 출력하기만 하면 된다.
@@ -538,7 +538,7 @@ David Silver 님의 [Introduction to reinforcement learning](https://youtube.com
 
 #### TD Search
 
-- Model로부터 현재 state부터 시작하는 에피소드들을 생성하고, 시뮬레이션된 에피소드들의 매 step마다 Sarsa를 활용해서 action-value function을 업데이트 한다.
+- Model로부터 현재 state부터 시작하는 에피소드들을 생성하고, 시뮬레이션된 에피소드들의 매 step마다 Sarsa를 활용해서 action-value function을 업데이트한다.
     - $\Delta Q(s, a) = \alpha (R + \gamma Q(S', A') - Q(S, A))$
         - $\alpha$: Learning rate
     - $\epsilon$-greedy를 통해 action을 선택한다.

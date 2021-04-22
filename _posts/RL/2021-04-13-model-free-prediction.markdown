@@ -165,7 +165,7 @@ David Silver 님의 [Introduction to reinforcement learning](https://youtube.com
     - TD: Episode가 끝나지 않아도 학습할 수 있다.
     - MC: Episode가 끝나야만 학습할 수 있다.
 - TD updates a guess towards a guess
-    - 추측을 추측을 업데이트 한다.
+    - 추측을 추측을 업데이트한다.
 
 
 ### MC and TD
@@ -174,13 +174,13 @@ David Silver 님의 [Introduction to reinforcement learning](https://youtube.com
 - Incremental every-visit Monte-Carlo
     - $V(S_t) \leftarrow V(S_t) + \alpha(G_t - V(S_t))$
         - $V(S_t)$가 $G_t$ 방향으로 업데이트 된다.
-        - 즉, 실제 실현된 현재의 정확한 값으로 업데이트 한다.
+        - 즉, 실제 실현된 현재의 정확한 값으로 업데이트한다.
 - Simplest temporla-difference learning algorithm: TD(0)
     - $V(S_t) \leftarrow V(S_t) + \alpha(R_{t+1} + \gamma V(S_{t+1}) - V(S_t))$
         - $V(S_t)$: 현재 state $S_t$가 앞으로 얼만큼의 return을 받을지를 추측한 값
         - $V(S_{t+1})$: 1-step 이후, 다음 state $S_{t+1}$의 추측 value
-        - 1-step 이후의 예측값이 더 정확하므로, $V(S_t)$를 $R_{t+1} + \gamma V(S_{t+1})$ 방향으로 업데이트 한다.
-        - 즉 1-step 이후의 예측값으로 현재의 예측값을 업데이트 한다.
+        - 1-step 이후의 예측값이 더 정확하므로, $V(S_t)$를 $R_{t+1} + \gamma V(S_{t+1})$ 방향으로 업데이트한다.
+        - 즉 1-step 이후의 예측값으로 현재의 예측값을 업데이트한다.
     - *TD target: $R_{t+1} + \gamma V(S_{t+1})$*{: style="color: red"}
         - 1-step만큼 가서 예측하여 현실이 더 반영되기 때문에, 이전 예측값보다 더 정확할 것이다.
     - *TD error: $\delta_t = R_{t+1} + \gamma V(S_{t+1}) - V(S_t)$*{: style="color: red"}
@@ -203,8 +203,8 @@ David Silver 님의 [Introduction to reinforcement learning](https://youtube.com
 ![Driving Home: MC vs. TD](/assets/rl/driving_home_mc_td.png)
 
 - 도착할 때까지 걸린 시간이 총 43분일 때,
-    - MC: 지나온 state는 43분을 기준으로 업데이트 한다.
-    - TD: 매 step마다 걸린 시간 + 다음 step의 추측값을 기준으로 현재 step의 state를 업데이트 한다.
+    - MC: 지나온 state는 43분을 기준으로 업데이트한다.
+    - TD: 매 step마다 걸린 시간 + 다음 step의 추측값을 기준으로 현재 step의 state를 업데이트한다.
 
 #### Advantages and Disadvantages of MC vs. TD
 
@@ -212,7 +212,7 @@ David Silver 님의 [Introduction to reinforcement learning](https://youtube.com
     - Final outcome을 알기 전에 학습 할 수 있다.
     - Continuing(non-terminating)한 environment에서 학습할 수 있다.
 - MC
-    - 에피소드가 끝날 때까지 기다렸다가, 끝난 뒤에 return을 알게 되면 이 return을 기준으로 업데이트 한다.
+    - 에피소드가 끝날 때까지 기다렸다가, 끝난 뒤에 return을 알게 되면 이 return을 기준으로 업데이트한다.
     - Episodic(terminating)한 environment에서 학습할 수 있다.
 
 
@@ -458,7 +458,7 @@ David Silver 님의 [Introduction to reinforcement learning](https://youtube.com
 
 ![Forward-view TD($\lambda$)](/assets/rl/forward_view_td_lambda.png)
 
-- 미래를 보고 $\lambda$-return을 통해 value function을 업데이트 한다.
+- 미래를 보고 $\lambda$-return을 통해 value function을 업데이트한다.
 - MC와 마찬가지로 게임이 끝나야만 $G_t^\lambda$를 계산할 수 있기 때문에, TD(0)의 장점이 사라진다.
 
 
