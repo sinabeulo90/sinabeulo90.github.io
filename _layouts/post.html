@@ -23,5 +23,13 @@ layout: default
     {%- include disqus_comments.html -%}
   {%- endif -%}
 
+
+  <!-- 페이지 플러그인 불러오기 -->
+  {%- for plugin in page.plugins -%}
+    {%- if plugin == 'comments' -%}
+      {%- include utterances.html -%}
+    {%- endif -%}
+  {%- endfor -%}
+
   <a class="u-url" href="{{ page.url | relative_url }}" hidden></a>
 </article>
